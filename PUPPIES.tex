@@ -1,0 +1,76 @@
+\documentclass[a4paper,12pt]{report}
+
+\usepackage{alltt, fancyvrb, url}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{hyperref}
+
+% Questo commentalo se vuoi scrivere in inglese.
+\usepackage[italian]{babel}
+
+\usepackage[italian]{cleveref}
+
+\title{PROGETTO OOP\\``TICKET TO RIDE''}
+
+\author{Bergami Lorenzo\\
+Massa Marco\\
+Sbaraccani Pietro\\
+Spina Orazio}
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\chapter{Analisi dei requisiti}
+\section{Intervista}
+Descrizione applicazione:
+Il progetto si propone di sviluppare un sistema di supporto ad una applicazione web per il monitoraggio del benessere degli animali domestici. L'applicazione consentirà ai proprietari di animali di tenere traccia della salute, dell'alimentazione, dell'attività fisica e di altri dati relativi ai loro animali domestici. Inoltre, l'app fornirà funzionalità per la pianificazione delle visite veterinarie e la gestione delle terapie, contribuendo così a migliorare la qualità della vita degli animali e facilitando la gestione delle cure da parte dei proprietari.
+Funzionalità Principali:
+1.	Registrazione degli Utenti: Gli utenti potranno registrarsi all'applicazione inserendo le proprie informazioni personali e i dettagli relativi ai loro animali domestici.
+2.	Profilo degli Animali: Ogni utente potrà creare un profilo per ciascuno dei propri animali domestici, includendo informazioni come razza, età, peso, allergie, condizioni mediche, ecc.
+3.	Monitoraggio della Salute: Gli utenti potranno registrare le visite veterinarie, gli esami medici, le terapie e gli interventi chirurgici dei loro animali domestici.
+4.	Alimentazione e Attività Fisica: L'app permetterà agli utenti di registrare l'alimentazione quotidiana e l'attività fisica dei loro animali, tenendo traccia delle diete, delle quantità di cibo consumate e dell'esercizio fisico svolto.
+5.	Promemoria e Pianificazione: Gli utenti riceveranno promemoria e avvisi per le visite veterinarie, le terapie e altri appuntamenti importanti per la salute dei loro animali domestici.
+6.	Community e Supporto: L'app includerà una sezione community dove gli utenti potranno condividere esperienze, consigli e risorse relative alla cura degli animali domestici, oltre a fornire supporto emotivo e pratico tra gli utenti.
+7.	Statistiche e Report: Gli utenti avranno accesso a statistiche e report relativi alla salute e al benessere dei loro animali domestici, tra cui grafici sul peso, sull'attività fisica, sui controlli veterinari, ecc.
+Ruoli Utente:
+•	Proprietario: Può registrare e gestire il profilo dei propri animali domestici, monitorare la loro salute e il loro benessere, ricevere promemoria e partecipare alla community.
+•	Veterinario: Può accedere ai profili degli animali dei pazienti, aggiornare la loro cartella clinica e inviare raccomandazioni e prescrizioni ai proprietari.
+•	Amministratore: Gestisce gli utenti, i dati, le impostazioni e le funzionalità dell'applicazione.
+•	Animale: Appartiene ad un Utente, possiede una sua scheda medica, può ricevere voti sull’estetica da parte della community(?)
+
+Funzionalità dettagliate: 
+•	ordinare i pazienti per urgenza
+•	veterinario/i con le valutazioni più alte nella tua zona
+•	qual è la razza più propensa ad avere un determinato problema
+•	possibilità che due utenti facciano incontrare i loro cani
+•	pet rating
+•	(0-1) segnalare utenti
+•	(0-1) gli amministratori possono bloccare account degli utenti segnalati 
+
+\section{Estrazione dei concetti principali}
+\newpage
+\chapter{Progettazione concettuale}
+\section{Schema scheletro}
+\section{Schema finale}
+\newpage
+\chapter{Progettazione logica}
+\section{Stima del volume dei dati}
+\section{Descrizione delle operazioni principali e stima della loro frequenza}
+\section{Schemi di navigazione e tabelle degli accessi}
+\section{Raffinamento dello schema}
+\section{Analisi delle ridondanze}
+\section{Traduzione di entità e associazioni in relazioni}
+\section{Schema relazionale finale}
+\section{Traduzione delle operazioni in query SQL}
+\newpage
+\chapter{Progettazione dell'applicazione}
+\section{Descrizione dell'architettura dell'applicazione realizzata}
+\newpage
+\chapter{Analisi dei requisiti}
+
+\end{document}
