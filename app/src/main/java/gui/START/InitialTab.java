@@ -1,6 +1,5 @@
-package gui;
+package gui.START;
 
-import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,15 +8,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class LoginTab{
+public class InitialTab{
 
     private final Stage primaryStage;
 
-    public LoginTab(Stage primaryStage) {
+    public InitialTab(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
-    public void cacca() {
+    public void show() {
         // Create a VBox layout
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
@@ -30,13 +29,15 @@ public class LoginTab{
         // Create login button
         Button loginButton = new Button("Login");
         loginButton.setOnAction(e -> {
-            // TODO: Add login button action
+            LoginTab loginTab = new LoginTab(primaryStage);
+            loginTab.show();
         });
 
         // Create register button
         Button registerButton = new Button("Register");
         registerButton.setOnAction(e -> {
-            // TODO: Add register button action
+            RegistrationTab registrationTab = new RegistrationTab(primaryStage);
+            registrationTab.show();
         });
 
         // Add components to the layout

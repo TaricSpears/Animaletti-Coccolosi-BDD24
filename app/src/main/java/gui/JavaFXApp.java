@@ -1,5 +1,6 @@
 package gui;
 
+import gui.START.InitialTab;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -11,8 +12,8 @@ public class JavaFXApp extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        LoginTab loginTab = new LoginTab(primaryStage);
-        loginTab.cacca();
+        InitialTab initialTab = new InitialTab(primaryStage);
+        initialTab.show();
     }
     
 }
