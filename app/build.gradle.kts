@@ -22,6 +22,20 @@ dependencies {
 
     // This dependency is used by the application.
     implementation("com.google.guava:guava:31.1-jre")
+
+    val javaFXModules = listOf(
+        "base",
+        "controls",
+        "swing",
+        "graphics"
+    )
+    val supportedPlatforms = listOf("linux", "mac", "win")
+    val javaFxVersion = 15
+    for (platform in supportedPlatforms) {
+        for (module in javaFXModules) {
+            implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")
+        }
+    }
 }
 
 application {
