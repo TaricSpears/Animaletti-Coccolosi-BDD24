@@ -6,6 +6,7 @@ package gui.START;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
@@ -13,6 +14,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.List;
+import gui.RUN.*;
 
 public class LoginRolePicker {
 
@@ -37,11 +39,39 @@ public class LoginRolePicker {
         roleComboBox.getItems().addAll(getRoles());
         roleComboBox.setPromptText("Select your role");
 
-        // Create login button
+        // Create back button
         Button backToLoginButton = new Button("Back to Login");
         backToLoginButton.setOnAction(e -> {
             LoginTab loginTab = new LoginTab(primaryStage);
             loginTab.show();
+        });
+
+        // Create login button
+        Button loginButton = new Button("Login");
+        loginButton.setOnAction(e -> {
+            String role = roleComboBox.getValue();
+            if (role == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning");
+                alert.setHeaderText(null);
+                alert.setContentText("Please select a role");
+                alert.showAndWait();
+                return;
+            }
+            switch (role) {
+                case "Proprietarian":
+                    OwnerTab ownerTab = new OwnerTab(primaryStage);
+                    ownerTab.show();
+                    break;
+                case "Veterinary":
+                    VeterinaryTab veterinaryTab = new VeterinaryTab(primaryStage);
+                    veterinaryTab.show();
+                    break;
+                case "Admin":
+                    AdminTab adminTab = new AdminTab(primaryStage);
+                    adminTab.show();
+                break;
+            }
         });
 
         // Add components to the layout
