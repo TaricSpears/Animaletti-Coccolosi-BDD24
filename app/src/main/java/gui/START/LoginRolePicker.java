@@ -13,6 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.sql.SQLException;
 import java.util.List;
 import gui.RUN.*;
 
@@ -61,21 +63,26 @@ public class LoginRolePicker {
             switch (role) {
                 case "Proprietarian":
                     OwnerTab ownerTab = new OwnerTab(primaryStage);
-                    ownerTab.show();
+                    try {
+                        ownerTab.show();
+                    } catch (SQLException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
                     break;
-                case "Veterinary":
+                /*case "Veterinary":
                     VeterinaryTab veterinaryTab = new VeterinaryTab(primaryStage);
                     veterinaryTab.show();
                     break;
                 case "Admin":
                     AdminTab adminTab = new AdminTab(primaryStage);
                     adminTab.show();
-                break;
+                    break;*/
             }
         });
 
         // Add components to the layout
-        root.getChildren().addAll(title, roleComboBox, backToLoginButton);
+        root.getChildren().addAll(title, roleComboBox, backToLoginButton, loginButton);
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(root, 400, 300);

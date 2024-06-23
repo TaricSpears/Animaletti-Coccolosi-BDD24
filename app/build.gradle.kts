@@ -23,6 +23,9 @@ dependencies {
     // This dependency is used by the application.
     implementation("com.google.guava:guava:31.1-jre")
 
+    // MySQL connector for Java
+    implementation("com.mysql:mysql-connector-j:8.4.0")
+
     val javaFXModules = listOf(
         "base",
         "controls",

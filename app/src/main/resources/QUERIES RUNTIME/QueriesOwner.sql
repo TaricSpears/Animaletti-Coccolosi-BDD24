@@ -1,6 +1,7 @@
-//registra nuovo animale: inserire campi + visualizza elenco 
-//specie registrate + creazione cartella clinica 
-//dove puoi inserire condizioni cliniche
+/*registra nuovo animale: inserire campi + visualizza elenco 
+specie registrate + creazione cartella clinica 
+dove puoi inserire condizioni cliniche
+infine ricalcola peso medio della specie*/
 inserisci campi
 select *
 from specie
@@ -20,6 +21,8 @@ from condizione_clinica
 ciclo per inserire condizioni cliniche
 insert into assegnazione(id_condizione,id_animale)
 values(id_condizione,id_animale)
+
+/*ricalcolo peso medio specie*/
 
 //visualizza generalita tuoi animali
 select *
