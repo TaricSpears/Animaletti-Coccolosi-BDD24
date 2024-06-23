@@ -41,10 +41,20 @@ public class AdminTab {
         // crea un bottone per bloccare un utente
         Button blockUserButton = new BlockUserButton();
 
+        // crea un bottone per visualizzare tutti i cibi
+        Button selectFoodsButton = new SelectFoodsButton();
+
+        // crea un bottone per visualizzare tutti gli esercizi
+        Button selectExercisesButton = new SelectExercisesButton();
+
+        // crea un bottone per visualizzare tutti i farmaci
+        Button selectDrugsButton = new SelectDrugsButton();
+
         // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
 
         root.getChildren().addAll(userData, showUsersButton, showAnimalsButton, showUserReportsButton, blockUserButton,
+                selectFoodsButton, selectExercisesButton, selectDrugsButton,
                 quitButton);
 
         // Create a scene and set it on the stage

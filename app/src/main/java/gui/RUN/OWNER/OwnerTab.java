@@ -3,6 +3,9 @@ package gui.RUN.OWNER;
 import java.sql.SQLException;
 
 import gui.RUN.COMMONS.QuitButton;
+import gui.RUN.COMMONS.SelectDrugsButton;
+import gui.RUN.COMMONS.SelectExercisesButton;
+import gui.RUN.COMMONS.SelectFoodsButton;
 import gui.RUN.COMMONS.UserDataText;
 import gui.RUN.OWNER.Buttons.ShowYourAnimalsButton;
 import javafx.geometry.Pos;
@@ -35,11 +38,21 @@ public class OwnerTab {
         // crea un textfield per mostrare i dati dello user loggato
         Text userData = new UserDataText(email);
 
+        // crea un bottone per visualizzare tutti i cibi
+        Button selectFoodsButton = new SelectFoodsButton();
+
+        // crea un bottone per visualizzare tutti gli esercizi
+        Button selectExercisesButton = new SelectExercisesButton();
+
+        // crea un bottone per visualizzare tutti i farmaci
+        Button selectDrugsButton = new SelectDrugsButton();
+
         // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
         Button showYourAnimalsButton = new ShowYourAnimalsButton(email);
 
-        root.getChildren().addAll(userData, quitButton, showYourAnimalsButton);
+        root.getChildren().addAll(userData, showYourAnimalsButton, selectFoodsButton, selectExercisesButton,
+                selectDrugsButton, quitButton);
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(root, 400, 300);

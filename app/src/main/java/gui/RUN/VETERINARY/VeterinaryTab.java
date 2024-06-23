@@ -3,6 +3,9 @@ package gui.RUN.VETERINARY;
 import java.sql.SQLException;
 
 import gui.RUN.COMMONS.QuitButton;
+import gui.RUN.COMMONS.SelectDrugsButton;
+import gui.RUN.COMMONS.SelectExercisesButton;
+import gui.RUN.COMMONS.SelectFoodsButton;
 import gui.RUN.COMMONS.UserDataText;
 import gui.RUN.VETERINARY.Buttons.*;
 import javafx.geometry.Pos;
@@ -40,10 +43,20 @@ public class VeterinaryTab {
         // crea un bottone per inserire un nuovo farmaco
         InsertDrugButton insertDrugButton = new InsertDrugButton();
 
+        // crea un bottone per visualizzare tutti i cibi
+        Button selectFoodsButton = new SelectFoodsButton();
+
+        // crea un bottone per visualizzare tutti gli esercizi
+        Button selectExercisesButton = new SelectExercisesButton();
+
+        // crea un bottone per visualizzare tutti i farmaci
+        Button selectDrugsButton = new SelectDrugsButton();
+
         // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
 
-        root.getChildren().addAll(userData, insertFoodButton, insertExerciseButton, insertDrugButton, quitButton);
+        root.getChildren().addAll(userData, insertFoodButton, insertExerciseButton, insertDrugButton, selectFoodsButton,
+                selectExercisesButton, selectDrugsButton, quitButton);
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(root, 400, 300);
