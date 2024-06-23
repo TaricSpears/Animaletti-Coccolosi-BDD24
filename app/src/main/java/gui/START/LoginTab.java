@@ -6,6 +6,7 @@ package gui.START;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -18,6 +19,8 @@ public class LoginTab {
 
     public LoginTab(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        
+
     }
 
     public void show() {
@@ -61,5 +64,9 @@ public class LoginTab {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+    }
+
+    public static String getEmail() {
+        
     }
 }
