@@ -1,18 +1,12 @@
 package gui.RUN.ADMIN;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
-import database.MySQLConnect;
 import gui.RUN.ADMIN.Buttons.*;
+import gui.RUN.COMMONBUTTONS.QuitButton;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class AdminTab {
@@ -35,7 +29,13 @@ public class AdminTab {
         // crea un bottone per visualizzare tutti gli animali
         Button showAnimalsButton = new ShowAnimalsButton();
 
-        root.getChildren().addAll(showUsersButton, showAnimalsButton);
+        // crea un bottone per visualizzare tutte le segnalazioni
+        Button showUserReportsButton = new ShowUserReportsButton();
+
+        // aggiungi un bottone per chiudere l'applicazione
+        Button quitButton = new QuitButton();
+
+        root.getChildren().addAll(showUsersButton, showAnimalsButton, showUserReportsButton, quitButton);
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(root, 400, 300);

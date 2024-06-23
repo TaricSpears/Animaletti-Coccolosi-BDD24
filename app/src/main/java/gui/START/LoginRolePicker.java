@@ -16,9 +16,9 @@ import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.util.List;
-import gui.RUN.*;
 import gui.RUN.ADMIN.AdminTab;
 import gui.RUN.OWNER.OwnerTab;
+import gui.RUN.VETERINARY.VeterinaryTab;
 
 public class LoginRolePicker {
 
@@ -72,18 +72,19 @@ public class LoginRolePicker {
                         e1.printStackTrace();
                     }
                     break;
-                /*
-                 * case "Veterinary":
-                 * VeterinaryTab veterinaryTab = new VeterinaryTab(primaryStage);
-                 * veterinaryTab.show();
-                 * break;
-                 */
+                case "Veterinary":
+                    VeterinaryTab veterinaryTab = new VeterinaryTab(primaryStage);
+                    try {
+                        veterinaryTab.show();
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
+                    break;
                 case "Admin":
                     AdminTab adminTab = new AdminTab(primaryStage);
                     try {
                         adminTab.show();
                     } catch (SQLException e1) {
-                        // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
                     break;

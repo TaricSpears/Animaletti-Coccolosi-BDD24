@@ -1,15 +1,11 @@
 package gui.RUN.OWNER;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
-import database.MySQLConnect;
+import gui.RUN.COMMONBUTTONS.QuitButton;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class OwnerTab {
@@ -25,6 +21,11 @@ public class OwnerTab {
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
         root.setSpacing(20);
+
+        // aggiungi un bottone per chiudere l'applicazione
+        Button quitButton = new QuitButton();
+
+        root.getChildren().addAll(quitButton);
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(root, 400, 300);
