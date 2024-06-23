@@ -43,6 +43,7 @@ public class LoginTab {
         loginButton.setOnAction(e -> {
             LoginRolePicker loginRolePicker = new LoginRolePicker(primaryStage);
             loginRolePicker.show();
+            
         });
 
         // Create back button

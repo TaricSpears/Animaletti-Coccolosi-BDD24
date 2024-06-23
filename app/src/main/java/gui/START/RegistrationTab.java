@@ -1,4 +1,7 @@
 package gui.START;
+
+import database.*;
+
 //import the classes necessery to work with the database
 
 // create a class called RegistrationTab built like LoginTab which asks for name, surname,
@@ -20,12 +23,9 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class RegistrationTab {
+    MySQLConnect connect = new MySQLConnect();
 
     private final Stage primaryStage;
-    String url = "jdbc:mysql://localhost:3306/dbbanimaletticoccolosi"; // Sostituisci "tuo_database" con il nome del tuo
-                                                                       // database
-    String user = "root"; // Username di default di XAMPP è "root"
-    String password = ""; // Password di default di XAMPP è vuota
 
     public RegistrationTab(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -70,8 +70,8 @@ public class RegistrationTab {
             boolean registrationSuccessful = false;
             LocalDateTime Data_di_iscrizione = LocalDateTime.now();
             try {
-                Connection connection = DriverManager.getConnection(url, user, password);
-                PreparedStatement preparedStatement = connection.prepareStatement(
+
+                PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(
                         "INSERT INTO utente (Nome, Cognome, Email, Password, Data_di_nascita,Data_di_iscrizione) VALUES (?, ?, ?, ?, ?,?)");
                 preparedStatement.setString(1, nameField.getText());
                 preparedStatement.setString(2, surnameField.getText());
