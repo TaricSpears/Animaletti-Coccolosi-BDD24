@@ -26,6 +26,7 @@ public class ShowUserReportsButton extends Button {
                             + "\n";
                 }
                 alert.setContentText(content);
+                alert.setResizable(true);
                 alert.showAndWait();
             } catch (SQLException e1) {
                 e1.printStackTrace();

@@ -31,6 +31,7 @@ public class ShowYourAnimalsButton extends Button {
                             + rs.getString("Codice_Identificativo") + "\t\t" + rs.getString("Email") + "\n";
                 }
                 alert.setContentText(content);
+                alert.setResizable(true);
                 alert.showAndWait();
             } catch (SQLException e1) {
                 e1.printStackTrace();

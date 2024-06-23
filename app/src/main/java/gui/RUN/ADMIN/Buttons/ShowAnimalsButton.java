@@ -20,6 +20,10 @@ public class ShowAnimalsButton extends Button {
                 alert.setTitle(null);
                 alert.setHeaderText("Tabella animale");
                 String content = "";
+                content += "Nome" + "\t\t" + "Data_di_Nascita" + "\t\t"
+                        + "Peso"
+                        + "\t\t" + "Valutazione_media" + "\t\t" + "APP_nome" + "\t\t"
+                        + "Codice_Identificativo" + "\t\t" + "Email" + "\n";
                 while (rs.next()) {
                     content += rs.getString("Nome") + "\t\t" + rs.getString("Data_di_Nascita") + "\t\t"
                             + rs.getString("Peso")
@@ -27,6 +31,7 @@ public class ShowAnimalsButton extends Button {
                             + rs.getString("Codice_Identificativo") + "\t\t" + rs.getString("Email") + "\n";
                 }
                 alert.setContentText(content);
+                alert.setResizable(true);
                 alert.showAndWait();
             } catch (SQLException e1) {
                 e1.printStackTrace();
