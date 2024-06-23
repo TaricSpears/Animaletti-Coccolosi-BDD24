@@ -1,4 +1,4 @@
-package gui.RUN.OWNER.buttons;
+package gui.RUN.OWNER.Buttons;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -8,8 +8,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import java.sql.SQLException;
 
-public class ShowYourAnimals extends Button {
-    public ShowYourAnimals(String email) {
+public class ShowYourAnimalsButton extends Button {
+    public ShowYourAnimalsButton(String email) {
         this.setText("Mostra i tuoi animali");
         this.setOnAction(e -> {
             try {

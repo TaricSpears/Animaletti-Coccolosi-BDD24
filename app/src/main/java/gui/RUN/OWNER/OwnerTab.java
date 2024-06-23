@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import gui.RUN.COMMONS.QuitButton;
 import gui.RUN.COMMONS.UserDataText;
-import gui.RUN.OWNER.buttons.ShowYourAnimals;
+import gui.RUN.OWNER.Buttons.ShowYourAnimalsButton;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -37,7 +37,7 @@ public class OwnerTab {
 
         // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
-        Button showYourAnimalsButton = new ShowYourAnimals(email);
+        Button showYourAnimalsButton = new ShowYourAnimalsButton(email);
 
         root.getChildren().addAll(userData, quitButton, showYourAnimalsButton);
 
