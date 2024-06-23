@@ -4,18 +4,17 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import database.MySQLConnect;
-import gui.START.LoginTab;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import java.sql.SQLException;
 
 public class ShowYourAnimals extends Button {
-    public ShowYourAnimalsButton() {
+    public ShowYourAnimals(String email) {
         this.setText("Mostra i tuoi animali");
         this.setOnAction(e -> {
             try {
                 Statement stmt = MySQLConnect.getConnection().createStatement();
-                String query = "SELECT * FROM animale WHERE Email = '" + LoginTab.getEmail() + "'";
+                String query = "SELECT * FROM animale WHERE Email = '" + email + "'";
                 ResultSet rs = stmt.executeQuery(query);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(null);
