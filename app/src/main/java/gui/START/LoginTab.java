@@ -5,6 +5,7 @@ package gui.START;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -41,8 +42,10 @@ public class LoginTab {
         // Create login button
         Button loginButton = new Button("Login");
         loginButton.setOnAction(e -> {
-            LoginRolePicker loginRolePicker = new LoginRolePicker(primaryStage, emailField.getText());
-            loginRolePicker.show();
+            if (isLoginValid(emailField.getText(), passwordField.getText())) {
+                LoginRolePicker loginRolePicker = new LoginRolePicker(primaryStage, emailField.getText());
+                loginRolePicker.show();
+            }
         });
 
         // Create back button
@@ -60,5 +63,26 @@ public class LoginTab {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+    }
+
+    private boolean isLoginValid(String email, String password) {
+        if (isEmailValid(email) && isPasswordValid(password)) {
+            // String query
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText(null);
+            alert.setContentText("Invalid email or password length");
+            return false;
+        }
+    }
+
+    private boolean isPasswordValid(final String password) {
+        return password.length() > 0 && password.length() <= 15;
+    }
+
+    private boolean isEmailValid(final String email) {
+        return email.length() > 0 && email.length() <= 25;
     }
 }
