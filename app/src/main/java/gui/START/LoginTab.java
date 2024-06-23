@@ -1,5 +1,13 @@
 package gui.START;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
+
+import database.MySQLConnect;
+
 // Create a new class called LoginTab built like InitialTab which asks for email and password.
 // it must also have a button to login and a button to go back to InitialTab.
 
@@ -67,13 +75,40 @@ public class LoginTab {
 
     private boolean isLoginValid(String email, String password) {
         if (isEmailValid(email) && isPasswordValid(password)) {
-            // String query
+            String query = "SELECT u.Password FROM utente u WHERE Email = ?";
+            try {
+                Connection connection = MySQLConnect.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, email);
+                ResultSet rs = preparedStatement.executeQuery();
+                if (!rs.next()) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Invalid email");
+                    alert.showAndWait();
+                    return false;
+                } else {
+                    String dbPassword = rs.getString("Password");
+                    if (!dbPassword.equals(password)) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Warning");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Invalid password");
+                        alert.showAndWait();
+                        return false;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return true;
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
             alert.setHeaderText(null);
             alert.setContentText("Invalid email or password length");
+            alert.showAndWait();
             return false;
         }
     }

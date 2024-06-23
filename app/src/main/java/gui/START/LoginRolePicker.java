@@ -14,11 +14,17 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+
+import database.MySQLConnect;
 import gui.RUN.ADMIN.AdminTab;
 import gui.RUN.OWNER.OwnerTab;
 import gui.RUN.VETERINARY.VeterinaryTab;
+
+import java.util.ArrayList;
 
 public class LoginRolePicker {
 
@@ -65,7 +71,7 @@ public class LoginRolePicker {
                 return;
             }
             switch (role) {
-                case "Proprietarian":
+                case "Proprietario":
                     OwnerTab ownerTab = new OwnerTab(primaryStage, email);
                     try {
                         ownerTab.show();
@@ -74,7 +80,7 @@ public class LoginRolePicker {
                         e1.printStackTrace();
                     }
                     break;
-                case "Veterinary":
+                case "Veterinario":
                     VeterinaryTab veterinaryTab = new VeterinaryTab(primaryStage, email);
                     try {
                         veterinaryTab.show();
@@ -82,7 +88,7 @@ public class LoginRolePicker {
                         e1.printStackTrace();
                     }
                     break;
-                case "Admin":
+                case "Amministratore":
                     AdminTab adminTab = new AdminTab(primaryStage, email);
                     try {
                         adminTab.show();
@@ -104,6 +110,30 @@ public class LoginRolePicker {
     }
 
     private List<String> getRoles() {
-        return List.of("Proprietarian", "Veterinary", "Admin");
+        ArrayList<String> roles = new ArrayList<>();
+        final String query1 = "SELECT * FROM proprietario WHERE Email = ?";
+        final String query2 = "SELECT * FROM veterinario WHERE Email = ?";
+        final String query3 = "SELECT * FROM amministratore WHERE Email = ?";
+        try {
+            Connection connection = MySQLConnect.getConnection();
+            PreparedStatement preparedStatement1 = connection.prepareStatement(query1);
+            PreparedStatement preparedStatement2 = connection.prepareStatement(query2);
+            PreparedStatement preparedStatement3 = connection.prepareStatement(query3);
+            preparedStatement1.setString(1, email);
+            preparedStatement2.setString(1, email);
+            preparedStatement3.setString(1, email);
+            if (preparedStatement1.executeQuery().next()) {
+                roles.add("Proprietario");
+            }
+            if (preparedStatement2.executeQuery().next()) {
+                roles.add("Veterinario");
+            }
+            if (preparedStatement3.executeQuery().next()) {
+                roles.add("Amministratore");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return roles;
     }
 }
