@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
-
 import database.MySQLConnect;
 
 // Create a new class called LoginTab built like InitialTab which asks for email and password.
