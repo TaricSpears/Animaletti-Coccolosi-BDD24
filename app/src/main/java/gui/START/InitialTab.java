@@ -8,7 +8,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class InitialTab{
+public class InitialTab {
 
     private final Stage primaryStage;
 
