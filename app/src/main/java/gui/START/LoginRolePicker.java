@@ -73,11 +73,16 @@ public class LoginRolePicker {
                 /*case "Veterinary":
                     VeterinaryTab veterinaryTab = new VeterinaryTab(primaryStage);
                     veterinaryTab.show();
-                    break;
+                    break;*/
                 case "Admin":
                     AdminTab adminTab = new AdminTab(primaryStage);
-                    adminTab.show();
-                    break;*/
+                    try {
+                        adminTab.show();
+                    } catch (SQLException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    break;
             }
         });
 
