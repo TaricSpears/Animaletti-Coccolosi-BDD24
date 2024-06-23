@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import gui.RUN.COMMONS.QuitButton;
 import gui.RUN.COMMONS.UserDataText;
+import gui.RUN.OWNER.buttons.ShowYourAnimals;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,6 +22,10 @@ public class OwnerTab {
         this.email = email;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void show() throws SQLException {
         // Create a VBox layout
         VBox root = new VBox();
@@ -32,8 +37,9 @@ public class OwnerTab {
 
         // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
+        Button showYourAnimalsButton = new ShowYourAnimals(email);
 
-        root.getChildren().addAll(userData, quitButton);
+        root.getChildren().addAll(userData, quitButton, showYourAnimalsButton);
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(root, 400, 300);
@@ -41,4 +47,5 @@ public class OwnerTab {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
 }
