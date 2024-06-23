@@ -9,6 +9,7 @@ import database.*;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -69,6 +70,21 @@ public class RegistrationTab {
             // if the registration is not successful, show an error message
             boolean registrationSuccessful = false;
             LocalDateTime Data_di_iscrizione = LocalDateTime.now();
+            System.out.println(Data_di_iscrizione);
+
+            if (nameField.getText().isEmpty() || nameField.getText().length() > 32 || surnameField.getText().isEmpty()
+                    || surnameField.getText().length() > 32 || emailField.getText().isEmpty()
+                    || emailField.getText().length() > 25
+                    || passwordField.getText().isEmpty() || dobField.getValue() == null) {
+                // alert with error message
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Errore");
+                alert.setHeaderText("Registrazione fallita");
+                alert.setContentText("Inserire tutti i campi");
+                alert.showAndWait();
+                return;
+            }
             try {
 
                 PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(
