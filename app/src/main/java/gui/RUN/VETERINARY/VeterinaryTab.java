@@ -1,4 +1,4 @@
-package gui.RUN;
+package gui.RUN.VETERINARY;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,13 +26,15 @@ public class VeterinaryTab {
         root.setAlignment(Pos.CENTER);
         root.setSpacing(20);
 
-        /*Statement stmt = MySQLConnect.getConnection().createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM proprietario");
-        while (rs.next()) {
-            Text text = new Text(rs.getString("Email") + " " + rs.getString("Bloccato"));
-            text.setFont(new Font(20));
-            root.getChildren().add(text);
-        }*/
+        /*
+         * Statement stmt = MySQLConnect.getConnection().createStatement();
+         * ResultSet rs = stmt.executeQuery("SELECT * FROM proprietario");
+         * while (rs.next()) {
+         * Text text = new Text(rs.getString("Email") + " " + rs.getString("Bloccato"));
+         * text.setFont(new Font(20));
+         * root.getChildren().add(text);
+         * }
+         */
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(root, 400, 300);

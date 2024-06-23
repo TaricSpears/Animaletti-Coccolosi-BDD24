@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 import gui.RUN.*;
 import gui.RUN.ADMIN.AdminTab;
+import gui.RUN.OWNER.OwnerTab;
 
 public class LoginRolePicker {
 
@@ -71,10 +72,12 @@ public class LoginRolePicker {
                         e1.printStackTrace();
                     }
                     break;
-                /*case "Veterinary":
-                    VeterinaryTab veterinaryTab = new VeterinaryTab(primaryStage);
-                    veterinaryTab.show();
-                    break;*/
+                /*
+                 * case "Veterinary":
+                 * VeterinaryTab veterinaryTab = new VeterinaryTab(primaryStage);
+                 * veterinaryTab.show();
+                 * break;
+                 */
                 case "Admin":
                     AdminTab adminTab = new AdminTab(primaryStage);
                     try {
