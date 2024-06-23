@@ -41,9 +41,8 @@ public class LoginTab {
         // Create login button
         Button loginButton = new Button("Login");
         loginButton.setOnAction(e -> {
-            LoginRolePicker loginRolePicker = new LoginRolePicker(primaryStage);
+            LoginRolePicker loginRolePicker = new LoginRolePicker(primaryStage, emailField.getText());
             loginRolePicker.show();
-            
         });
 
         // Create back button
@@ -52,7 +51,7 @@ public class LoginTab {
             InitialTab initialTab = new InitialTab(primaryStage);
             initialTab.show();
         });
-        
+
         // Add components to the layout
         root.getChildren().addAll(title, loginButton, emailField, passwordField, backButton);
 

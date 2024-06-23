@@ -1,4 +1,4 @@
-package gui.RUN.COMMONBUTTONS;
+package gui.RUN.COMMONS;
 
 import javafx.scene.control.Button;
 

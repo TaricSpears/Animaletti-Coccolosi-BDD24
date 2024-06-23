@@ -23,9 +23,11 @@ import gui.RUN.VETERINARY.VeterinaryTab;
 public class LoginRolePicker {
 
     private final Stage primaryStage;
+    private final String email;
 
-    public LoginRolePicker(Stage primaryStage) {
+    public LoginRolePicker(Stage primaryStage, String email) {
         this.primaryStage = primaryStage;
+        this.email = email;
     }
 
     public void show() {
@@ -64,7 +66,7 @@ public class LoginRolePicker {
             }
             switch (role) {
                 case "Proprietarian":
-                    OwnerTab ownerTab = new OwnerTab(primaryStage);
+                    OwnerTab ownerTab = new OwnerTab(primaryStage, email);
                     try {
                         ownerTab.show();
                     } catch (SQLException e1) {
@@ -73,7 +75,7 @@ public class LoginRolePicker {
                     }
                     break;
                 case "Veterinary":
-                    VeterinaryTab veterinaryTab = new VeterinaryTab(primaryStage);
+                    VeterinaryTab veterinaryTab = new VeterinaryTab(primaryStage, email);
                     try {
                         veterinaryTab.show();
                     } catch (SQLException e1) {
@@ -81,7 +83,7 @@ public class LoginRolePicker {
                     }
                     break;
                 case "Admin":
-                    AdminTab adminTab = new AdminTab(primaryStage);
+                    AdminTab adminTab = new AdminTab(primaryStage, email);
                     try {
                         adminTab.show();
                     } catch (SQLException e1) {

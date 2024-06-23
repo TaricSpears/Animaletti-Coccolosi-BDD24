@@ -2,26 +2,32 @@ package gui.RUN.ADMIN;
 
 import java.sql.SQLException;
 import gui.RUN.ADMIN.Buttons.*;
-import gui.RUN.COMMONBUTTONS.QuitButton;
+import gui.RUN.COMMONS.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.text.Text;
 
 public class AdminTab {
 
     private final Stage primaryStage;
+    private final String email;
 
-    public AdminTab(Stage primaryStage) {
+    public AdminTab(final Stage primaryStage, final String email) {
         this.primaryStage = primaryStage;
+        this.email = email;
     }
 
     public void show() throws SQLException {
         // Create a VBox layout
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
-        root.setSpacing(20);
+        root.setSpacing(10);
+
+        // crea un textfield per mostrare i dati dello user loggato
+        Text userData = new UserDataText(email);
 
         // crea un bottone per visualizzare tutti gli utenti
         Button showUsersButton = new ShowUserButton();
@@ -32,14 +38,18 @@ public class AdminTab {
         // crea un bottone per visualizzare tutte le segnalazioni
         Button showUserReportsButton = new ShowUserReportsButton();
 
+        // crea un bottone per bloccare un utente
+        Button blockUserButton = new BlockUserButton();
+
         // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
 
-        root.getChildren().addAll(showUsersButton, showAnimalsButton, showUserReportsButton, quitButton);
+        root.getChildren().addAll(userData, showUsersButton, showAnimalsButton, showUserReportsButton, blockUserButton,
+                quitButton);
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(root, 400, 300);
-        primaryStage.setTitle("Animaletti Coccolosi Propritario");
+        primaryStage.setTitle("ANIMALETTI COCCOLOSI - AMMINISTRATORE");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
