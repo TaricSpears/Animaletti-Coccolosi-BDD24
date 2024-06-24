@@ -73,6 +73,13 @@ public class OwnerTab implements Tab {
         // crea un bottone per visualizzare tutti i farmaci
         Button selectDrugsButton = new SelectDrugsButton();
 
+        // visualizza parcelle non pagate: visualizza parcelle afferenti al prop con
+        // pagata a false
+        Button parcelleButton = new ParcelleButton(email);
+
+        // crea un bottone per pagare una parcella
+        Button payButton = new PayButton(email);
+
         // crea un bottone per visualizzare i tuoi animali
         Button showYourAnimalsButton = new ShowYourAnimalsButton(email);
 
@@ -95,7 +102,7 @@ public class OwnerTab implements Tab {
                 insertResidenceButton, showYourResidencesButton, selectYourGroupsButton, sendMessageButton,
                 showMessagesButton, reportMessageButton, petRatingButton,
                 selectFoodsButton, selectExercisesButton,
-                selectDrugsButton, bookAVisitButton, quitButton);
+                selectDrugsButton, bookAVisitButton, parcelleButton, payButton, quitButton);
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(root, 400, 300);
