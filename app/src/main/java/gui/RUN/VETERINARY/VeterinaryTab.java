@@ -2,11 +2,7 @@ package gui.RUN.VETERINARY;
 
 import java.sql.SQLException;
 
-import gui.RUN.COMMONS.QuitButton;
-import gui.RUN.COMMONS.SelectDrugsButton;
-import gui.RUN.COMMONS.SelectExercisesButton;
-import gui.RUN.COMMONS.SelectFoodsButton;
-import gui.RUN.COMMONS.UserDataText;
+import gui.RUN.COMMONS.*;
 import gui.RUN.VETERINARY.Buttons.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,7 +11,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class VeterinaryTab {
+import gui.Tab;
+
+public class VeterinaryTab implements Tab {
 
     private final Stage primaryStage;
     private final String email;
@@ -43,6 +41,21 @@ public class VeterinaryTab {
         // crea un bottone per inserire un nuovo farmaco
         InsertDrugButton insertDrugButton = new InsertDrugButton();
 
+        // crea un bottone per visualizzare tutte gli ambulatori
+        Button selectClinicsButton = new SelectClinicsButton();
+
+        // crea un bottone per visualizzare tutte gli ambulatori in cui lavori
+        Button selectYourClinicsButton = new SelectYourClinicsButton(email);
+
+        // crea un bottone per inserire un nuovo ambulatorio in cui lavori
+        InsertYourClinicButton insertYourClinicButton = new InsertYourClinicButton(email);
+
+        // crea un bottone per inserire una nuova zona
+        InsertNewZoneButton insertNewZoneButton = new InsertNewZoneButton();
+
+        // crea un bottone per inserire un nuovo indirizzo
+        Button insertNewAddressButton = new InsertNewAddressButton(primaryStage, this);
+
         // crea un bottone per visualizzare tutti i cibi
         Button selectFoodsButton = new SelectFoodsButton();
 
@@ -55,7 +68,9 @@ public class VeterinaryTab {
         // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
 
-        root.getChildren().addAll(userData, insertFoodButton, insertExerciseButton, insertDrugButton, selectFoodsButton,
+        root.getChildren().addAll(userData, insertFoodButton, insertExerciseButton, insertDrugButton,
+                insertNewZoneButton, insertNewAddressButton,
+                selectClinicsButton, selectYourClinicsButton, insertYourClinicButton, selectFoodsButton,
                 selectExercisesButton, selectDrugsButton, quitButton);
 
         // Create a scene and set it on the stage

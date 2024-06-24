@@ -15,7 +15,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class OwnerTab {
+import gui.Tab;
+
+public class OwnerTab implements Tab {
 
     private final Stage primaryStage;
     private final String email;

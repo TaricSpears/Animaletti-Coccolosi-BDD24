@@ -9,8 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
+import gui.Tab;
 
-public class AdminTab {
+public class AdminTab implements Tab {
 
     private final Stage primaryStage;
     private final String email;
