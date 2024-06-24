@@ -30,7 +30,14 @@ public class PayButton extends Button {
                     dialog.setContentText("ID:");
                     dialog.showAndWait();
                     int id = Integer.parseInt(dialog.getResult());
-                    stmt.executeUpdate("UPDATE pagamento SET Pagata = 1 WHERE id = " + id);
+                    String query = "SELECT * FROM pagamento WHERE CodParcella = ? AND Email = ?";
+                    Statement stmt1 = MySQLConnect.getConnection().createStatement();
+                    ResultSet rs1 = stmt1.executeQuery(query);
+                    if (!rs1.next()) {
+                        new Alert(Alert.AlertType.ERROR, "ID parcella non valido").showAndWait();
+                        return;
+                    }
+                    stmt.executeUpdate("UPDATE pagamento SET Pagata = 1 WHERE CodParcella = " + id);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Informazione");
                     alert.setHeaderText("Pagamento effettuato");
