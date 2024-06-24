@@ -7,6 +7,7 @@ import gui.RUN.COMMONS.SelectDrugsButton;
 import gui.RUN.COMMONS.SelectExercisesButton;
 import gui.RUN.COMMONS.SelectFoodsButton;
 import gui.RUN.COMMONS.UserDataText;
+import gui.RUN.OWNER.Buttons.BookAVisitStage;
 import gui.RUN.OWNER.Buttons.ShowYourAnimalsButton;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -52,9 +53,15 @@ public class OwnerTab implements Tab {
         // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
         Button showYourAnimalsButton = new ShowYourAnimalsButton(email);
+        Button bookAVisitButton = new Button();
+        bookAVisitButton.setText("Prenota una visita");
+        bookAVisitButton.setOnAction(e -> {
+            BookAVisitStage bookAVisit = new BookAVisitStage(primaryStage, email);
+            bookAVisit.show();
+        });
 
         root.getChildren().addAll(userData, showYourAnimalsButton, selectFoodsButton, selectExercisesButton,
-                selectDrugsButton, quitButton);
+                selectDrugsButton, bookAVisitButton, quitButton);
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(root, 400, 300);
