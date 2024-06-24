@@ -26,7 +26,7 @@ public class AdminTab implements Tab {
         // Create a VBox layout
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
-        root.setSpacing(10);
+        root.setSpacing(5);
 
         // crea un textfield per mostrare i dati dello user loggato
         Text userData = new UserDataText(email);

@@ -8,7 +8,6 @@ import database.MySQLConnect;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.text.Text;
 
 public class ReportButton extends Button {
     public ReportButton(String email) {

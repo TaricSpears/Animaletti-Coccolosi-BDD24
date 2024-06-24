@@ -32,7 +32,7 @@ public class OwnerTab implements Tab {
         // Create a VBox layout
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
-        root.setSpacing(20);
+        root.setSpacing(5);
 
         // crea un textfield per mostrare i dati dello user loggato
         Text userData = new UserDataText(email);
@@ -73,6 +73,9 @@ public class OwnerTab implements Tab {
         // crea un bottone per visualizzare tutti i farmaci
         Button selectDrugsButton = new SelectDrugsButton();
 
+        // crea un bottone per visualizzare la cartella clinica di un tuo animale
+        Button showMedicalFoldersButton = new ShowMedicalFoldersButton(email, role.value);
+
         // visualizza parcelle non pagate: visualizza parcelle afferenti al prop con
         // pagata a false
         Button parcelleButton = new ParcelleButton(email);
@@ -84,11 +87,13 @@ public class OwnerTab implements Tab {
         Button reportButton = new ReportButton(email);
 
         // aggiungi un bottone per chiudere l'applicazione
-        Button quitButton = new QuitButton();
         Button showYourAnimalsButton = new ShowYourAnimalsButton(email);
 
         // crea un botttone per registrare un nuovo animale
         Button registerYourNewPetButton = new RegisterYourNewPetButton(primaryStage, email, this);
+
+        // crea un bottone per visualizzare le statistiche delle specie
+        Button viewSpeciesStatsButton = new ViewSpeciesStatsButton();
 
         // crea un bottone per prenotare una visita
         Button bookAVisitButton = new Button();
@@ -101,10 +106,12 @@ public class OwnerTab implements Tab {
         // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
 
-        root.getChildren().addAll(userData, showYourAnimalsButton, registerYourNewPetButton, insertNewAddressButton,
+        root.getChildren().addAll(userData, showYourAnimalsButton, registerYourNewPetButton,
+                showMedicalFoldersButton,
+                insertNewAddressButton,
                 insertNewZoneButton,
                 insertResidenceButton, showYourResidencesButton, selectYourGroupsButton, sendMessageButton,
-                showMessagesButton, reportMessageButton, petRatingButton,
+                showMessagesButton, reportMessageButton, petRatingButton, viewSpeciesStatsButton,
                 selectFoodsButton, selectExercisesButton,
                 selectDrugsButton, bookAVisitButton, parcelleButton, payButton, reportButton, quitButton);
 

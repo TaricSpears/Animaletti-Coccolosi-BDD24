@@ -54,9 +54,9 @@ create table ANIMALE (
      constraint ID_ANIMALE_ID primary key (Codice_Identificativo));
 
 create table ASSEGNAZIONE (
-     ID_CON int not null,
+     Nome varchar(50) not null,
      Codice_Identificativo int not null,
-     constraint ID_ASSEGNAZIONE_ID primary key (ID_CON, Codice_Identificativo));
+     constraint ID_ASSEGNAZIONE_ID primary key (Nome, Codice_Identificativo));
 
 create table ASSUNZIONE (
      Nome varchar(20) not null,
@@ -92,9 +92,8 @@ create table COMPRENSIONE (
      constraint ID_COMPRENSIONE_ID primary key (Codice_Menu, Codice_Dieta));
 
 create table CONDIZIONE_CLINICA (
-     ID_CON int not null auto_increment,
      Nome varchar(50) not null,
-     constraint ID_ID primary key (ID_CON));
+     constraint ID_ID primary key (Nome));
 
 create table DIETA (
      Codice_Dieta int not null auto_increment,
@@ -351,8 +350,8 @@ alter table ASSEGNAZIONE add constraint FKASS_CAR_FK
      references CARTELLA_CLINICA (Codice_Identificativo);
 
 alter table ASSEGNAZIONE add constraint FKASS_CON
-     foreign key (ID_CON)
-     references CONDIZIONE_CLINICA (ID_CON);
+     foreign key (Nome)
+     references CONDIZIONE_CLINICA (Nome);
 
 alter table ASSUNZIONE add constraint FKASS_REG_FK
      foreign key (Codice_Regime)
@@ -611,7 +610,7 @@ create index FKPOSSESSO_IND
      on ANIMALE (Email);
 
 create unique index ID_ASSEGNAZIONE_IND
-     on ASSEGNAZIONE (ID_CON, Codice_Identificativo);
+     on ASSEGNAZIONE (Nome, Codice_Identificativo);
 
 create index FKASS_CAR_IND
      on ASSEGNAZIONE (Codice_Identificativo);
@@ -647,7 +646,7 @@ create index FKCOM_DIE_IND
      on COMPRENSIONE (Codice_Dieta);
 
 create unique index ID_IND
-     on CONDIZIONE_CLINICA (ID_CON);
+     on CONDIZIONE_CLINICA (Nome);
 
 create unique index ID_DIETA_IND
      on DIETA (Codice_Dieta);

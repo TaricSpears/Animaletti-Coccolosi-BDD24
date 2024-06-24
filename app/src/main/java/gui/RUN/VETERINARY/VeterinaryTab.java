@@ -28,7 +28,7 @@ public class VeterinaryTab implements Tab {
         // Create a VBox layout
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
-        root.setSpacing(20);
+        root.setSpacing(5);
 
         // crea un textfield per mostrare i dati dello user loggato
         Text userData = new UserDataText(email);
@@ -69,6 +69,21 @@ public class VeterinaryTab implements Tab {
         // crea un bottone per inviare un messaggio
         Button sendMessageButton = new SendMessageButton(email, role.value, primaryStage, this);
 
+        // crea un bottone per visualizzare i pazienti
+        Button showPatientsButton = new ShowPatientsButton(email);
+
+        // crea un bottone per visualizzare le condizioni cliniche registarte
+        Button showClinicalConditionsButton = new ShowClinicalConditionsButton();
+
+        // crea un bottone per inserire una nuova condizione clinica
+        Button insertClinicalConditionButton = new InsertClinicalConditionButton();
+
+        // crea un bottone per visualizzare le cartelle mediche di un paziente
+        Button showMedicalFoldersButton = new ShowMedicalFoldersButton(email, role.value);
+
+        // crea un bottone per aggiornare la cartella medica di un paziente
+        Button updateMedicalFolderButton = new UpdateMedicalFolderButton(email, primaryStage, this);
+
         // crea un bottone per visualizzare i messaggi di un gruppo
         Button showMessagesButton = new ShowMessagesButton(email);
 
@@ -86,7 +101,10 @@ public class VeterinaryTab implements Tab {
 
         root.getChildren().addAll(userData, insertFoodButton, insertExerciseButton, insertDrugButton,
                 insertNewZoneButton, insertNewAddressButton, insertNewClinicButton,
-                selectClinicsButton, selectYourClinicsButton, insertYourClinicButton, selectYourGroupsButton,
+                selectClinicsButton, selectYourClinicsButton, insertYourClinicButton,
+                showPatientsButton, showClinicalConditionsButton, insertClinicalConditionButton,
+                showMedicalFoldersButton, updateMedicalFolderButton,
+                selectYourGroupsButton,
                 sendMessageButton, showMessagesButton, petRatingButton,
                 selectFoodsButton,
                 selectExercisesButton, selectDrugsButton, quitButton);
