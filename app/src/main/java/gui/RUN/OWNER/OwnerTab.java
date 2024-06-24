@@ -42,6 +42,12 @@ public class OwnerTab implements Tab {
         // crea un bottone per inserire una nuova zona
         Button insertNewZoneButton = new InsertNewZoneButton();
 
+        // crea un bottone per inserire una tua nuova residenza
+        Button insertResidenceButton = new InsertResidenceButton(primaryStage, this, email);
+
+        // crea un bottone per visualizzare le tue residenze
+        Button showYourResidencesButton = new ShowYourResidencesButton(email);
+
         // crea un bottone per visualizzare tutti i cibi
         Button selectFoodsButton = new SelectFoodsButton();
 
@@ -62,6 +68,7 @@ public class OwnerTab implements Tab {
         });
 
         root.getChildren().addAll(userData, showYourAnimalsButton, insertNewAddressButton, insertNewZoneButton,
+                insertResidenceButton, showYourResidencesButton,
                 selectFoodsButton, selectExercisesButton,
                 selectDrugsButton, bookAVisitButton, quitButton);
 

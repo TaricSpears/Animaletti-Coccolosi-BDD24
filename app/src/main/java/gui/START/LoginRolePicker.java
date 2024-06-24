@@ -76,7 +76,6 @@ public class LoginRolePicker {
                     try {
                         ownerTab.show();
                     } catch (SQLException e1) {
-                        // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
                     break;
