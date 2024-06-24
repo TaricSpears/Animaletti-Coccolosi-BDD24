@@ -48,13 +48,16 @@ public class VeterinaryTab implements Tab {
         Button selectYourClinicsButton = new SelectYourClinicsButton(email);
 
         // crea un bottone per inserire un nuovo ambulatorio in cui lavori
-        InsertYourClinicButton insertYourClinicButton = new InsertYourClinicButton(email);
+        InsertClinicUWorkInButton insertYourClinicButton = new InsertClinicUWorkInButton(email);
 
         // crea un bottone per inserire una nuova zona
         InsertNewZoneButton insertNewZoneButton = new InsertNewZoneButton();
 
         // crea un bottone per inserire un nuovo indirizzo
         Button insertNewAddressButton = new InsertNewAddressButton(primaryStage, this);
+
+        // crea un bottone per inserire un nuovo ambulatorio
+        InsertNewClinicButton insertNewClinicButton = new InsertNewClinicButton(primaryStage, this);
 
         // crea un bottone per visualizzare tutti i cibi
         Button selectFoodsButton = new SelectFoodsButton();
@@ -69,7 +72,7 @@ public class VeterinaryTab implements Tab {
         Button quitButton = new QuitButton();
 
         root.getChildren().addAll(userData, insertFoodButton, insertExerciseButton, insertDrugButton,
-                insertNewZoneButton, insertNewAddressButton,
+                insertNewZoneButton, insertNewAddressButton, insertNewClinicButton,
                 selectClinicsButton, selectYourClinicsButton, insertYourClinicButton, selectFoodsButton,
                 selectExercisesButton, selectDrugsButton, quitButton);
 

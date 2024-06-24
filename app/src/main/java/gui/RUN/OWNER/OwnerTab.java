@@ -2,13 +2,8 @@ package gui.RUN.OWNER;
 
 import java.sql.SQLException;
 
-import gui.RUN.COMMONS.QuitButton;
-import gui.RUN.COMMONS.SelectDrugsButton;
-import gui.RUN.COMMONS.SelectExercisesButton;
-import gui.RUN.COMMONS.SelectFoodsButton;
-import gui.RUN.COMMONS.UserDataText;
-import gui.RUN.OWNER.Buttons.BookAVisitStage;
-import gui.RUN.OWNER.Buttons.ShowYourAnimalsButton;
+import gui.RUN.COMMONS.*;
+import gui.RUN.OWNER.Buttons.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -41,6 +36,12 @@ public class OwnerTab implements Tab {
         // crea un textfield per mostrare i dati dello user loggato
         Text userData = new UserDataText(email);
 
+        // crea un bottone per inserire un unovo indirizzo
+        Button insertNewAddressButton = new InsertNewAddressButton(primaryStage, this);
+
+        // crea un bottone per inserire una nuova zona
+        Button insertNewZoneButton = new InsertNewZoneButton();
+
         // crea un bottone per visualizzare tutti i cibi
         Button selectFoodsButton = new SelectFoodsButton();
 
@@ -60,7 +61,8 @@ public class OwnerTab implements Tab {
             bookAVisit.show();
         });
 
-        root.getChildren().addAll(userData, showYourAnimalsButton, selectFoodsButton, selectExercisesButton,
+        root.getChildren().addAll(userData, showYourAnimalsButton, insertNewAddressButton, insertNewZoneButton,
+                selectFoodsButton, selectExercisesButton,
                 selectDrugsButton, bookAVisitButton, quitButton);
 
         // Create a scene and set it on the stage

@@ -39,6 +39,12 @@ public class AdminTab implements Tab {
         // crea un bottone per visualizzare tutte le segnalazioni
         Button showUserReportsButton = new ShowUserReportsButton();
 
+        // crea un bottone per inserire un unovo indirizzo
+        Button insertNewAddressButton = new InsertNewAddressButton(primaryStage, this);
+
+        // crea un bottone per inserire una nuova zona
+        Button insertNewZoneButton = new InsertNewZoneButton();
+
         // crea un bottone per bloccare un utente
         Button blockUserButton = new BlockUserButton();
 
@@ -54,7 +60,8 @@ public class AdminTab implements Tab {
         // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
 
-        root.getChildren().addAll(userData, showUsersButton, showAnimalsButton, showUserReportsButton, blockUserButton,
+        root.getChildren().addAll(userData, showUsersButton, showAnimalsButton, showUserReportsButton,
+                insertNewAddressButton, insertNewZoneButton, blockUserButton,
                 selectFoodsButton, selectExercisesButton, selectDrugsButton,
                 quitButton);
 
