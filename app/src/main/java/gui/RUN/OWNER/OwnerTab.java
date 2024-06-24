@@ -86,6 +86,11 @@ public class OwnerTab implements Tab {
         // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
         Button showYourAnimalsButton = new ShowYourAnimalsButton(email);
+
+        // crea un botttone per registrare un nuovo animale
+        Button registerYourNewPetButton = new RegisterYourNewPetButton(primaryStage, email, this);
+
+        // crea un bottone per prenotare una visita
         Button bookAVisitButton = new Button();
         bookAVisitButton.setText("Prenota una visita");
         bookAVisitButton.setOnAction(e -> {
@@ -93,7 +98,11 @@ public class OwnerTab implements Tab {
             bookAVisit.show();
         });
 
-        root.getChildren().addAll(userData, showYourAnimalsButton, insertNewAddressButton, insertNewZoneButton,
+        // aggiungi un bottone per chiudere l'applicazione
+        Button quitButton = new QuitButton();
+
+        root.getChildren().addAll(userData, showYourAnimalsButton, registerYourNewPetButton, insertNewAddressButton,
+                insertNewZoneButton,
                 insertResidenceButton, showYourResidencesButton, selectYourGroupsButton, sendMessageButton,
                 showMessagesButton, reportMessageButton, petRatingButton,
                 selectFoodsButton, selectExercisesButton,
