@@ -17,6 +17,7 @@ public class OwnerTab implements Tab {
 
     private final Stage primaryStage;
     private final String email;
+    private final Roles role = Roles.PROPRIETARIO;
 
     public OwnerTab(final Stage primaryStage, final String email) {
         this.primaryStage = primaryStage;
@@ -48,6 +49,15 @@ public class OwnerTab implements Tab {
         // crea un bottone per visualizzare le tue residenze
         Button showYourResidencesButton = new ShowYourResidencesButton(email);
 
+        // crea un bottone per visualizzare i tuoi gruppi
+        Button selectYourGroupsButton = new SelectYourGroupsButton(email);
+
+        // crea un bottone per inviare un messaggio
+        Button sendMessageButton = new SendMessageButton(email, role.value, primaryStage, this);
+
+        // crea un bottone per visualizzare i messaggi di un gruppo
+        Button showMessagesButton = new ShowMessagesButton(email);
+
         // crea un bottone per visualizzare tutti i cibi
         Button selectFoodsButton = new SelectFoodsButton();
 
@@ -68,7 +78,8 @@ public class OwnerTab implements Tab {
         });
 
         root.getChildren().addAll(userData, showYourAnimalsButton, insertNewAddressButton, insertNewZoneButton,
-                insertResidenceButton, showYourResidencesButton,
+                insertResidenceButton, showYourResidencesButton, selectYourGroupsButton, sendMessageButton,
+                showMessagesButton,
                 selectFoodsButton, selectExercisesButton,
                 selectDrugsButton, bookAVisitButton, quitButton);
 

@@ -15,6 +15,7 @@ public class AdminTab implements Tab {
 
     private final Stage primaryStage;
     private final String email;
+    private final Roles role = Roles.AMMINISTRATORE;
 
     public AdminTab(final Stage primaryStage, final String email) {
         this.primaryStage = primaryStage;
@@ -48,6 +49,15 @@ public class AdminTab implements Tab {
         // crea un bottone per bloccare un utente
         Button blockUserButton = new BlockUserButton();
 
+        // crea un bottone per visualizzare i tuoi gruppi
+        Button selectYourGroupsButton = new SelectYourGroupsButton(email);
+
+        // crea un bottone per inviare un messaggio
+        Button sendMessageButton = new SendMessageButton(email, role.value, primaryStage, this);
+
+        // crea un bottone per visualizzare i messaggi di un gruppo
+        Button showMessagesButton = new ShowMessagesButton(email);
+
         // crea un bottone per visualizzare tutti i cibi
         Button selectFoodsButton = new SelectFoodsButton();
 
@@ -62,6 +72,7 @@ public class AdminTab implements Tab {
 
         root.getChildren().addAll(userData, showUsersButton, showAnimalsButton, showUserReportsButton,
                 insertNewAddressButton, insertNewZoneButton, blockUserButton,
+                selectYourGroupsButton, sendMessageButton, showMessagesButton,
                 selectFoodsButton, selectExercisesButton, selectDrugsButton,
                 quitButton);
 

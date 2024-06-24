@@ -153,8 +153,7 @@ create table MENU (
 
 create table MESSAGGIO (
      Contenuto varchar(200) not null,
-     Data_Invio date not null,
-     Ora_Invio int not null,
+     Istante_Invio datetime not null,
      ID_messaggio int not null auto_increment,
      Email varchar(25) not null,
      ID_Gruppo int not null,

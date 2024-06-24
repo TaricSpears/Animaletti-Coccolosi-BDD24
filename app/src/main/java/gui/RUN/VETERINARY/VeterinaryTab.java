@@ -17,6 +17,7 @@ public class VeterinaryTab implements Tab {
 
     private final Stage primaryStage;
     private final String email;
+    private final Roles role = Roles.VETERINARIO;
 
     public VeterinaryTab(final Stage primaryStage, final String email) {
         this.primaryStage = primaryStage;
@@ -59,6 +60,15 @@ public class VeterinaryTab implements Tab {
         // crea un bottone per inserire un nuovo ambulatorio
         InsertNewClinicButton insertNewClinicButton = new InsertNewClinicButton(primaryStage, this);
 
+        // crea un bottone per visualizzare i tuoi gruppi
+        Button selectYourGroupsButton = new SelectYourGroupsButton(email);
+
+        // crea un bottone per inviare un messaggio
+        Button sendMessageButton = new SendMessageButton(email, role.value, primaryStage, this);
+
+        // crea un bottone per visualizzare i messaggi di un gruppo
+        Button showMessagesButton = new ShowMessagesButton(email);
+
         // crea un bottone per visualizzare tutti i cibi
         Button selectFoodsButton = new SelectFoodsButton();
 
@@ -73,7 +83,9 @@ public class VeterinaryTab implements Tab {
 
         root.getChildren().addAll(userData, insertFoodButton, insertExerciseButton, insertDrugButton,
                 insertNewZoneButton, insertNewAddressButton, insertNewClinicButton,
-                selectClinicsButton, selectYourClinicsButton, insertYourClinicButton, selectFoodsButton,
+                selectClinicsButton, selectYourClinicsButton, insertYourClinicButton, selectYourGroupsButton,
+                sendMessageButton, showMessagesButton,
+                selectFoodsButton,
                 selectExercisesButton, selectDrugsButton, quitButton);
 
         // Create a scene and set it on the stage
