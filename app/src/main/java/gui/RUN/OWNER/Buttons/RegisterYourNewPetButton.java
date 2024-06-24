@@ -99,6 +99,23 @@ public class RegisterYourNewPetButton extends Button {
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
+                    // ricalcolo peso medio per quella specie
+                    String query4 = "SELECT AVG(Peso) AS Peso_medio FROM animale WHERE APP_Nome = ?";
+                    try {
+                        Connection connection = MySQLConnect.getConnection();
+                        PreparedStatement preparedStatement4 = connection.prepareStatement(query4);
+                        preparedStatement4.setString(1, nomeSpecie);
+                        ResultSet rs = preparedStatement4.executeQuery();
+                        rs.next();
+                        String pesoMedio = rs.getString(1);
+                        String query5 = "UPDATE specie SET Peso_medio = ? WHERE Nome = ?";
+                        PreparedStatement preparedStatement5 = connection.prepareStatement(query5);
+                        preparedStatement5.setString(1, pesoMedio);
+                        preparedStatement5.setString(2, nomeSpecie);
+                        preparedStatement5.executeUpdate();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             });
 
