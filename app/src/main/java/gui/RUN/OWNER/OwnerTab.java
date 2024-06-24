@@ -49,6 +49,9 @@ public class OwnerTab implements Tab {
         // crea un bottone per visualizzare le tue residenze
         Button showYourResidencesButton = new ShowYourResidencesButton(email);
 
+        // crea un bottone per eseguire pet rating
+        Button petRatingButton = new PetRatingButton(email);
+
         // crea un bottone per visualizzare i tuoi gruppi
         Button selectYourGroupsButton = new SelectYourGroupsButton(email);
 
@@ -57,6 +60,9 @@ public class OwnerTab implements Tab {
 
         // crea un bottone per visualizzare i messaggi di un gruppo
         Button showMessagesButton = new ShowMessagesButton(email);
+
+        // crea un btotone pe segnalare un messaggio
+        Button reportMessageButton = new ReportMessageButton(email, primaryStage, this);
 
         // crea un bottone per visualizzare tutti i cibi
         Button selectFoodsButton = new SelectFoodsButton();
@@ -79,7 +85,7 @@ public class OwnerTab implements Tab {
 
         root.getChildren().addAll(userData, showYourAnimalsButton, insertNewAddressButton, insertNewZoneButton,
                 insertResidenceButton, showYourResidencesButton, selectYourGroupsButton, sendMessageButton,
-                showMessagesButton,
+                showMessagesButton, reportMessageButton, petRatingButton,
                 selectFoodsButton, selectExercisesButton,
                 selectDrugsButton, bookAVisitButton, quitButton);
 

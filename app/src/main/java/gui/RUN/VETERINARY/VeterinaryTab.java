@@ -60,6 +60,9 @@ public class VeterinaryTab implements Tab {
         // crea un bottone per inserire un nuovo ambulatorio
         InsertNewClinicButton insertNewClinicButton = new InsertNewClinicButton(primaryStage, this);
 
+        // crea un bottone per eseguire pet rating
+        Button petRatingButton = new PetRatingButton(email);
+
         // crea un bottone per visualizzare i tuoi gruppi
         Button selectYourGroupsButton = new SelectYourGroupsButton(email);
 
@@ -84,7 +87,7 @@ public class VeterinaryTab implements Tab {
         root.getChildren().addAll(userData, insertFoodButton, insertExerciseButton, insertDrugButton,
                 insertNewZoneButton, insertNewAddressButton, insertNewClinicButton,
                 selectClinicsButton, selectYourClinicsButton, insertYourClinicButton, selectYourGroupsButton,
-                sendMessageButton, showMessagesButton,
+                sendMessageButton, showMessagesButton, petRatingButton,
                 selectFoodsButton,
                 selectExercisesButton, selectDrugsButton, quitButton);
 

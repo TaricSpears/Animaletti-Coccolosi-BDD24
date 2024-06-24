@@ -23,89 +23,91 @@ public class SendMessageButton extends Button {
     public SendMessageButton(final String email, final int ruolo, final Stage primaryStage, final Tab previousTab) {
         this.setText("Invia un messaggio");
         this.setOnAction(e -> {
-            String query = "SELECT p.Bloccato FROM proprietario p WHERE p.email = '" + email + "'"; // controlla se
-            // l'utente è bloccato (quindi se è proprietario)
+            // controlla se l'utente è proprietario
+            String query = "SELECT p.Bloccato FROM proprietario p WHERE p.email = '" + email + "'";
             try {
                 Statement stmt = MySQLConnect.getConnection().createStatement();
                 ResultSet rs = stmt.executeQuery(query);
-                if (rs.next() && ruolo == Roles.PROPRIETARIO.value) {
-                    if (rs.getBoolean("Bloccato")) {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle(null);
-                        alert.setHeaderText("Errore");
-                        alert.setContentText(
-                                "Non puoi inviare messaggi perchè sei bloccato e stai accedendo come proprietario");
-                        alert.setResizable(true);
-                        alert.showAndWait();
-                    } else { // apri un nuovo stage per inserire id_gruppo e contenuto messaggio
-                        VBox root = new VBox();
-                        root.setAlignment(Pos.CENTER);
-                        root.setSpacing(20);
+                if (rs.next() && rs.getBoolean("Bloccato") && ruolo == Roles.PROPRIETARIO.value) {
+                    // se è proprietario controlla se è bloccato e se sta accedendo come
+                    // proprietario
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle(null);
+                    alert.setHeaderText("Errore");
+                    alert.setContentText(
+                            "Non puoi inviare messaggi perchè sei bloccato e stai accedendo come proprietario");
+                    alert.setResizable(true);
+                    alert.showAndWait();
 
-                        // Create a title
-                        Text title = new Text("Inserisci un nuovo messaggio");
-                        title.setFont(Font.font(24));
+                } else { // apri un nuovo stage per inserire id_gruppo e contenuto messaggio
+                    VBox root = new VBox();
+                    root.setAlignment(Pos.CENTER);
+                    root.setSpacing(20);
 
-                        // Create via field
-                        TextField idgruppoField = new TextField();
-                        idgruppoField.setPromptText("ID_Gruppo");
+                    // Create a title
+                    Text title = new Text("Inserisci un nuovo messaggio");
+                    title.setFont(Font.font(24));
 
-                        // Create numero field
-                        TextField contenutoField = new TextField();
-                        contenutoField.setPromptText("Contenuto");
+                    // Create via field
+                    TextField idgruppoField = new TextField();
+                    idgruppoField.setPromptText("ID_Gruppo");
 
-                        // Create isnerisci button
-                        Button inserisciButton = new Button("Inserisci");
-                        inserisciButton.setOnAction(ev -> {
-                            String idgruppo = idgruppoField.getText();
-                            String contenuto = contenutoField.getText();
-                            if (isIDGruppoValid(idgruppo, email) && isContenutoValid(contenuto)) {
-                                String query3 = "INSERT INTO messaggio (Contenuto, Istante_Invio, Email, ID_Gruppo) VALUES (?, ?, ?, ?)";
-                                try {
-                                    Connection connection = MySQLConnect.getConnection();
-                                    PreparedStatement preparedStatement = connection.prepareStatement(query3);
-                                    contenuto = "|" + createRoleVisualizer(email) + "|\t\t| " + contenuto;
-                                    preparedStatement.setString(1, contenuto);
-                                    preparedStatement.setString(2, LocalDateTime.now().toString());
-                                    preparedStatement.setString(3, email);
-                                    preparedStatement.setString(4, idgruppo);
-                                    preparedStatement.executeUpdate();
-                                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                    alert.setTitle("Information");
-                                    alert.setHeaderText(null);
-                                    alert.setContentText("Messaggio inserito correttamente");
-                                    alert.showAndWait();
-                                } catch (Exception ex) {
-                                    ex.printStackTrace();
-                                }
-                            }
-                        });
+                    // Create numero field
+                    TextField contenutoField = new TextField();
+                    contenutoField.setPromptText("Contenuto");
 
-                        // Create back button
-                        Button backButton = new Button("Back");
-                        backButton.setOnAction(excc -> {
+                    // Create isnerisci button
+                    Button inserisciButton = new Button("Inserisci");
+                    inserisciButton.setOnAction(ev -> {
+                        String idgruppo = idgruppoField.getText();
+                        String contenuto = contenutoField.getText();
+                        if (isIDGruppoValid(idgruppo, email) && isContenutoValid(contenuto)) {
+                            String query3 = "INSERT INTO messaggio (Contenuto, Istante_Invio, Email, ID_Gruppo) VALUES (?, ?, ?, ?)";
                             try {
-                                previousTab.show();
-                            } catch (SQLException e1) {
-                                e1.printStackTrace();
+                                Connection connection = MySQLConnect.getConnection();
+                                PreparedStatement preparedStatement = connection.prepareStatement(query3);
+                                contenuto = "|" + createRoleVisualizer(email) + "|\t\t| " + contenuto;
+                                preparedStatement.setString(1, contenuto);
+                                preparedStatement.setString(2, LocalDateTime.now().toString());
+                                preparedStatement.setString(3, email);
+                                preparedStatement.setString(4, idgruppo);
+                                preparedStatement.executeUpdate();
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("Information");
+                                alert.setHeaderText(null);
+                                alert.setContentText("Messaggio inserito correttamente");
+                                alert.showAndWait();
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
                             }
-                        });
+                        }
+                    });
 
-                        // Add components to the layout
-                        root.getChildren().addAll(title, idgruppoField, contenutoField, inserisciButton, backButton);
+                    // Create back button
+                    Button backButton = new Button("Back");
+                    backButton.setOnAction(excc -> {
+                        try {
+                            previousTab.show();
+                        } catch (SQLException e1) {
+                            e1.printStackTrace();
+                        }
+                    });
 
-                        Scene scene = new Scene(root, 400, 300);
-                        primaryStage.setTitle("Animaletti Coccolosi");
-                        primaryStage.setScene(scene);
-                        primaryStage.show();
+                    // Add components to the layout
+                    root.getChildren().addAll(title, idgruppoField, contenutoField, inserisciButton, backButton);
 
-                    }
+                    Scene scene = new Scene(root, 400, 300);
+                    primaryStage.setTitle("Animaletti Coccolosi");
+                    primaryStage.setScene(scene);
+                    primaryStage.show();
+
                 }
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
 
         });
+
     }
 
     private boolean isContenutoValid(String contenuto) {
