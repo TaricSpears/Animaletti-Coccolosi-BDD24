@@ -77,6 +77,9 @@ public class OwnerTab implements Tab {
         // pagata a false
         Button parcelleButton = new ParcelleButton(email);
 
+        // crea un bottone per pagare una parcella
+        Button payButton = new PayButton(email);
+
         // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
         Button showYourAnimalsButton = new ShowYourAnimalsButton(email);
@@ -91,7 +94,7 @@ public class OwnerTab implements Tab {
                 insertResidenceButton, showYourResidencesButton, selectYourGroupsButton, sendMessageButton,
                 showMessagesButton, reportMessageButton, petRatingButton,
                 selectFoodsButton, selectExercisesButton,
-                selectDrugsButton, bookAVisitButton, parcelleButton, quitButton);
+                selectDrugsButton, bookAVisitButton, parcelleButton, payButton, quitButton);
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(root, 400, 300);
