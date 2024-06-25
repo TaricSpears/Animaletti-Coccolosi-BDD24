@@ -19,21 +19,17 @@ import javafx.stage.Stage;
 
 public class OrderVetButton extends Button {
     public OrderVetButton(String email) {
-        this.setText("Ordina Veterinario per Valutazione nella tua zona");
+        this.setText("Ordina Vet.i per voto medio nella tua zona/e");
         this.setOnAction(e -> {
-            String query = "SELECT v.Email, v.Curriculum, AVG(val.Voto) AS Valutazione_media " +
-                    "FROM veterinario v " +
-                    "JOIN residenza r ON v.Email = r.Email " +
-                    "JOIN collocazione c ON v.Email = c.Email " +
+            String query = "SELECT c.Email as VetEmail, a.ZONA_nome as NomeZona, a.Nome as NomeAmb, v.Valutazione_media as Vmedia "
+                    +
+                    "FROM collocazione c " +
                     "JOIN ambulatorio a ON c.Nome = a.Nome " +
-                    "LEFT JOIN VALUTAZIONE_V val ON v.Email = val.Email " +
-                    "WHERE a.ZONA_Nome = (" +
-                    "    SELECT ZONA_Nome " +
-                    "    FROM RESIDENZA " +
-                    "    WHERE Email = ?" +
-                    ") " +
-                    "GROUP BY v.Email " +
-                    "ORDER BY Valutazione_media DESC";
+                    "JOIN veterinario v ON c.Email = v.Email " +
+                    "WHERE a.ZONA_nome IN (SELECT r.ZONA_nome " +
+                    "FROM residenza r " +
+                    "WHERE r.Email = ?) " +
+                    "ORDER BY a.ZONA_nome DESC, v.Valutazione_media DESC";
 
             try {
                 Connection connection = MySQLConnect.getConnection();
@@ -54,13 +50,15 @@ public class OrderVetButton extends Button {
                     vBox.setAlignment(Pos.CENTER);
 
                     do {
-                        String vetEmail = resultSet.getString("Email");
-                        String curriculum = resultSet.getString("Curriculum");
-                        double valutazioneMedia = resultSet.getDouble("Valutazione_media");
+                        String vetEmail = resultSet.getString("VetEmail");
+                        String zona = resultSet.getString("NomeZona");
+                        String nomeAmb = resultSet.getString("NomeAmb");
+                        String valutazioneMedia = resultSet.getString("Vmedia");
 
                         vBox.getChildren().addAll(
                                 new Text("Email: " + vetEmail),
-                                new Text("Curriculum: " + curriculum),
+                                new Text("NomeZona: " + zona),
+                                new Text("NomeAmbulatorio: " + nomeAmb),
                                 new Text("Valutazione Media: " + valutazioneMedia),
                                 new Text());
                     } while (resultSet.next());
