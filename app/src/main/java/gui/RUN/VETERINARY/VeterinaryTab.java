@@ -109,8 +109,17 @@ public class VeterinaryTab implements Tab {
         // crea un bottone per visualizzare tutti i farmaci
         Button selectDrugsButton = new SelectDrugsButton();
 
+        // crea un bottone per visualizzare le diete
+        Button showDietsButton = new ShowDietsButton();
+
         // crea un bottone per visualizzare gli ultimi 3 referti per un animale
         Button showLast3Button = new ShowLast3Button(email);
+
+        // crea bottone per inserire una nuova parcella
+        Button addParcelButton = new AddParcelButton(email);
+
+        // crea un bottone per visualizzare le ultime terapie per un animale
+        Button showLastTherapiesButton = new ShowLatestTherapiesButton(email, role);
 
         // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
@@ -120,10 +129,12 @@ public class VeterinaryTab implements Tab {
                 selectClinicsButton, selectYourClinicsButton, insertYourClinicButton,
                 showPatientsButton, viewOwnersButton, showClinicalConditionsButton, insertClinicalConditionButton,
                 showMedicalFoldersButton, updateMedicalFolderButton, showExamRequestsButton, acceptAndPerformExamButton,
-                requestClinicalInterventionButton,
+                requestClinicalInterventionButton, addParcelButton,
                 selectYourGroupsButton,
+                showDietsButton,
                 sendMessageButton, showMessagesButton, petRatingButton, showLast3Button,
                 selectFoodsButton,
+                showLastTherapiesButton,
                 selectExercisesButton, selectDrugsButton, quitButton);
 
         // Create a scene and set it on the stage
