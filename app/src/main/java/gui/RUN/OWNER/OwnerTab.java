@@ -99,6 +99,12 @@ public class OwnerTab implements Tab {
         // crea un bottone per visualizzare i veterinari
         Button showVeterinaryButton = new ShowVeterinaryButton();
 
+        // crea un bottone per acctettare un intervento
+        Button acceptOperationButton = new AcceptOperationButton(email);
+
+        // crea un bottone per sapere quali sono le razze più propense ad avere una
+        Button theMostRaceButton = new TheMostRaceButton();
+
         // crea un bottone per prenotare una visita
         Button bookAVisitButton = new Button();
         bookAVisitButton.setText("Prenota una visita");
@@ -117,7 +123,8 @@ public class OwnerTab implements Tab {
                 insertResidenceButton, showYourResidencesButton, selectYourGroupsButton, sendMessageButton,
                 showMessagesButton, reportMessageButton, petRatingButton, viewSpeciesStatsButton,
                 selectFoodsButton, selectExercisesButton,
-                selectDrugsButton, showVeterinaryButton, bookAVisitButton, parcelleButton, payButton, reportButton,
+                selectDrugsButton, acceptOperationButton, showVeterinaryButton, bookAVisitButton, parcelleButton,
+                payButton, reportButton, theMostRaceButton,
                 quitButton);
 
         // Create a scene and set it on the stage
