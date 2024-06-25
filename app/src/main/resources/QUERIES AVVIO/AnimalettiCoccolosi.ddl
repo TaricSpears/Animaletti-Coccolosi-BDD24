@@ -47,7 +47,7 @@ create table ANIMALE (
      Nome varchar(20) not null,
      Data_di_Nascita date not null,
      Peso int not null,
-     Valutazione_media int,
+     Valutazione_media float,
      Codice_Identificativo int not null auto_increment,
      APP_Nome varchar(20) not null,
      Email varchar(25) not null,
@@ -235,7 +235,7 @@ create table SEGNALAZIONE (
 create table SPECIE (
      Nome varchar(20) not null,
      Descrizione varchar(200) not null,
-     Peso_medio int,
+     Peso_medio float,
      constraint ID_SPECIE_ID primary key (Nome));
 
 create table TERAPIA (
@@ -271,7 +271,7 @@ create table VALUTAZIONE_V (
 create table VETERINARIO (
      Email varchar(25) not null,
      Curriculum varchar(200) not null,
-     Valutazione_media int,
+     Valutazione_media float,
      constraint FKESSERE_V_ID primary key (Email));
 
 create table VISITA (
