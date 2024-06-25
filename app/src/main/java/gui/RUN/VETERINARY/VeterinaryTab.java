@@ -72,6 +72,9 @@ public class VeterinaryTab implements Tab {
         // crea un bottone per visualizzare i pazienti
         Button showPatientsButton = new ShowPatientsButton(email);
 
+        // crea un bottone per visualizzare i padroni dei pazienti
+        Button viewOwnersButton = new ViewOwnersButton(email);
+
         // crea un bottone per visualizzare le condizioni cliniche registarte
         Button showClinicalConditionsButton = new ShowClinicalConditionsButton();
 
@@ -106,17 +109,20 @@ public class VeterinaryTab implements Tab {
         // crea un bottone per visualizzare tutti i farmaci
         Button selectDrugsButton = new SelectDrugsButton();
 
+        // crea un bottone per visualizzare gli ultimi 3 referti per un animale
+        Button showLast3Button = new ShowLast3Button(email);
+
         // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
 
         root.getChildren().addAll(userData, insertFoodButton, insertExerciseButton, insertDrugButton,
                 insertNewZoneButton, insertNewAddressButton, insertNewClinicButton,
                 selectClinicsButton, selectYourClinicsButton, insertYourClinicButton,
-                showPatientsButton, showClinicalConditionsButton, insertClinicalConditionButton,
+                showPatientsButton, viewOwnersButton, showClinicalConditionsButton, insertClinicalConditionButton,
                 showMedicalFoldersButton, updateMedicalFolderButton, showExamRequestsButton, acceptAndPerformExamButton,
                 requestClinicalInterventionButton,
                 selectYourGroupsButton,
-                sendMessageButton, showMessagesButton, petRatingButton,
+                sendMessageButton, showMessagesButton, petRatingButton, showLast3Button,
                 selectFoodsButton,
                 selectExercisesButton, selectDrugsButton, quitButton);
 
