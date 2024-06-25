@@ -12,7 +12,7 @@ public class ShowPatientsButton extends Button {
     public ShowPatientsButton(final String email) {
         this.setText("Visualizza pazienti");
         this.setOnAction(click -> {
-            String query = "SELECT a.* FROM animale a, visita v WHERE a.Codice_Identificativo = v.Codice_Identificativo AND v.ACC_Email = ?";
+            String query = "SELECT a.* FROM animale a, visita v WHERE a.Codice_Identificativo = v.Codice_Identificativo AND v.ACC_Email = ? GROUP BY a.Codice_Identificativo";
             try {
                 Connection connection = MySQLConnect.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);

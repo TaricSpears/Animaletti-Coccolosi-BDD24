@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 
 public class ShowExamRequestsButton extends Button {
     public ShowExamRequestsButton(final String email) {
-        this.setText("Mostra richieste di visita");
+        this.setText("Mostra richieste di visita per urgenza");
         this.setOnAction(click -> {
             String query = "SELECT * FROM visita v WHERE (v.ACC_Email is null) AND (v.Email is null OR v.Email = ?) ORDER BY v.urgenza DESC ";
             try {
@@ -18,9 +18,10 @@ public class ShowExamRequestsButton extends Button {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, email);
                 ResultSet resultSet = preparedStatement.executeQuery();
-                String result = "Codice Animale\tData\tOra\tUrgenza\tEmail vet\tEmail acc\tDescrizione\n";
+                String result = "ID_Visita\tCodice Animale\tData\tOra\tUrgenza\tEmail vet\tEmail acc\tDescrizione\n";
                 while (resultSet.next()) {
-                    result += resultSet.getString("Codice_Identificativo") + "\t" + resultSet.getString("Data") + "\t"
+                    result += resultSet.getString("ID_visita") + "\t" + resultSet.getString("Codice_Identificativo")
+                            + "\t" + resultSet.getString("Data") + "\t"
                             + resultSet.getString("Ora") + "\t" + resultSet.getString("Urgenza") + "\t"
                             + resultSet.getString("Email") + "\t" + resultSet.getString("ACC_Email") + "\t"
                             + resultSet.getString("Descrizione") + "\n";

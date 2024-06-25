@@ -26,19 +26,15 @@ public class SelectYourGroupsButton extends Button {
                         "ID_Gruppo" + "\t" +
                         "Destinatario" + "\n";
                 String ID_Gruppo;
-                boolean stato;
+                int stato;
                 while (rs.next()) {
                     content += rs.getString("Nome") + "\t";
                     content += rs.getString("Data_apertura") + "\t";
                     ID_Gruppo = rs.getString("ID_Gruppo");
                     content += ID_Gruppo + "\t";
-                    stato = Boolean.parseBoolean(rs.getString("privato"));
-                    if (stato) { // se è privato mostra email altro partecipante
-                        String query2 = "SELECT email FROM partecipazione WHERE ID_Gruppo = '" + ID_Gruppo
-                                + "' AND email != '" + email + "'";
-                        ResultSet rs2 = stmt.executeQuery(query2);
-                        rs2.next();
-                        content += rs2.getString("email") + "\n";
+                    stato = Integer.parseInt(rs.getString("Privato"));
+                    if (stato == 1) { // se è privato mostra email altro partecipante
+                        content += "Privato" + "\n";
                     } else { // se è pubblico
                         content += "Pubblico" + "\n";
                     }

@@ -88,6 +88,9 @@ public class VeterinaryTab implements Tab {
         // crea un bottone per visualizzare le richieste di visita
         Button showExamRequestsButton = new ShowExamRequestsButton(email);
 
+        // crea un bottone per accettare e svolgere una visita
+        Button acceptAndPerformExamButton = new AcceptAndPerformExamButton(email);
+
         // crea un bottone per visualizzare i messaggi di un gruppo
         Button showMessagesButton = new ShowMessagesButton(email);
 
@@ -107,7 +110,7 @@ public class VeterinaryTab implements Tab {
                 insertNewZoneButton, insertNewAddressButton, insertNewClinicButton,
                 selectClinicsButton, selectYourClinicsButton, insertYourClinicButton,
                 showPatientsButton, showClinicalConditionsButton, insertClinicalConditionButton,
-                showMedicalFoldersButton, updateMedicalFolderButton, showExamRequestsButton,
+                showMedicalFoldersButton, updateMedicalFolderButton, showExamRequestsButton, acceptAndPerformExamButton,
                 selectYourGroupsButton,
                 sendMessageButton, showMessagesButton, petRatingButton,
                 selectFoodsButton,

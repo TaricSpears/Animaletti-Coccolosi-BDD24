@@ -38,7 +38,7 @@ public class PetRatingButton extends Button {
                     dialog.setHeaderText("Inserisci la tua valutazione");
                     dialog.setContentText("Valutazione:");
                     dialog.showAndWait().ifPresent(valutazione -> {
-                        if (valutazione.matches("[0-9]+")) {
+                        if (valutazione.matches("[0-9]+") && valutazione.length() == 1) {
                             String query2 = "INSERT INTO valutazione_a (Codice_Identificativo, Email, Voto) VALUES ('"
                                     + codice + "', '" + Email + "', '" + valutazione + "')";
                             try {
@@ -64,7 +64,7 @@ public class PetRatingButton extends Button {
                             Alert alert2 = new Alert(Alert.AlertType.ERROR);
                             alert2.setTitle(null);
                             alert2.setHeaderText("Errore");
-                            alert2.setContentText("Inserire un valore numerico");
+                            alert2.setContentText("Inserire un valore numerico di 1 cifra");
                             alert2.showAndWait();
                         }
                     });

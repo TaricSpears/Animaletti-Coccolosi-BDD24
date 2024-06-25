@@ -75,30 +75,54 @@ public class BookAVisitStage {
                 return;
             }
 
-            if (codField.getText().isEmpty() || descField.getText().isEmpty()
+            if (codField.getText().isEmpty() || codField.getText().length() > 5 || descField.getText().isEmpty()
                     || descField.getText().length() > 100 || urgencyField.getText().isEmpty()
-                    || hourField.getText().isEmpty() || dateField.getValue() == null) {
-                new Alert(Alert.AlertType.ERROR, "Compila tutti i campi").showAndWait();
+                    || urgencyField.getText().length() > 1
+                    || hourField.getText().isEmpty() || hourField.getText().length() > 2
+                    || !hourField.getText().matches("[0-9]+")
+                    || dateField.getValue() == null
+                    || veterinaryField.getText().length() > 25 || !isValid(veterinaryField.getText())) {
+                new Alert(Alert.AlertType.ERROR, "Compila tutti i campi correttamente").showAndWait();
                 return;
             }
-            try {
 
-                PreparedStatement stmt = MySQLConnect.getConnection()
-                        .prepareStatement(
-                                "INSERT INTO Visita (Data, Ora, Descrizione, Urgenza, Codice_Identificativo, Email, ACC_Email) VALUES (?, ?, ?, ?, ?,?,?)");
-                stmt.setDate(1, Date.valueOf(dateField.getValue()));
-                stmt.setString(2, hourField.getText());
-                stmt.setString(3, descField.getText());
-                stmt.setString(4, urgencyField.getText());
-                stmt.setInt(5, Integer.parseInt(codField.getText()));
-                stmt.setString(6, email);
-                stmt.setString(7, veterinaryField.getText());
+            if (veterinaryField.getText().isEmpty()) {
+                try {
+                    PreparedStatement stmt = MySQLConnect.getConnection()
+                            .prepareStatement(
+                                    "INSERT INTO Visita (Data, Ora, Descrizione, Urgenza, Codice_Identificativo) VALUES (?, ?, ?, ?, ?)");
+                    stmt.setDate(1, Date.valueOf(dateField.getValue()));
+                    stmt.setString(2, hourField.getText());
+                    stmt.setString(3, descField.getText());
+                    stmt.setString(4, urgencyField.getText());
+                    stmt.setInt(5, Integer.parseInt(codField.getText()));
 
-                stmt.executeUpdate();
-                new Alert(Alert.AlertType.INFORMATION, "Prenotazione effettuata").showAndWait();
-            } catch (Exception ex) {
-                new Alert(Alert.AlertType.ERROR, "Errore durante la prenotazione").showAndWait();
+                    stmt.executeUpdate();
+                    new Alert(Alert.AlertType.INFORMATION, "Prenotazione effettuata").showAndWait();
+                } catch (Exception ex) {
+                    new Alert(Alert.AlertType.ERROR, "Errore durante la prenotazione").showAndWait();
+                    ex.printStackTrace();
+                }
+            } else {
+                try {
+                    PreparedStatement stmt = MySQLConnect.getConnection()
+                            .prepareStatement(
+                                    "INSERT INTO Visita (Data, Ora, Descrizione, Urgenza, Codice_Identificativo, Email) VALUES (?, ?, ?, ?, ?, ?)");
+                    stmt.setDate(1, Date.valueOf(dateField.getValue()));
+                    stmt.setString(2, hourField.getText());
+                    stmt.setString(3, descField.getText());
+                    stmt.setString(4, urgencyField.getText());
+                    stmt.setInt(5, Integer.parseInt(codField.getText()));
+                    stmt.setString(6, veterinaryField.getText());
+
+                    stmt.executeUpdate();
+                    new Alert(Alert.AlertType.INFORMATION, "Prenotazione effettuata").showAndWait();
+                } catch (Exception ex) {
+                    new Alert(Alert.AlertType.ERROR, "Errore durante la prenotazione").showAndWait();
+                    ex.printStackTrace();
+                }
             }
+
         });
 
         root.getChildren().addAll(codField, descField, urgencyField, veterinaryField, hourField, dateField, bookButton,
@@ -106,6 +130,21 @@ public class BookAVisitStage {
         Scene scene = new Scene(root, 300, 300);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private boolean isValid(String veterinaryEmail) {
+        if (veterinaryEmail.isEmpty())
+            return true;
+        String query = "SELECT * FROM Veterinario WHERE Email = ?";
+        try {
+            PreparedStatement stmt = MySQLConnect.getConnection().prepareStatement(query);
+            stmt.setString(1, veterinaryEmail);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+        } catch (Exception ex) {
+            new Alert(Alert.AlertType.ERROR, "Errore durante la verifica dell'email del veterinario").showAndWait();
+            return false;
+        }
     }
 
 }
