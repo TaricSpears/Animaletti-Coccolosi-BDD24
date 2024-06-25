@@ -11,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -20,10 +21,11 @@ import javafx.stage.Stage;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class RegistrationTab {
-    MySQLConnect connect = new MySQLConnect();
 
+    MySQLConnect connect = new MySQLConnect();
     private final Stage primaryStage;
 
     public RegistrationTab(Stage primaryStage) {
@@ -60,33 +62,54 @@ public class RegistrationTab {
         DatePicker dobField = new DatePicker();
         dobField.setPromptText("Data_di_nascita");
 
+        // create 3 check boxes for the user to select the role
+        // Create a check box for the user to select the propietario role
+        // Create a check box for the user to select the veterinario role
+        // Create a check box for the user to select the admin role
+        CheckBox proprietario = new CheckBox("Proprietario");
+        CheckBox veterinario = new CheckBox("Veterinario");
+        CheckBox admin = new CheckBox("Admin");
+
+        TextField curriculumField = new TextField();
+        curriculumField.setPromptText("Curriculum (opzionale, per i veterinari)");
+
         // Create register button
         Button registerButton = new Button("Register");
-        registerButton.setOnAction(e -> {
+        registerButton.setOnAction(register -> {
             // insert datas into the database
             // if the registration is successful, show the LoginTab
             // if the registration is not successful, show an error message
-            boolean registrationSuccessful = false;
             LocalDateTime Data_di_iscrizione = LocalDateTime.now();
-            System.out.println(Data_di_iscrizione);
+            boolean proprietarioSelected = proprietario.isSelected();
+            boolean veterinarioSelected = veterinario.isSelected();
+            boolean adminSelected = admin.isSelected();
+
+            if (veterinarioSelected) {
+            }
 
             if (nameField.getText().isEmpty() || nameField.getText().length() > 32 || surnameField.getText().isEmpty()
-                    || surnameField.getText().length() > 32 || emailField.getText().isEmpty()
-                    || emailField.getText().length() > 25
-                    || passwordField.getText().isEmpty() || dobField.getValue() == null) {
+                    || surnameField.getText().length() > 32 || !isValid(emailField.getText())
+                    || passwordField.getText().isEmpty() || dobField.getValue() == null
+                    || (!proprietarioSelected && !veterinarioSelected && !adminSelected)
+                    || (veterinarioSelected && curriculumField.getText().isEmpty())
+                    || (veterinarioSelected && curriculumField.getText().length() > 200)) {
                 // alert with error message
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Errore");
                 alert.setHeaderText("Registrazione fallita");
-                alert.setContentText("Inserire tutti i campi");
+                alert.setContentText("Manca un campo, oppure l'email e' gia' in uso");
                 alert.showAndWait();
                 return;
             }
+            // create an arraylist of 4 booleans
+            ArrayList<Boolean> steps = new ArrayList<Boolean>();
+            for (int i = 0; i < 4; i++) {
+                steps.add(false);
+            }
             try {
-
                 PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(
-                        "INSERT INTO utente (Nome, Cognome, Email, Password, Data_di_nascita,Data_di_iscrizione) VALUES (?, ?, ?, ?, ?,?)");
+                        "INSERT INTO utente (Nome, Cognome, Email, Password, Data_di_nascita, Data_di_iscrizione) VALUES (?, ?, ?, ?, ?, ?)");
                 preparedStatement.setString(1, nameField.getText());
                 preparedStatement.setString(2, surnameField.getText());
                 preparedStatement.setString(3, emailField.getText());
@@ -94,21 +117,85 @@ public class RegistrationTab {
                 preparedStatement.setString(5, dobField.getValue().toString());
                 preparedStatement.setString(6, Data_di_iscrizione.toString());
                 preparedStatement.executeUpdate();
-                registrationSuccessful = true;
-
+                steps.set(0, true);
+                if (proprietarioSelected) {
+                    preparedStatement = MySQLConnect.getConnection().prepareStatement(
+                            "INSERT INTO proprietario (Email, Bloccato) VALUES (?, 0)");
+                    preparedStatement.setString(1, emailField.getText());
+                    preparedStatement.executeUpdate();
+                    steps.set(1, true);
+                }
+                if (veterinarioSelected) {
+                    preparedStatement = MySQLConnect.getConnection().prepareStatement(
+                            "INSERT INTO veterinario (Email, Curriculum) VALUES (?, ?)");
+                    preparedStatement.setString(1, emailField.getText());
+                    preparedStatement.setString(2, curriculumField.getText());
+                    preparedStatement.executeUpdate();
+                    steps.set(2, true);
+                }
+                if (adminSelected) {
+                    preparedStatement = MySQLConnect.getConnection().prepareStatement(
+                            "INSERT INTO amministratore (Email) VALUES (?)");
+                    preparedStatement.setString(1, emailField.getText());
+                    preparedStatement.executeUpdate();
+                    steps.set(3, true);
+                }
             } catch (SQLException ex) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Errore");
+                alert.setHeaderText("Registrazione fallita");
+                alert.setContentText("Errore durante la registrazione");
+                alert.showAndWait();
+                if (steps.get(3)) {
+                    try {
+                        PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(
+                                "DELETE FROM admin WHERE Email = ?");
+                        preparedStatement.setString(1, emailField.getText());
+                        preparedStatement.executeUpdate();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (steps.get(2)) {
+                    try {
+                        PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(
+                                "DELETE FROM veterinario WHERE Email = ?");
+                        preparedStatement.setString(1, emailField.getText());
+                        preparedStatement.executeUpdate();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (steps.get(1)) {
+                    try {
+                        PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(
+                                "DELETE FROM proprietario WHERE Email = ?");
+                        preparedStatement.setString(1, emailField.getText());
+                        preparedStatement.executeUpdate();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (steps.get(0)) {
+                    try {
+                        PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(
+                                "DELETE FROM utente WHERE Email = ?");
+                        preparedStatement.setString(1, emailField.getText());
+                        preparedStatement.executeUpdate();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
                 ex.printStackTrace();
-                registrationSuccessful = false;
+                return;
             }
-
-            if (registrationSuccessful) {
-                LoginTab loginTab = new LoginTab(primaryStage);
-                loginTab.show();
-            } else {
-                Text errorMessage = new Text("Registration failed");
-                root.getChildren().add(errorMessage);
-            }
-
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Successo");
+            alert.setHeaderText("Registrazione effettuata");
+            alert.setContentText("Registrazione effettuata con successo");
+            alert.showAndWait();
+            InitialTab initialTab = new InitialTab(primaryStage);
+            initialTab.show();
         });
 
         // Create back button
@@ -119,12 +206,25 @@ public class RegistrationTab {
         });
 
         // Add components to the layout
-        root.getChildren().addAll(title, nameField, surnameField, emailField, passwordField, dobField, registerButton,
-                backButton);
+        root.getChildren().addAll(title, nameField, surnameField, emailField, passwordField, dobField, proprietario,
+                veterinario, admin, curriculumField,
+                registerButton, backButton);
 
         Scene scene = new Scene(root, 400, 300);
         primaryStage.setTitle("Animaletti Coccolosi");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private boolean isValid(String email) {
+        String query = "SELECT * FROM utente WHERE Email = ?";
+        try {
+            PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(query);
+            preparedStatement.setString(1, email);
+            return !preparedStatement.executeQuery().next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

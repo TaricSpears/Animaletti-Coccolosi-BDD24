@@ -38,6 +38,9 @@ public class BookAVisitStage {
         TextField urgencyField = new TextField();
         urgencyField.setPromptText("Urgenza");
 
+        TextField veterinaryField = new TextField();
+        veterinaryField.setPromptText("Veterinario (opzionale)");
+
         TextField hourField = new TextField();
         hourField.setPromptText("Ora");
 
@@ -82,13 +85,14 @@ public class BookAVisitStage {
 
                 PreparedStatement stmt = MySQLConnect.getConnection()
                         .prepareStatement(
-                                "INSERT INTO Visita (Data, Ora, Descrizione, Urgenza, Codice_Identificativo, Email) VALUES (?, ?, ?, ?, ?,?)");
+                                "INSERT INTO Visita (Data, Ora, Descrizione, Urgenza, Codice_Identificativo, Email, ACC_Email) VALUES (?, ?, ?, ?, ?,?,?)");
                 stmt.setDate(1, Date.valueOf(dateField.getValue()));
                 stmt.setString(2, hourField.getText());
                 stmt.setString(3, descField.getText());
                 stmt.setString(4, urgencyField.getText());
                 stmt.setInt(5, Integer.parseInt(codField.getText()));
                 stmt.setString(6, email);
+                stmt.setString(7, veterinaryField.getText());
 
                 stmt.executeUpdate();
                 new Alert(Alert.AlertType.INFORMATION, "Prenotazione effettuata").showAndWait();
@@ -97,7 +101,8 @@ public class BookAVisitStage {
             }
         });
 
-        root.getChildren().addAll(codField, descField, urgencyField, hourField, dateField, bookButton, backButton);
+        root.getChildren().addAll(codField, descField, urgencyField, veterinaryField, hourField, dateField, bookButton,
+                backButton);
         Scene scene = new Scene(root, 300, 300);
         primaryStage.setScene(scene);
         primaryStage.show();

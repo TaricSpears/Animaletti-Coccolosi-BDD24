@@ -75,6 +75,7 @@ public class OwnerTab implements Tab {
 
         // crea un bottone per visualizzare la cartella clinica di un tuo animale
         Button showMedicalFoldersButton = new ShowMedicalFoldersButton(email, role.value);
+        showMedicalFoldersButton.setText("Visualizza cartella clinica di un tuo animale");
 
         // visualizza parcelle non pagate: visualizza parcelle afferenti al prop con
         // pagata a false
@@ -95,6 +96,9 @@ public class OwnerTab implements Tab {
         // crea un bottone per visualizzare le statistiche delle specie
         Button viewSpeciesStatsButton = new ViewSpeciesStatsButton();
 
+        // crea un bottone per visualizzare i veterinari
+        Button showVeterinaryButton = new ShowVeterinaryButton();
+
         // crea un bottone per prenotare una visita
         Button bookAVisitButton = new Button();
         bookAVisitButton.setText("Prenota una visita");
@@ -113,7 +117,8 @@ public class OwnerTab implements Tab {
                 insertResidenceButton, showYourResidencesButton, selectYourGroupsButton, sendMessageButton,
                 showMessagesButton, reportMessageButton, petRatingButton, viewSpeciesStatsButton,
                 selectFoodsButton, selectExercisesButton,
-                selectDrugsButton, bookAVisitButton, parcelleButton, payButton, reportButton, quitButton);
+                selectDrugsButton, showVeterinaryButton, bookAVisitButton, parcelleButton, payButton, reportButton,
+                quitButton);
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(root, 400, 300);

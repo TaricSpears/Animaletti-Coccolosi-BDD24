@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 public class UpdateMedicalFolderButton extends Button {
     public UpdateMedicalFolderButton(final String email, final Stage primaryStage, final Tab previousTab) {
-        this.setText("Aggiorna cartella medica");
+        this.setText("Aggiorna cartella medica di un tuo paziente");
         this.setOnAction(click -> {
             // Create a VBox layout
             VBox root = new VBox();

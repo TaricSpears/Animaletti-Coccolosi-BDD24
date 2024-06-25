@@ -11,7 +11,6 @@ import javafx.scene.control.TextInputDialog;
 
 public class ShowMedicalFoldersButton extends Button {
     public ShowMedicalFoldersButton(final String email, final int role) {
-        this.setText("Visualizza cartella clinica di un tuo animale");
         this.setOnAction(click -> {
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Inserisci codice identificativo");

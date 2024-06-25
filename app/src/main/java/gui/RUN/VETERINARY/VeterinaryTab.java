@@ -80,9 +80,13 @@ public class VeterinaryTab implements Tab {
 
         // crea un bottone per visualizzare le cartelle mediche di un paziente
         Button showMedicalFoldersButton = new ShowMedicalFoldersButton(email, role.value);
+        showMedicalFoldersButton.setText("Visualizza cartella clinica di un animale");
 
         // crea un bottone per aggiornare la cartella medica di un paziente
         Button updateMedicalFolderButton = new UpdateMedicalFolderButton(email, primaryStage, this);
+
+        // crea un bottone per visualizzare le richieste di visita
+        Button showExamRequestsButton = new ShowExamRequestsButton(email);
 
         // crea un bottone per visualizzare i messaggi di un gruppo
         Button showMessagesButton = new ShowMessagesButton(email);
@@ -103,7 +107,7 @@ public class VeterinaryTab implements Tab {
                 insertNewZoneButton, insertNewAddressButton, insertNewClinicButton,
                 selectClinicsButton, selectYourClinicsButton, insertYourClinicButton,
                 showPatientsButton, showClinicalConditionsButton, insertClinicalConditionButton,
-                showMedicalFoldersButton, updateMedicalFolderButton,
+                showMedicalFoldersButton, updateMedicalFolderButton, showExamRequestsButton,
                 selectYourGroupsButton,
                 sendMessageButton, showMessagesButton, petRatingButton,
                 selectFoodsButton,
