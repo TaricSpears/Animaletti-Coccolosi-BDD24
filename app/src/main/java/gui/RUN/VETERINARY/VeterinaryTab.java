@@ -91,6 +91,9 @@ public class VeterinaryTab implements Tab {
         // crea un bottone per accettare e svolgere una visita
         Button acceptAndPerformExamButton = new AcceptAndPerformExamButton(email);
 
+        // crea un bottone per richiede un intervento chirurgico
+        Button requestClinicalInterventionButton = new RequestClinicalInterventionButton(primaryStage, email, this);
+
         // crea un bottone per visualizzare i messaggi di un gruppo
         Button showMessagesButton = new ShowMessagesButton(email);
 
@@ -111,6 +114,7 @@ public class VeterinaryTab implements Tab {
                 selectClinicsButton, selectYourClinicsButton, insertYourClinicButton,
                 showPatientsButton, showClinicalConditionsButton, insertClinicalConditionButton,
                 showMedicalFoldersButton, updateMedicalFolderButton, showExamRequestsButton, acceptAndPerformExamButton,
+                requestClinicalInterventionButton,
                 selectYourGroupsButton,
                 sendMessageButton, showMessagesButton, petRatingButton,
                 selectFoodsButton,

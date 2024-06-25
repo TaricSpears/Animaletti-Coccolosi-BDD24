@@ -97,9 +97,9 @@ public class AcceptAndPerformExamButton extends Button {
                     return;
                 }
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Visita accettata");
-                alert.setHeaderText("Visita accettata");
-                alert.setContentText("Visita accettata con successo");
+                alert.setTitle("Visita accettata ed eseguita");
+                alert.setHeaderText("Visita accettata ed eseguita");
+                alert.setContentText("Visita accettata ed eseguita con successo");
                 alert.showAndWait();
                 // ottieni id proprietario
                 String query4 = "SELECT a.Email FROM animale a WHERE a.Codice_Identificativo = (SELECT v.Codice_Identificativo FROM visita v WHERE v.ID_visita = ?)";
@@ -121,55 +121,63 @@ public class AcceptAndPerformExamButton extends Button {
                     return;
                 }
                 // verifica se esiste già un gruppo con user e proprietario dell'animale
-                String query5 = "SELECT * from partecipazione p1, partecipazione p2 where p1.Email != p2.Email " +
-                        "and p1.ID_Gruppo = p2.ID_Gruppo and p1.email = ? " +
-                        "and p2.email = ? and p1.ID_gruppo != 1";
-                try {
-                    Connection connection = MySQLConnect.getConnection();
-                    PreparedStatement preparedStatement5 = connection.prepareStatement(query5);
-                    preparedStatement5.setString(1, email);
-                    preparedStatement5.setString(2, emailProprietario);
-                    ResultSet resultSet = preparedStatement5.executeQuery();
-                    if (!resultSet.next()) {
-                        // crea gruppo
-                        String query6 = "INSERT INTO gruppo (Nome, Data_apertura, Privato) VALUES (?, ?, 1)";
-                        PreparedStatement preparedStatement6 = connection.prepareStatement(query6);
-                        preparedStatement6.setString(1,
-                                "V: " + email.subSequence(0, 8) + " P: " + emailProprietario.subSequence(0, 8));
-                        preparedStatement6.setString(2, java.time.LocalDate.now().toString());
-                        preparedStatement6.executeUpdate();
-                        // ottieni id gruppo
-                        String query7 = "SELECT g.ID_Gruppo FROM gruppo g ORDER BY g.ID_Gruppo DESC LIMIT 1";
-                        PreparedStatement preparedStatement7 = connection.prepareStatement(query7);
-                        ResultSet resultSet7 = preparedStatement7.executeQuery();
-                        resultSet7.next();
-                        int idGruppo = resultSet7.getInt(1);
-                        // inserisci partecipazione
-                        String query8 = "INSERT INTO partecipazione (Email, ID_Gruppo) VALUES (?, ?)";
-                        PreparedStatement preparedStatement8 = connection.prepareStatement(query8);
-                        preparedStatement8.setString(1, email);
-                        preparedStatement8.setInt(2, idGruppo);
-                        preparedStatement8.executeUpdate();
-                        PreparedStatement preparedStatement9 = connection.prepareStatement(query8);
-                        preparedStatement9.setString(1, emailProprietario);
-                        preparedStatement9.setInt(2, idGruppo);
-                        preparedStatement9.executeUpdate();
-                        Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
-                        alert1.setTitle("Gruppo creato");
-                        alert1.setHeaderText("Gruppo creato");
-                        alert1.setContentText("Gruppo creato con successo");
-                        alert1.showAndWait();
-                    }
-                } catch (Exception e) {
-                    Alert alert1 = new Alert(Alert.AlertType.ERROR);
-                    alert1.setTitle("Errore");
-                    alert1.setHeaderText("Errore");
-                    alert1.setContentText(
-                            "Errore durante la verifica dell'esistenza / creazione del gruppo tra te e il tuo paziente...");
-                    alert1.setResizable(true);
+                if (email.equals(emailProprietario)) {
+                    Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                    alert1.setTitle("Informazione");
+                    alert1.setHeaderText("Informazione");
+                    alert1.setContentText("Siccome hai visitato un tuo animale non verra' creato il gruppo");
                     alert1.showAndWait();
-                    e.printStackTrace();
-                    return;
+                } else {
+                    String query5 = "SELECT * from partecipazione p1, partecipazione p2 where p1.Email != p2.Email " +
+                            "and p1.ID_Gruppo = p2.ID_Gruppo and p1.email = ? " +
+                            "and p2.email = ? and p1.ID_gruppo != 1";
+                    try {
+                        Connection connection = MySQLConnect.getConnection();
+                        PreparedStatement preparedStatement5 = connection.prepareStatement(query5);
+                        preparedStatement5.setString(1, email);
+                        preparedStatement5.setString(2, emailProprietario);
+                        ResultSet resultSet = preparedStatement5.executeQuery();
+                        if (!resultSet.next()) {
+                            // crea gruppo
+                            String query6 = "INSERT INTO gruppo (Nome, Data_apertura, Privato) VALUES (?, ?, 1)";
+                            PreparedStatement preparedStatement6 = connection.prepareStatement(query6);
+                            preparedStatement6.setString(1,
+                                    "V: " + email.subSequence(0, 8) + " P: " + emailProprietario.subSequence(0, 8));
+                            preparedStatement6.setString(2, java.time.LocalDate.now().toString());
+                            preparedStatement6.executeUpdate();
+                            // ottieni id gruppo
+                            String query7 = "SELECT g.ID_Gruppo FROM gruppo g ORDER BY g.ID_Gruppo DESC LIMIT 1";
+                            PreparedStatement preparedStatement7 = connection.prepareStatement(query7);
+                            ResultSet resultSet7 = preparedStatement7.executeQuery();
+                            resultSet7.next();
+                            int idGruppo = resultSet7.getInt(1);
+                            // inserisci partecipazione
+                            String query8 = "INSERT INTO partecipazione (Email, ID_Gruppo) VALUES (?, ?)";
+                            PreparedStatement preparedStatement8 = connection.prepareStatement(query8);
+                            preparedStatement8.setString(1, email);
+                            preparedStatement8.setInt(2, idGruppo);
+                            preparedStatement8.executeUpdate();
+                            PreparedStatement preparedStatement9 = connection.prepareStatement(query8);
+                            preparedStatement9.setString(1, emailProprietario);
+                            preparedStatement9.setInt(2, idGruppo);
+                            preparedStatement9.executeUpdate();
+                            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                            alert1.setTitle("Gruppo creato");
+                            alert1.setHeaderText("Gruppo creato");
+                            alert1.setContentText("Gruppo creato con successo");
+                            alert1.showAndWait();
+                        }
+                    } catch (Exception e) {
+                        Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                        alert1.setTitle("Errore");
+                        alert1.setHeaderText("Errore");
+                        alert1.setContentText(
+                                "Errore durante la verifica dell'esistenza / creazione del gruppo tra te e il tuo paziente...");
+                        alert1.setResizable(true);
+                        alert1.showAndWait();
+                        e.printStackTrace();
+                        return;
+                    }
                 }
                 // scegli se creare referto per questa visita + terapia + ...
                 Alert alert2 = new Alert(Alert.AlertType.INFORMATION, "Vuoi creare un referto per questa visita?",
