@@ -4,15 +4,11 @@ package gui.RUN.OWNER.Buttons;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import com.google.common.base.Optional;
-
 import database.MySQLConnect;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
