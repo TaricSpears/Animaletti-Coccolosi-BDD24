@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Optional;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
+
 import database.MySQLConnect;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,6 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -22,60 +25,163 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ShowDietsButton extends Button {
-    public ShowDietsButton() {
-        this.setText("Visualizza diete");
+    public ShowDietsButton(String email, Roles role) {
+        this.setText("Visualizza le diete");
         this.setOnAction(e -> {
-            // Create a VBox layout
-            VBox root = new VBox();
-            root.setAlignment(Pos.CENTER);
-            root.setSpacing(20);
-
-            // Create a title
-            Text title = new Text("Visualizza diete");
-            title.setFont(Font.font(24));
-
-            String query = "SELECT * FROM DIETA";
-            try {
-                Connection connection = MySQLConnect.getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
-                ResultSet resultSet = preparedStatement.executeQuery();
-
-                if (resultSet.next()) {
-                    Stage dialogStage = new Stage();
-                    dialogStage.setTitle("Diete");
-
-                    VBox vBox = new VBox(title);
-                    vBox.setPadding(new Insets(10));
-                    vBox.setSpacing(10);
-                    vBox.setAlignment(Pos.CENTER);
-
-                    do {
-                        String codiceDieta = resultSet.getString("Codice_Dieta");
-                        String nome = resultSet.getString("Nome");
-                        String descrizione = resultSet.getString("Descrizione");
-
-                        Text text = new Text(
-                                "Codice Dieta: " + codiceDieta + " Nome: " + nome + " Descrizione: " + descrizione);
-                        text.setFont(new Font(20));
-                        vBox.getChildren().add(text);
-                    } while (resultSet.next());
-
-                    Scene scene = new Scene(vBox, 800, 600);
-                    dialogStage.setScene(scene);
-                    dialogStage.initModality(Modality.APPLICATION_MODAL);
-                    dialogStage.show();
-                } else {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Visualizza le diete");
+            dialog.setHeaderText("Inserisci il codice identificativo dell'animale");
+            dialog.setContentText("Codice identificativo:");
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(this.getScene().getWindow());
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent() && role.equals(Roles.VETERINARIO)) {
+                String query = "SELECT a.* FROM animale a, visita v WHERE a.Codice_Identificativo = v.Codice_Identificativo AND v.ACC_Email = ? GROUP BY a.Codice_Identificativo";
+                try {
+                    Connection connection = MySQLConnect.getConnection();
+                    PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setString(1, email);
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    boolean found = false;
+                    while (resultSet.next()) {
+                        if (resultSet.getString("Codice_Identificativo").equals(result.get())) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Errore");
+                        alert.setHeaderText("Errore");
+                        alert.setContentText(
+                                "Il codice identificativo inserito non corrisponde a nessuno dei tuoi pazienti");
+                        alert.showAndWait();
+                        return;
+                    }
+                } catch (Exception ex) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Error");
-                    alert.setContentText("Nessuna dieta presente");
+                    alert.setTitle("Errore");
+                    alert.setHeaderText("Errore");
+                    alert.setContentText("Errore durante la visualizzazione delle diete");
                     alert.showAndWait();
+                    ex.printStackTrace();
+                    return;
                 }
-            } catch (Exception e1) {
-                e1.printStackTrace();
+                String query1 = "SELECT * FROM dieta IN (SELECT Codice_Identificativo FROM alimentazione WHERE Codice_Identificativo = ?)";
+                String query2 = "SELECT * FROM dieta WHERE Codice_Dieta IN (" +
+                        "SELECT t.Codice_Dieta FROM terapia t " +
+                        "JOIN referto r ON t.codice_referto = r.codice_referto " +
+                        "WHERE r.Codice_Identificativo = ?)";
+                try {
+                    Connection connection = MySQLConnect.getConnection();
+                    PreparedStatement preparedStatement = connection.prepareStatement(query1);
+                    PreparedStatement preparedStatement2 = connection.prepareStatement(query2);
+                    preparedStatement.setString(1, result.get());
+                    preparedStatement2.setString(1, result.get());
+
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    ResultSet resultSet2 = preparedStatement2.executeQuery();
+                    String result1 = "Codice Identificativo\tNome\tDescrizione\n";
+                    while (resultSet.next()) {
+                        result1 += resultSet.getString("Codice_Identificativo") + "\t";
+                        result1 += resultSet.getString("Nome") + "\t";
+                        result1 += resultSet.getString("Descrizione") + "\n";
+                    }
+                    while (resultSet2.next()) {
+                        result1 += resultSet2.getString("Codice_Identificativo") + "\t";
+                        result1 += resultSet2.getString("Nome") + "\t";
+                        result1 += resultSet2.getString("Descrizione") + "\n";
+                    }
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Diete");
+                    alert.setHeaderText("Diete");
+                    alert.setContentText(result1);
+                    alert.setResizable(true);
+                    alert.showAndWait();
+                } catch (Exception ex) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Errore");
+                    alert.setHeaderText("Errore");
+                    alert.setContentText("Errore durante la visualizzazione delle diete");
+                    alert.showAndWait();
+                    ex.printStackTrace();
+                }
+            } else if (result.isPresent() && role.equals(Roles.PROPRIETARIO)) {
+                String query = "SELECT * FROM animale WHERE Codice_Identificativo = ?";
+                try {
+                    Connection connection = MySQLConnect.getConnection();
+                    PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setString(1, result.get());
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    boolean found = false;
+                    while (resultSet.next()) {
+                        if (resultSet.getString("Email").equals(email)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Errore");
+                        alert.setHeaderText("Errore");
+                        alert.setContentText(
+                                "Il codice identificativo inserito non corrisponde a nessuno dei tuoi animali");
+                        alert.showAndWait();
+                        return;
+                    }
+                } catch (Exception ex) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Errore");
+                    alert.setHeaderText("Errore");
+                    alert.setContentText("Errore durante la visualizzazione delle diete");
+                    alert.showAndWait();
+                    ex.printStackTrace();
+                    return;
+                }
+                String query1 = "SELECT * FROM dieta IN (SELECT Codice_Identificativo FROM alimentazione WHERE Codice_Identificativo = ?)";
+                String query2 = "SELECT * FROM dieta WHERE Codice_Dieta IN (" +
+                        "SELECT t.Codice_Dieta FROM terapia t " +
+                        "JOIN referto r ON t.codice_referto = r.codice_referto " +
+                        "WHERE r.Codice_Identificativo = ?)";
+                try {
+                    Connection connection = MySQLConnect.getConnection();
+                    PreparedStatement preparedStatement = connection.prepareStatement(query1);
+                    PreparedStatement preparedStatement2 = connection.prepareStatement(query2);
+                    preparedStatement.setString(1, result.get());
+                    preparedStatement2.setString(1, result.get());
+
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    ResultSet resultSet2 = preparedStatement2.executeQuery();
+                    String result1 = "Codice Identificativo\tNome\tDescrizione\n";
+                    while (resultSet.next()) {
+                        result1 += resultSet.getString("Codice_Identificativo") + "\t";
+                        result1 += resultSet.getString("Nome") + "\t";
+                        result1 += resultSet.getString("Descrizione") + "\n";
+                    }
+                    while (resultSet2.next()) {
+                        result1 += resultSet2.getString("Codice_Identificativo") + "\t";
+                        result1 += resultSet2.getString("Nome") + "\t";
+                        result1 += resultSet2.getString("Descrizione") + "\n";
+                    }
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Diete");
+                    alert.setHeaderText("Diete");
+                    alert.setContentText(result1);
+                    alert.setResizable(true);
+                    alert.showAndWait();
+                } catch (Exception ex) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Errore");
+                    alert.setHeaderText("Errore");
+                    alert.setContentText("Errore durante la visualizzazione delle diete");
+                    alert.showAndWait();
+                    ex.printStackTrace();
+                }
+
             }
 
         });
 
     }
+
 }
