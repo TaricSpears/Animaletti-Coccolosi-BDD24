@@ -110,7 +110,7 @@ public class VeterinaryTab implements Tab {
         Button selectDrugsButton = new SelectDrugsButton();
 
         // crea un bottone per visualizzare le diete
-        Button showDietsButton = new ShowDietsButton();
+        Button showDietsButton = new ShowDietsButton(email, role);
 
         // crea un bottone per visualizzare gli ultimi 3 referti per un animale
         Button showLast3Button = new ShowLast3Button(email);

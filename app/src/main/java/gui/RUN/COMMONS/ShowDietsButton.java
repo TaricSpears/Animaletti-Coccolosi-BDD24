@@ -7,22 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Optional;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare.Prepare;
-
 import database.MySQLConnect;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 public class ShowDietsButton extends Button {
     public ShowDietsButton(String email, Roles role) {
