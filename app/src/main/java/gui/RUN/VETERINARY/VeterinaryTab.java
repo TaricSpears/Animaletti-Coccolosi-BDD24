@@ -28,7 +28,7 @@ public class VeterinaryTab implements Tab {
         // Create a VBox layout
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
-        root.setSpacing(5);
+        root.setSpacing(0);
 
         // crea un textfield per mostrare i dati dello user loggato
         Text userData = new UserDataText(email);
@@ -92,7 +92,7 @@ public class VeterinaryTab implements Tab {
         Button showExamRequestsButton = new ShowExamRequestsButton(email);
 
         // crea un bottone per accettare e svolgere una visita
-        Button acceptAndPerformExamButton = new AcceptAndPerformExamButton(email);
+        Button acceptAndPerformExamButton = new AcceptAndPerformExamButton(email, primaryStage, this);
 
         // crea un bottone per richiede un intervento chirurgico
         Button requestClinicalInterventionButton = new RequestClinicalInterventionButton(primaryStage, email, this);

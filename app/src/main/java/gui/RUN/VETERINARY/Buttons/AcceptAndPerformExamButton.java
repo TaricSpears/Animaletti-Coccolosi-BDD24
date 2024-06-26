@@ -5,15 +5,24 @@ import java.util.Optional;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import database.MySQLConnect;
+import gui.Tab;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class AcceptAndPerformExamButton extends Button {
-    public AcceptAndPerformExamButton(final String email) {
+    public AcceptAndPerformExamButton(final String email, final Stage primaryStage, final Tab previousTab) {
         this.setText("Accetta e svolgi visita");
         this.setOnAction(click -> {
             TextInputDialog dialog = new TextInputDialog();
@@ -218,7 +227,7 @@ public class AcceptAndPerformExamButton extends Button {
                             e.printStackTrace();
                             return;
                         }
-                        String query9 = "INSERT INTO referto (ID_visita, Descrizione, Data_Emissione, Codice_Identificativo) VALUES (?, ?, ?, ?)";
+                        String query9 = "INSERT INTO referto_clinico (ID_visita, Descrizione, Data_Emissione, Codice_Identificativo) VALUES (?, ?, ?, ?)";
                         try {
                             Connection connection = MySQLConnect.getConnection();
                             PreparedStatement preparedStatement9 = connection.prepareStatement(query9);
@@ -237,7 +246,7 @@ public class AcceptAndPerformExamButton extends Button {
                             return;
                         }
                         // prendi id referto
-                        String query11 = "SELECT r.ID_Referto FROM referto r ORDER BY r.ID_Referto DESC LIMIT 1";
+                        String query11 = "SELECT r.Codice_Referto FROM referto_clinico r ORDER BY r.Codice_Referto DESC LIMIT 1";
                         int idReferto = 0;
                         try {
                             Connection connection = MySQLConnect.getConnection();
@@ -273,7 +282,54 @@ public class AcceptAndPerformExamButton extends Button {
                                 alert3.showAndWait();
                                 return;
                             }
+                            for (int i = 0; i < Integer.parseInt(numeroTerapie); i++) {
+                                // Create a VBox layout
+                                VBox root = new VBox();
+                                root.setAlignment(Pos.CENTER);
+                                root.setSpacing(20);
 
+                                // Create a title
+                                Text title = new Text("Animaletti Coccolosi");
+                                title.setFont(Font.font(24));
+
+                                // Create email field
+                                TextField nomeField = new TextField();
+                                nomeField.setPromptText("Nome Terapia");
+
+                                // Create password field
+                                TextField descrizioneField = new TextField();
+                                descrizioneField.setPromptText("Descrizione");
+
+                                // Create login button
+                                Button inserisciButton = new Button("Login");
+                                inserisciButton.setOnAction(e -> {
+                                    if (nomeField.getText().length() == 0 || nomeField.getText().length() > 20
+                                            || descrizioneField.getText().length() == 0
+                                            || descrizioneField.getText().length() > 100) {
+                                        Alert alert3 = new Alert(Alert.AlertType.ERROR);
+                                        alert3.setTitle("Errore");
+                                        alert3.setHeaderText("Errore");
+                                        alert3.setContentText("Nome o descrizione della terapia non validi");
+                                        alert3.showAndWait();
+                                        return;
+                                    }
+
+                                });
+
+                                // Add components to the layout
+                                root.getChildren().addAll(title, nomeField, descrizioneField, inserisciButton);
+
+                                Scene scene = new Scene(root, 400, 300);
+                                primaryStage.setTitle("Animaletti Coccolosi");
+                                primaryStage.setScene(scene);
+                                primaryStage.showAndWait();
+
+                            }
+                            try {
+                                previousTab.show();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
                         });
                     });
                 }

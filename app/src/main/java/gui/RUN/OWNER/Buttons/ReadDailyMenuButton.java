@@ -84,11 +84,13 @@ public class ReadDailyMenuButton extends Button {
                                         "join alimentazione a on a.Codice_Dieta = c.Codice_Dieta " +
                                         "join occorrenza_m  om on m.Codice_Menu = om.Codice_Menu " +
                                         "where a.Codice_Identificativo = ? " +
-                                        "and om.Codice_Giorno = ?";
+                                        "and om.Codice_Giorno = ? " +
+                                        "and a.Codice_Dieta = ?";
 
                                 try (PreparedStatement preparedStatement2 = connection.prepareStatement(query2)) {
                                     preparedStatement2.setString(1, result.get());
-                                    preparedStatement2.setString(2, diIdetaResult.get());
+                                    preparedStatement2.setString(2, day);
+                                    preparedStatement2.setString(3, diIdetaResult.get());
                                     ResultSet resultSet2 = preparedStatement2.executeQuery();
 
                                     VBox vBox = new VBox();
