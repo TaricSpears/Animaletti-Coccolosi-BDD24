@@ -125,7 +125,7 @@ public class OwnerTab implements Tab {
 
         // crea un bottone per leggere i farmaci prescritti in una terapia di un animale
         // in un determinato giorno
-        Button readPharmaDrugsButton = new ReadDailyPharmaButton(email);
+        Button readPharmaDrugsButton = new ReadDailyMedicineButton(email);
 
         // crea un bottone per prenotare una visita
         Button bookAVisitButton = new Button();
