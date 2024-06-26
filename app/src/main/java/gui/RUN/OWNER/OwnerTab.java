@@ -100,7 +100,8 @@ public class OwnerTab implements Tab {
         Button viewSpeciesStatsButton = new ViewSpeciesStatsButton();
 
         // crea un bottone per registrare una nuova alimentazione
-        Button registerAlimentationButton = new RegisterAlimentationButton(email, primaryStage, this);
+        RegisterAlimentation registerAlimentation = new RegisterAlimentation();
+        registerAlimentation.show(email, primaryStage, this);
 
         // crea un bottone per visualizzare i veterinari
         Button showVeterinaryButton = new ShowVeterinaryButton();
@@ -146,7 +147,7 @@ public class OwnerTab implements Tab {
                 showMessagesButton, reportMessageButton, petRatingButton, viewSpeciesStatsButton,
                 selectFoodsButton, selectExercisesButton, readDailyMenuButton, readDailyWorkoutButton,
                 readPharmaDrugsButton,
-                selectDrugsButton, acceptOperationButton, showVeterinaryButton, registerAlimentationButton,
+                selectDrugsButton, acceptOperationButton, showVeterinaryButton, registerAlimentation,
                 bookAVisitButton, parcelleButton,
                 payButton, reportButton, theMostRaceButton, orderVetButton, showLastTherapiesButton,
                 quitButton);
