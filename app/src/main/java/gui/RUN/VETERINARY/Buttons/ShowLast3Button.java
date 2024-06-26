@@ -4,10 +4,8 @@ package gui.RUN.VETERINARY.Buttons;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import database.MySQLConnect;
-import gui.Tab;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;

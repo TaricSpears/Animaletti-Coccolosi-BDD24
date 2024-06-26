@@ -5,19 +5,10 @@ package gui.RUN.VETERINARY.Buttons;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import database.MySQLConnect;
-import gui.Tab;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class ViewOwnersButton extends Button {
     public ViewOwnersButton(final String email) {
