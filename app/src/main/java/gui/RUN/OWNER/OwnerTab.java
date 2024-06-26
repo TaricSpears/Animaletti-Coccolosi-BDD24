@@ -53,7 +53,7 @@ public class OwnerTab implements Tab {
         Button petRatingButton = new PetRatingButton(email);
 
         // crea bottone per visualizzare le diete
-        Button showDietsButton = new ShowDietsButton();
+        Button showDietsButton = new ShowDietsButton(email, role);
 
         // crea un bottone per visualizzare i tuoi gruppi
         Button selectYourGroupsButton = new SelectYourGroupsButton(email);
@@ -114,6 +114,16 @@ public class OwnerTab implements Tab {
         // crea un bottone per mostrare le ultime terapie
         Button showLastTherapiesButton = new ShowLatestTherapiesButton(email, role);
 
+        // crea un bottone per leggere i menu giorbalieri
+        Button readDailyMenuButton = new ReadDailyMenuButton(email);
+
+        // crea un bottone per leggere i workout giorbalieri
+        Button readDailyWorkoutButton = new ReadDailyWorkoutButton(email);
+
+        // crea un bottone per leggere i farmaci prescritti in una terapia di un animale
+        // in un determinato giorno
+        Button readPharmaDrugsButton = new ReadDailyPharmaButton(email);
+
         // crea un bottone per prenotare una visita
         Button bookAVisitButton = new Button();
         bookAVisitButton.setText("Prenota una visita");
@@ -131,7 +141,8 @@ public class OwnerTab implements Tab {
                 insertNewZoneButton, showDietsButton,
                 insertResidenceButton, showYourResidencesButton, selectYourGroupsButton, sendMessageButton,
                 showMessagesButton, reportMessageButton, petRatingButton, viewSpeciesStatsButton,
-                selectFoodsButton, selectExercisesButton,
+                selectFoodsButton, selectExercisesButton, readDailyMenuButton, readDailyWorkoutButton,
+                readPharmaDrugsButton,
                 selectDrugsButton, acceptOperationButton, showVeterinaryButton, bookAVisitButton, parcelleButton,
                 payButton, reportButton, theMostRaceButton, orderVetButton, showLastTherapiesButton,
                 quitButton);
