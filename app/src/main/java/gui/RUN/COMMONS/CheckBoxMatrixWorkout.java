@@ -29,22 +29,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckboxMatrixMenu {
+public class CheckBoxMatrixWorkout {
 
     private static final int SIZE = 7;
     private ArrayList<String> DAYS;
-    private ArrayList<String> MENUS;
+    private ArrayList<String> WORKOUTS;
     private String arg;
 
-    public CheckboxMatrixMenu() {
-        this.arg = "Menu";
+    public CheckBoxMatrixWorkout() {
+        this.arg = "Workout";
         this.DAYS = new ArrayList<String>(
                 List.of("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"));
-        this.MENUS = new ArrayList<String>(
+        this.WORKOUTS = new ArrayList<String>(
                 List.of(arg + "1", arg + "2", arg + "3", arg + "4", arg + "5", arg + "6", arg + "7"));
     }
 
-    public void show(Stage primaryStage, Tab previousTab, int Codice_Dieta) {
+    public void show(Stage primaryStage, Tab previousTab, int Codice_Terapia) {
         GridPane grid = new GridPane();
         CheckBox[][] checkBoxes = new CheckBox[SIZE][SIZE];
 
@@ -56,7 +56,7 @@ public class CheckboxMatrixMenu {
 
         // Add menu labels and checkboxes
         for (int row = 0; row < SIZE; row++) {
-            Label menuLabel = new Label(MENUS.get(row));
+            Label menuLabel = new Label(WORKOUTS.get(row));
             grid.add(menuLabel, 0, row + 1);
 
             for (int col = 0; col < SIZE; col++) {
@@ -68,17 +68,17 @@ public class CheckboxMatrixMenu {
 
         Button insertButton = new Button("Insert");
         insertButton.setOnAction(event -> {
-            Map<String, String> menuSchedule = new HashMap<>();
-            if (validateMatrix(checkBoxes, menuSchedule)) {
+            Map<String, String> workoutSchedule = new HashMap<>();
+            if (validateMatrix(checkBoxes, workoutSchedule)) {
                 Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Menu registrati correttamente!");
-                alert.setHeaderText("Menu registrati correttamente!");
+                alert.setTitle("Workouts registrati correttamente!");
+                alert.setHeaderText("Workouts registrati correttamente!");
                 alert.showAndWait();
 
-                long nMenu = menuSchedule.values().stream().distinct().count();
-                handleMenuEntry(0, nMenu, menuSchedule, Codice_Dieta, primaryStage, previousTab);
+                long nWorkout = workoutSchedule.values().stream().distinct().count();
+                handleWorkoutEntry(0, nWorkout, workoutSchedule, Codice_Terapia, primaryStage, previousTab);
             } else {
-                showAlert(AlertType.ERROR, "Errore", "Ogni colonna deve avere esattamente un menu selezionato!");
+                showAlert(AlertType.ERROR, "Errore", "Ogni colonna deve avere esattamente un workout selezionato!");
             }
         });
 
@@ -86,15 +86,16 @@ public class CheckboxMatrixMenu {
         Scene scene = new Scene(vbox, 500, 500);
 
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Checkbox Matrix Menu");
+        primaryStage.setTitle("Checkbox Matrix Workout");
         primaryStage.show();
     }
 
-    private void handleMenuEntry(int currentIndex, long nMenu, Map<String, String> menuSchedule, int Codice_Dieta,
+    private void handleWorkoutEntry(int currentIndex, long nWorkout, Map<String, String> workoutSchedule,
+            int Codice_Terapia,
             Stage primaryStage, Tab previousTab) {
-        if (currentIndex >= nMenu) {
+        if (currentIndex >= nWorkout) {
             Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Menu registrati correttamente!");
+            alert.setTitle("Workouts registrati correttamente!");
             alert.setHeaderText("Menu registrati correttamente!");
             alert.showAndWait();
             try {
@@ -111,7 +112,7 @@ public class CheckboxMatrixMenu {
         root.setSpacing(20);
 
         // Create a title
-        Text myTitle = new Text("Menu" + (currentIndex + 1));
+        Text myTitle = new Text("Workout" + (currentIndex + 1));
         myTitle.setFont(Font.font(24));
 
         // Create description field
@@ -127,44 +128,44 @@ public class CheckboxMatrixMenu {
             } else {
                 String descrizione = descrizioneField.getText();
                 // Insert into menu
-                String query = "INSERT INTO menu (Descrizione) VALUES (?)";
+                String query = "INSERT INTO workout (Descrizione) VALUES (?)";
                 try {
                     PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(query);
                     preparedStatement.setString(1, descrizione);
                     preparedStatement.executeUpdate();
                 } catch (Exception ex) {
-                    showAlert(AlertType.ERROR, "Errore", "Errore durante l'inserimento del menu");
+                    showAlert(AlertType.ERROR, "Errore", "Errore durante l'inserimento del workout");
                     ex.printStackTrace();
                 }
 
-                // Get last inserted menu id
-                String query2 = "SELECT Codice_Menu FROM menu ORDER BY Codice_Menu DESC LIMIT 1";
-                int Codice_Menu = 0;
+                // Get last inserted wokrout id
+                String query2 = "SELECT Codice_Workout FROM workout ORDER BY Codice_Workout DESC LIMIT 1";
+                int Codice_Workout = 0;
                 try {
                     PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(query2);
                     ResultSet resultSet = preparedStatement.executeQuery();
                     resultSet.next();
-                    Codice_Menu = resultSet.getInt("Codice_Menu");
+                    Codice_Workout = resultSet.getInt("Codice_Workout");
                 } catch (Exception ex) {
-                    showAlert(AlertType.ERROR, "Errore", "Errore durante l'ottenimento dell'id del menu");
+                    showAlert(AlertType.ERROR, "Errore", "Errore durante l'ottenimento dell'id del workout");
                     ex.printStackTrace();
                 }
 
                 // Insert into comprensione
-                String query3 = "INSERT INTO comprensione (Codice_Menu, Codice_Dieta) VALUES (?, ?)";
+                String query3 = "INSERT INTO Prescrizione_E (Codice_Terapia, Codice_Workout) VALUES (?, ?)";
                 try {
                     PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(query3);
-                    preparedStatement.setInt(1, Codice_Menu);
-                    preparedStatement.setInt(2, Codice_Dieta);
+                    preparedStatement.setInt(1, Codice_Terapia);
+                    preparedStatement.setInt(2, Codice_Workout);
                     preparedStatement.executeUpdate();
                 } catch (Exception ex) {
-                    showAlert(AlertType.ERROR, "Errore", "Errore durante l'inserimento della comprensione menu");
+                    showAlert(AlertType.ERROR, "Errore", "Errore durante l'inserimento della prescrizione workout");
                     ex.printStackTrace();
                 }
 
                 // insert into occorrenza_m the menu of each day
-                for (Map.Entry<String, String> entry : menuSchedule.entrySet()) {
-                    if (entry.getValue().equals(MENUS.get(currentIndex))) {
+                for (Map.Entry<String, String> entry : workoutSchedule.entrySet()) {
+                    if (entry.getValue().equals(WORKOUTS.get(currentIndex))) {
                         System.out.println(entry.getKey() + " " + entry.getValue());
                         String codiceGiorno = "0";
                         switch (entry.getKey()) {
@@ -190,22 +191,24 @@ public class CheckboxMatrixMenu {
                                 codiceGiorno = "7";
                                 break;
                         }
-                        String query4 = "INSERT INTO occorrenza_m (Codice_Giorno, Codice_Menu) VALUES (?, ?)";
+                        String query4 = "INSERT INTO occorrenza_e (Codice_Giorno, Codice_Workout) VALUES (?, ?)";
                         try {
                             PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(query4);
                             preparedStatement.setString(1, codiceGiorno);
-                            preparedStatement.setInt(2, Codice_Menu);
+                            preparedStatement.setInt(2, Codice_Workout);
                             preparedStatement.executeUpdate();
                         } catch (Exception ex) {
-                            showAlert(AlertType.ERROR, "Errore", "Errore durante l'inserimento dell'occorrenza menu");
+                            showAlert(AlertType.ERROR, "Errore",
+                                    "Errore durante l'inserimento dell'occorrenza workout");
                             ex.printStackTrace();
                         }
                     }
                 }
 
                 // Handle integrations
-                handleIntegrations(Codice_Menu, currentIndex, primaryStage, () -> {
-                    handleMenuEntry(currentIndex + 1, nMenu, menuSchedule, Codice_Dieta, primaryStage, previousTab);
+                handleCompositionsW(Codice_Workout, currentIndex, primaryStage, () -> {
+                    handleWorkoutEntry(currentIndex + 1, nWorkout, workoutSchedule, Codice_Terapia, primaryStage,
+                            previousTab);
                 });
             }
         });
@@ -218,7 +221,7 @@ public class CheckboxMatrixMenu {
         primaryStage.show();
     }
 
-    private void handleIntegrations(int Codice_Menu, int menuIndex, Stage primaryStage, Runnable onComplete) {
+    private void handleCompositionsW(int Codice_Workout, int workoutIndex, Stage primaryStage, Runnable onComplete) {
         int[] nIntegrazioni = { 1 }; // Use an array to allow modification within the lambda
 
         BooleanProperty continueLoop = new SimpleBooleanProperty(true);
@@ -230,12 +233,12 @@ public class CheckboxMatrixMenu {
             rootInt.setSpacing(20);
 
             // Create a title
-            Text title = new Text("Integrazione" + nIntegrazioni[0] + " di Menu" + (menuIndex + 1));
+            Text title = new Text("Composizione" + nIntegrazioni[0] + " di Esercizio" + (workoutIndex + 1));
             title.setFont(Font.font(24));
 
             // Create fields
             TextField nomeField = new TextField();
-            nomeField.setPromptText("Nome Cibo");
+            nomeField.setPromptText("Nome Esercizio");
 
             TextField frequenzaField = new TextField();
             frequenzaField.setPromptText("Frequenza");
@@ -243,43 +246,43 @@ public class CheckboxMatrixMenu {
             TextField quantitaField = new TextField();
             quantitaField.setPromptText("Quantità");
 
-            CheckBox ultimaIntegrazione = new CheckBox("Questa è l'ultima integrazione del Menu");
+            CheckBox ultimaIntegrazione = new CheckBox("Questa è l'ultima composizione del Workout");
 
             // Create insert button
             Button inserisciButton = new Button("Inserisci");
             inserisciButton.setOnAction(ev -> {
                 if (isValid(nomeField.getText()) && areValid(frequenzaField.getText(), quantitaField.getText())) {
                     // Check if food already exists in this menu integration
-                    String query7 = "SELECT * FROM integrazione WHERE Codice_Menu = ? AND Nome = ?";
+                    String query7 = "SELECT * FROM composizione_w WHERE Codice_Workout = ? AND Nome = ?";
                     try {
                         PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(query7);
-                        preparedStatement.setInt(1, Codice_Menu);
+                        preparedStatement.setInt(1, Codice_Workout);
                         preparedStatement.setString(2, nomeField.getText());
                         ResultSet resultSet = preparedStatement.executeQuery();
                         if (resultSet.next()) {
-                            showAlert(AlertType.ERROR, "Errore", "Cibo già presente in questo menu");
+                            showAlert(AlertType.ERROR, "Errore", "Esercizio già presente in questo workout");
                             return;
                         }
                     } catch (Exception ex) {
-                        showAlert(AlertType.ERROR, "Errore", "Errore durante la verifica dell'integrazione");
+                        showAlert(AlertType.ERROR, "Errore", "Errore durante la verifica della composizione worokout");
                         ex.printStackTrace();
                     }
 
-                    // Insert integration
-                    String query4 = "INSERT INTO integrazione (Nome, Frequenza, Quantita, Codice_Menu) VALUES (?, ?, ?, ?)";
+                    // Insert copmosizione
+                    String query4 = "INSERT INTO composizione_w (Nome, Frequenza, Quantita, Codice_Workout) VALUES (?, ?, ?, ?)";
                     try {
                         PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(query4);
                         preparedStatement.setString(1, nomeField.getText());
                         preparedStatement.setInt(2, Integer.parseInt(frequenzaField.getText()));
                         preparedStatement.setDouble(3, Double.parseDouble(quantitaField.getText()));
-                        preparedStatement.setInt(4, Codice_Menu);
+                        preparedStatement.setInt(4, Codice_Workout);
                         preparedStatement.executeUpdate();
                         Alert alert2 = new Alert(AlertType.INFORMATION);
-                        alert2.setTitle("Integrazione registrata correttamente!");
-                        alert2.setHeaderText("Integrazione registrata correttamente!");
+                        alert2.setTitle("Composizione registrata correttamente!");
+                        alert2.setHeaderText("Composizione registrata correttamente!");
                         alert2.showAndWait();
                     } catch (Exception ex) {
-                        showAlert(AlertType.ERROR, "Errore", "Errore durante l'inserimento dell'integrazione");
+                        showAlert(AlertType.ERROR, "Errore", "Errore durante l'inserimento della Composizione");
                         ex.printStackTrace();
                     }
                 }
@@ -295,7 +298,7 @@ public class CheckboxMatrixMenu {
 
             Scene scene = new Scene(rootInt, 400, 300);
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Inserisci Integrazione" + nIntegrazioni[0] + " di Menu" + (menuIndex + 1));
+            dialogStage.setTitle("Inserisci Integrazione" + nIntegrazioni[0] + " di Menu" + (workoutIndex + 1));
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             dialogStage.setScene(scene);
@@ -317,22 +320,22 @@ public class CheckboxMatrixMenu {
         return true;
     }
 
-    private boolean isValid(String nomeCibo) {
-        if (nomeCibo.length() == 0 || nomeCibo.length() > 20) {
-            showAlert(AlertType.ERROR, "Errore", "Lunghezza nome cibo non valida");
+    private boolean isValid(String nomeEsercizio) {
+        if (nomeEsercizio.length() == 0 || nomeEsercizio.length() > 20) {
+            showAlert(AlertType.ERROR, "Errore", "Lunghezza nome esercizio non valida");
             return false;
         }
-        String query = "SELECT * FROM cibo WHERE Nome = ?";
+        String query = "SELECT * FROM esercizio WHERE Nome = ?";
         try {
             PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(query);
-            preparedStatement.setString(1, nomeCibo);
+            preparedStatement.setString(1, nomeEsercizio);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {
-                showAlert(AlertType.ERROR, "Errore", "Il cibo non esiste");
+                showAlert(AlertType.ERROR, "Errore", "L'esercizio non esiste");
                 return false;
             }
         } catch (Exception e) {
-            showAlert(AlertType.ERROR, "Errore", "Errore durante la verifica del cibo");
+            showAlert(AlertType.ERROR, "Errore", "Errore durante la verifica dell 'esercizio");
             e.printStackTrace();
             return false;
         }
@@ -342,17 +345,17 @@ public class CheckboxMatrixMenu {
     private boolean validateMatrix(CheckBox[][] checkBoxes, Map<String, String> menuSchedule) {
         for (int col = 0; col < SIZE; col++) {
             int checkedCount = 0;
-            String menuForDay = null;
+            String workoutForDay = null;
             for (int row = 0; row < SIZE; row++) {
                 if (checkBoxes[row][col].isSelected()) {
                     checkedCount++;
-                    menuForDay = MENUS.get(row);
+                    workoutForDay = WORKOUTS.get(row);
                 }
             }
             if (checkedCount != 1) {
                 return false;
             }
-            menuSchedule.put(DAYS.get(col), menuForDay);
+            menuSchedule.put(DAYS.get(col), workoutForDay);
         }
         return true;
     }

@@ -187,10 +187,95 @@ public class AcceptAndPerformExamButton extends Button {
                 Optional<ButtonType> result = alert2.showAndWait();
 
                 if (result.get() == ButtonType.YES) {
-                    Alert alert3 = new Alert(Alert.AlertType.INFORMATION, "Referto creato con successo");
-                    alert3.setTitle("REFERTO");
-                    alert3.setHeaderText("REFERTO");
-                    alert3.showAndWait();
+                    TextInputDialog dialog1 = new TextInputDialog();
+                    dialog1.setTitle("Referto");
+                    dialog1.setHeaderText("Referto");
+                    dialog1.setContentText("Inserisci la descrizione del referto:");
+                    dialog1.showAndWait().ifPresent(descrizione -> {
+                        if (descrizione.length() == 0 || descrizione.length() > 1000) {
+                            Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                            alert1.setTitle("Errore");
+                            alert1.setHeaderText("Errore");
+                            alert1.setContentText("Descrizione del referto non valida");
+                            alert1.showAndWait();
+                            return;
+                        }
+                        String query10 = "SELECT v.Codice_Identificativo FROM visita v WHERE v.ID_visita = ?";
+                        String codiceIdentificativo = "";
+                        try {
+                            Connection connection = MySQLConnect.getConnection();
+                            PreparedStatement preparedStatement10 = connection.prepareStatement(query10);
+                            preparedStatement10.setString(1, idVisita);
+                            ResultSet resultSet = preparedStatement10.executeQuery();
+                            resultSet.next();
+                            codiceIdentificativo = resultSet.getString(1);
+                        } catch (Exception e) {
+                            Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                            alert1.setTitle("Errore");
+                            alert1.setHeaderText("Errore");
+                            alert1.setContentText("Errore durante l'ottenimento del codice identificativo");
+                            alert1.showAndWait();
+                            e.printStackTrace();
+                            return;
+                        }
+                        String query9 = "INSERT INTO referto (ID_visita, Descrizione, Data_Emissione, Codice_Identificativo) VALUES (?, ?, ?, ?)";
+                        try {
+                            Connection connection = MySQLConnect.getConnection();
+                            PreparedStatement preparedStatement9 = connection.prepareStatement(query9);
+                            preparedStatement9.setString(1, idVisita);
+                            preparedStatement9.setString(2, descrizione);
+                            preparedStatement9.setString(3, java.time.LocalDate.now().toString());
+                            preparedStatement9.setString(4, codiceIdentificativo);
+                            preparedStatement9.executeUpdate();
+                        } catch (Exception e) {
+                            Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                            alert1.setTitle("Errore");
+                            alert1.setHeaderText("Errore");
+                            alert1.setContentText("Errore durante l'inserimento del referto");
+                            alert1.showAndWait();
+                            e.printStackTrace();
+                            return;
+                        }
+                        // prendi id referto
+                        String query11 = "SELECT r.ID_Referto FROM referto r ORDER BY r.ID_Referto DESC LIMIT 1";
+                        int idReferto = 0;
+                        try {
+                            Connection connection = MySQLConnect.getConnection();
+                            PreparedStatement preparedStatement11 = connection.prepareStatement(query11);
+                            ResultSet resultSet = preparedStatement11.executeQuery();
+                            resultSet.next();
+                            idReferto = resultSet.getInt(1);
+                        } catch (Exception e) {
+                            Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                            alert1.setTitle("Errore");
+                            alert1.setHeaderText("Errore");
+                            alert1.setContentText("Errore durante l'ottenimento dell'id del referto");
+                            alert1.showAndWait();
+                            e.printStackTrace();
+                            return;
+                        }
+                        Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                        alert1.setTitle("Referto inserito");
+                        alert1.setHeaderText("Referto inserito");
+                        alert1.setContentText("Referto inserito con successo");
+                        alert1.showAndWait();
+                        TextInputDialog dialog2 = new TextInputDialog();
+                        dialog2.setTitle("Terapia");
+                        dialog2.setHeaderText("Terapia");
+                        dialog2.setContentText("Quante terapie determina questo refero?:");
+                        dialog2.showAndWait().ifPresent(numeroTerapie -> {
+                            if (numeroTerapie.length() == 0 || Integer.parseInt(numeroTerapie) < 0
+                                    || !numeroTerapie.matches("[0-9]+")) {
+                                Alert alert3 = new Alert(Alert.AlertType.ERROR);
+                                alert3.setTitle("Errore");
+                                alert3.setHeaderText("Errore");
+                                alert3.setContentText("Numero di terapie non valido");
+                                alert3.showAndWait();
+                                return;
+                            }
+
+                        });
+                    });
                 }
             });
         });

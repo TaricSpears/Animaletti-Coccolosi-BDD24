@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Optional;
+import java.time.LocalDate;
 
 import database.MySQLConnect;
 import javafx.geometry.Insets;
@@ -30,12 +31,36 @@ public class ReadDailyMenuButton extends Button {
             dialog.initOwner(this.getScene().getWindow());
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
-                TextInputDialog giornoDialog = new TextInputDialog();
-                giornoDialog.setTitle("Visualizza il menù giornaliero");
-                giornoDialog.setHeaderText("Inserisci il giorno per il menù");
-                giornoDialog.setContentText("Giorno:");
-                Optional<String> giornoResult = giornoDialog.showAndWait();
-                if (giornoResult.isPresent()) {
+                String day = LocalDate.now().getDayOfWeek().name();
+                switch (day) {
+                    case "MONDAY":
+                        day = "Lunedi";
+                        break;
+                    case "TUESDAY":
+                        day = "Martedi";
+                        break;
+                    case "WEDNESDAY":
+                        day = "Mercoledi";
+                        break;
+                    case "THURSDAY":
+                        day = "Giovedi";
+                        break;
+                    case "FRIDAY":
+                        day = "Venerdi";
+                        break;
+                    case "SATURDAY":
+                        day = "Sabato";
+                        break;
+                    case "SUNDAY":
+                        day = "Domenica";
+                        break;
+                }
+                TextInputDialog dietaDialog = new TextInputDialog();
+                dietaDialog.setTitle("Visualizza il menù giornaliero");
+                dietaDialog.setHeaderText("Inserisci id dieta di cui visualizzare menu");
+                dietaDialog.setContentText("ID_Dieta:");
+                Optional<String> diIdetaResult = dietaDialog.showAndWait();
+                if (diIdetaResult.isPresent()) {
                     String query = "SELECT Email FROM animale WHERE Codice_Identificativo = ?";
                     try (Connection connection = MySQLConnect.getConnection();
                             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -53,28 +78,17 @@ public class ReadDailyMenuButton extends Button {
                                 alert.showAndWait();
                                 return;
                             } else {
-                                String query2 = "SELECT m.* " +
-                                        "FROM menu m " +
-                                        "JOIN dieta d ON m.Codice_Dieta = d.Codice_Dieta " +
-                                        "JOIN occurrenza_m om ON m.Codice_Menu = om.Codice_Menu " +
-                                        "JOIN giorno g ON om.Codice_Giorno = g.Codice_Giorno " +
-                                        "JOIN ( " +
-                                        "    SELECT t.Codice_Dieta " +
-                                        "    FROM terapia t " +
-                                        "    JOIN referto r ON t.codice_referto = r.codice_referto " +
-                                        "    WHERE r.Codice_Identificativo = ? " +
-                                        "    UNION " +
-                                        "    SELECT a.Codice_Dieta " +
-                                        "    FROM alimentazione a " +
-                                        "    JOIN referto r ON a.codice_referto = r.codice_referto " +
-                                        "    WHERE r.Codice_Identificativo = ? " +
-                                        ") dietes ON d.Codice_Dieta = dietes.Codice_Dieta " +
-                                        "WHERE g.Giorno = ?";
+                                String query2 = "select * " +
+                                        "from menu m " +
+                                        "join comprensione c on c.Codice_Menu = m.Codice_Menu " +
+                                        "join alimentazione a on a.Codice_Dieta = c.Codice_Dieta " +
+                                        "join occorrenza_m  om on m.Codice_Menu = om.Codice_Menu " +
+                                        "where a.Codice_Identificativo = ? " +
+                                        "and om.Codice_Giorno = ?";
 
                                 try (PreparedStatement preparedStatement2 = connection.prepareStatement(query2)) {
                                     preparedStatement2.setString(1, result.get());
-                                    preparedStatement2.setString(2, result.get());
-                                    preparedStatement2.setString(3, giornoResult.get());
+                                    preparedStatement2.setString(2, diIdetaResult.get());
                                     ResultSet resultSet2 = preparedStatement2.executeQuery();
 
                                     VBox vBox = new VBox();
