@@ -1,16 +1,15 @@
 package gui.RUN.VETERINARY;
 
 import java.sql.SQLException;
-
 import gui.RUN.COMMONS.*;
 import gui.RUN.VETERINARY.Buttons.*;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import gui.Tab;
 
 public class VeterinaryTab implements Tab {
@@ -25,120 +24,84 @@ public class VeterinaryTab implements Tab {
     }
 
     public void show() throws SQLException {
-        // Create a VBox layout
-        VBox root = new VBox();
-        root.setAlignment(Pos.CENTER);
-        root.setSpacing(0);
+        // Create a GridPane layout
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
 
         // crea un textfield per mostrare i dati dello user loggato
         Text userData = new UserDataText(email);
 
-        // crea un bottone per inserire un nuovo cibo
-        InsertFoodButton insertFoodButton = new InsertFoodButton();
-
-        // crea un bottone per inserire un nuovo esercizio
-        InsertExerciseButton insertExerciseButton = new InsertExerciseButton();
-
-        // crea un bottone per inserire un nuovo farmaco
-        InsertDrugButton insertDrugButton = new InsertDrugButton();
-
-        // crea un bottone per visualizzare tutte gli ambulatori
+        // crea i bottoni
+        Button insertFoodButton = new InsertFoodButton();
+        Button insertExerciseButton = new InsertExerciseButton();
+        Button insertDrugButton = new InsertDrugButton();
         Button selectClinicsButton = new SelectClinicsButton();
-
-        // crea un bottone per visualizzare tutte gli ambulatori in cui lavori
         Button selectYourClinicsButton = new SelectYourClinicsButton(email);
-
-        // crea un bottone per inserire un nuovo ambulatorio in cui lavori
-        InsertClinicUWorkInButton insertYourClinicButton = new InsertClinicUWorkInButton(email);
-
-        // crea un bottone per inserire una nuova zona
-        InsertNewZoneButton insertNewZoneButton = new InsertNewZoneButton();
-
-        // crea un bottone per inserire un nuovo indirizzo
+        Button insertYourClinicButton = new InsertClinicUWorkInButton(email);
+        Button insertNewZoneButton = new InsertNewZoneButton();
         Button insertNewAddressButton = new InsertNewAddressButton(primaryStage, this);
-
-        // crea un bottone per inserire un nuovo ambulatorio
-        InsertNewClinicButton insertNewClinicButton = new InsertNewClinicButton(primaryStage, this);
-
-        // crea un bottone per eseguire pet rating
+        Button insertNewClinicButton = new InsertNewClinicButton(primaryStage, this);
         Button petRatingButton = new PetRatingButton(email);
-
-        // crea un bottone per visualizzare i tuoi gruppi
         Button selectYourGroupsButton = new SelectYourGroupsButton(email);
-
-        // crea un bottone per inviare un messaggio
         Button sendMessageButton = new SendMessageButton(email, role.value, primaryStage, this);
-
-        // crea un bottone per visualizzare i pazienti
         Button showPatientsButton = new ShowPatientsButton(email);
-
-        // crea un bottone per visualizzare i padroni dei pazienti
         Button viewOwnersButton = new ViewOwnersButton(email);
-
-        // crea un bottone per visualizzare le condizioni cliniche registarte
         Button showClinicalConditionsButton = new ShowClinicalConditionsButton();
-
-        // crea un bottone per inserire una nuova condizione clinica
         Button insertClinicalConditionButton = new InsertClinicalConditionButton();
-
-        // crea un bottone per visualizzare le cartelle mediche di un paziente
         Button showMedicalFoldersButton = new ShowMedicalFoldersButton(email, role.value);
         showMedicalFoldersButton.setText("Visualizza cartella clinica di un animale");
-
-        // crea un bottone per aggiornare la cartella medica di un paziente
         Button updateMedicalFolderButton = new UpdateMedicalFolderButton(email, primaryStage, this);
-
-        // crea un bottone per visualizzare le richieste di visita
         Button showExamRequestsButton = new ShowExamRequestsButton(email);
-
-        // crea un bottone per accettare e svolgere una visita
         Button acceptAndPerformExamButton = new AcceptAndPerformExamButton(email, primaryStage, this);
-
-        // crea un bottone per richiede un intervento chirurgico
         Button requestClinicalInterventionButton = new RequestClinicalInterventionButton(primaryStage, email, this);
-
-        // crea un bottone per visualizzare i messaggi di un gruppo
         Button showMessagesButton = new ShowMessagesButton(email);
-
-        // crea un bottone per visualizzare tutti i cibi
         Button selectFoodsButton = new SelectFoodsButton();
-
-        // crea un bottone per visualizzare tutti gli esercizi
         Button selectExercisesButton = new SelectExercisesButton();
-
-        // crea un bottone per visualizzare tutti i farmaci
         Button selectDrugsButton = new SelectDrugsButton();
-
-        // crea un bottone per visualizzare le diete
         Button showDietsButton = new ShowDietsButton(email, role);
-
-        // crea un bottone per visualizzare gli ultimi 3 referti per un animale
         Button showLast3Button = new ShowLast3Button(email);
-
-        // crea bottone per inserire una nuova parcella
         Button addParcelButton = new AddParcelButton(email);
-
-        // crea un bottone per visualizzare le ultime terapie per un animale
         Button showLastTherapiesButton = new ShowLatestTherapiesButton(email, role);
-
-        // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
 
-        root.getChildren().addAll(userData, insertFoodButton, insertExerciseButton, insertDrugButton,
-                insertNewZoneButton, insertNewAddressButton, insertNewClinicButton,
-                selectClinicsButton, selectYourClinicsButton, insertYourClinicButton,
-                showPatientsButton, viewOwnersButton, showClinicalConditionsButton, insertClinicalConditionButton,
-                showMedicalFoldersButton, updateMedicalFolderButton, showExamRequestsButton, acceptAndPerformExamButton,
-                requestClinicalInterventionButton, addParcelButton,
-                selectYourGroupsButton,
-                showDietsButton,
-                sendMessageButton, showMessagesButton, petRatingButton, showLast3Button,
-                selectFoodsButton,
-                showLastTherapiesButton,
-                selectExercisesButton, selectDrugsButton, quitButton);
+        // aggiungi i bottoni al gridPane
+        gridPane.add(userData, 0, 0, 2, 1);
+        gridPane.add(insertFoodButton, 0, 1);
+        gridPane.add(insertExerciseButton, 1, 1);
+        gridPane.add(insertDrugButton, 0, 2);
+        gridPane.add(selectClinicsButton, 1, 2);
+        gridPane.add(selectYourClinicsButton, 0, 3);
+        gridPane.add(insertYourClinicButton, 1, 3);
+        gridPane.add(insertNewZoneButton, 0, 4);
+        gridPane.add(insertNewAddressButton, 1, 4);
+        gridPane.add(insertNewClinicButton, 0, 5);
+        gridPane.add(petRatingButton, 1, 5);
+        gridPane.add(selectYourGroupsButton, 0, 6);
+        gridPane.add(sendMessageButton, 1, 6);
+        gridPane.add(showPatientsButton, 0, 7);
+        gridPane.add(viewOwnersButton, 1, 7);
+        gridPane.add(showClinicalConditionsButton, 0, 8);
+        gridPane.add(insertClinicalConditionButton, 1, 8);
+        gridPane.add(showMedicalFoldersButton, 0, 9);
+        gridPane.add(updateMedicalFolderButton, 1, 9);
+        gridPane.add(showExamRequestsButton, 0, 10);
+        gridPane.add(acceptAndPerformExamButton, 1, 10);
+        gridPane.add(requestClinicalInterventionButton, 0, 11);
+        gridPane.add(addParcelButton, 1, 11);
+        gridPane.add(showMessagesButton, 0, 12);
+        gridPane.add(selectFoodsButton, 1, 12);
+        gridPane.add(selectExercisesButton, 0, 13);
+        gridPane.add(selectDrugsButton, 1, 13);
+        gridPane.add(showDietsButton, 0, 14);
+        gridPane.add(showLast3Button, 1, 14);
+        gridPane.add(showLastTherapiesButton, 0, 15);
+        gridPane.add(quitButton, 1, 15);
 
         // Create a scene and set it on the stage
-        Scene scene = new Scene(root, 400, 300);
+        Scene scene = new Scene(gridPane, 800, 600);
         primaryStage.setTitle("ANIMALETTI COCCOLOSI - VETERINARIO");
         primaryStage.setScene(scene);
         primaryStage.show();

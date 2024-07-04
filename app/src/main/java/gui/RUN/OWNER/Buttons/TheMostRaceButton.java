@@ -16,10 +16,10 @@ import javafx.scene.text.Text;
 
 public class TheMostRaceButton extends Button {
     public TheMostRaceButton() {
-        this.setText("Specie più propensa ad avere...");
+        this.setText("Specie piu propensa ad una cond clinica");
         this.setOnAction(e -> {
             TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Specie più propensa");
+            dialog.setTitle("Specie piu propensa");
             dialog.setHeaderText("Inserisci il nome della condizione clinica");
             dialog.setContentText("ID: ");
 

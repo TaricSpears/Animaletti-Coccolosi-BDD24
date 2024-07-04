@@ -21,10 +21,10 @@ import javafx.stage.Stage;
 
 public class ReadDailyMenuButton extends Button {
     public ReadDailyMenuButton(String email) {
-        this.setText("Visualizza il menù giornaliero");
+        this.setText("Visualizza il menu giornaliero");
         this.setOnAction(e -> {
             TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Visualizza il menù giornaliero");
+            dialog.setTitle("Visualizza il menu giornaliero");
             dialog.setHeaderText("Inserisci il codice identificativo dell'animale");
             dialog.setContentText("Codice identificativo:");
             dialog.initModality(Modality.APPLICATION_MODAL);

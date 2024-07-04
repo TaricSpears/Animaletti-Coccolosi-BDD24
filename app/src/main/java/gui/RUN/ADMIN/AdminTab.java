@@ -3,10 +3,11 @@ package gui.RUN.ADMIN;
 import java.sql.SQLException;
 import gui.RUN.ADMIN.Buttons.*;
 import gui.RUN.COMMONS.*;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import gui.Tab;
@@ -23,69 +24,53 @@ public class AdminTab implements Tab {
     }
 
     public void show() throws SQLException {
-        // Create a VBox layout
-        VBox root = new VBox();
-        root.setAlignment(Pos.CENTER);
-        root.setSpacing(5);
+        // Create a GridPane layout
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
 
         // crea un textfield per mostrare i dati dello user loggato
         Text userData = new UserDataText(email);
 
-        // crea un bottone per visualizzare tutti gli utenti
         Button showUsersButton = new ShowUserButton();
-
-        // crea un bottone per visualizzare tutti gli animali
         Button showAnimalsButton = new ShowAnimalsButton();
-
-        // crea un bottone per visualizzare tutte le segnalazioni
         Button showUserReportsButton = new ShowUserReportsButton();
-
-        // crea un bottone per eseguire pet rating
         Button petRatingButton = new PetRatingButton(email);
-
-        // crea un bottone per inserire un unovo indirizzo
         Button insertNewAddressButton = new InsertNewAddressButton(primaryStage, this);
-
-        // crea un bottone per inserire una nuova zona
         Button insertNewZoneButton = new InsertNewZoneButton();
-
-        // crea un bottone per trovare un messaggio
         Button findMessageButton = new FindMessageButton(email);
-
-        // crea un bottone per bloccare un utente
         Button blockUserButton = new BlockUserButton();
-
-        // crea un bottone per visualizzare i tuoi gruppi
         Button selectYourGroupsButton = new SelectYourGroupsButton(email);
-
-        // crea un bottone per inviare un messaggio
         Button sendMessageButton = new SendMessageButton(email, role.value, primaryStage, this);
-
-        // crea un bottone per visualizzare i messaggi di un gruppo
         Button showMessagesButton = new ShowMessagesButton(email);
-
-        // crea un bottone per visualizzare tutti i cibi
         Button selectFoodsButton = new SelectFoodsButton();
-
-        // crea un bottone per visualizzare tutti gli esercizi
         Button selectExercisesButton = new SelectExercisesButton();
-
-        // crea un bottone per visualizzare tutti i farmaci
         Button selectDrugsButton = new SelectDrugsButton();
-
-        // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
 
-        root.getChildren().addAll(userData, showUsersButton, showAnimalsButton, showUserReportsButton,
-                insertNewAddressButton, insertNewZoneButton, findMessageButton,
-                blockUserButton,
-                selectYourGroupsButton, sendMessageButton, showMessagesButton, petRatingButton,
-                selectFoodsButton, selectExercisesButton, selectDrugsButton,
-                quitButton);
+        // Add the buttons to the grid
+        gridPane.add(userData, 0, 0);
+        gridPane.add(showUsersButton, 0, 1);
+        gridPane.add(showAnimalsButton, 1, 1);
+        gridPane.add(showUserReportsButton, 0, 2);
+        gridPane.add(petRatingButton, 1, 2);
+        gridPane.add(insertNewAddressButton, 0, 3);
+        gridPane.add(insertNewZoneButton, 1, 3);
+        gridPane.add(findMessageButton, 0, 4);
+        gridPane.add(blockUserButton, 1, 4);
+        gridPane.add(selectYourGroupsButton, 0, 5);
+        gridPane.add(sendMessageButton, 1, 5);
+        gridPane.add(showMessagesButton, 0, 6);
+        gridPane.add(selectFoodsButton, 1, 6);
+        gridPane.add(selectExercisesButton, 0, 7);
+        gridPane.add(selectDrugsButton, 1, 7);
+        gridPane.add(quitButton, 0, 8);
 
         // Create a scene and set it on the stage
-        Scene scene = new Scene(root, 400, 300);
-        primaryStage.setTitle("ANIMALETTI COCCOLOSI - AMMINISTRATORE");
+        Scene scene = new Scene(gridPane, 800, 600);
+        primaryStage.setTitle("ANIMALETTI COCCOLOSI - VETERINARIO");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

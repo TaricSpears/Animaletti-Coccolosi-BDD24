@@ -4,13 +4,13 @@ import java.sql.SQLException;
 
 import gui.RUN.COMMONS.*;
 import gui.RUN.OWNER.Buttons.*;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import gui.Tab;
 
 public class OwnerTab implements Tab {
@@ -29,132 +29,92 @@ public class OwnerTab implements Tab {
     }
 
     public void show() throws SQLException {
-        // Create a VBox layout
-        VBox root = new VBox();
-        root.setAlignment(Pos.CENTER);
-        root.setSpacing(0);
+        // Create a GridPane layout
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
 
         // crea un textfield per mostrare i dati dello user loggato
         Text userData = new UserDataText(email);
 
-        // crea un bottone per inserire un unovo indirizzo
         Button insertNewAddressButton = new InsertNewAddressButton(primaryStage, this);
-
-        // crea un bottone per inserire una nuova zona
         Button insertNewZoneButton = new InsertNewZoneButton();
-
-        // crea un bottone per inserire una tua nuova residenza
         Button insertResidenceButton = new InsertResidenceButton(primaryStage, this, email);
-
-        // crea un bottone per visualizzare le tue residenze
         Button showYourResidencesButton = new ShowYourResidencesButton(email);
-
-        // crea un bottone per eseguire pet rating
         Button petRatingButton = new PetRatingButton(email);
-
-        // crea bottone per visualizzare le diete
         Button showDietsButton = new ShowDietsButton(email, role);
-
-        // crea un bottone per visualizzare i tuoi gruppi
         Button selectYourGroupsButton = new SelectYourGroupsButton(email);
-
-        // crea un bottone per inviare un messaggio
         Button sendMessageButton = new SendMessageButton(email, role.value, primaryStage, this);
-
-        // crea un bottone per visualizzare i messaggi di un gruppo
         Button showMessagesButton = new ShowMessagesButton(email);
-
-        // crea un btotone pe segnalare un messaggio
         Button reportMessageButton = new ReportMessageButton(email, primaryStage, this);
-
-        // crea un bottone per visualizzare tutti i cibi
         Button selectFoodsButton = new SelectFoodsButton();
-
-        // crea un bottone per visualizzare tutti gli esercizi
         Button selectExercisesButton = new SelectExercisesButton();
-
-        // crea un bottone per visualizzare tutti i farmaci
         Button selectDrugsButton = new SelectDrugsButton();
-
-        // crea un bottone per visualizzare la cartella clinica di un tuo animale
         Button showMedicalFoldersButton = new ShowMedicalFoldersButton(email, role.value);
         showMedicalFoldersButton.setText("Visualizza cartella clinica di un tuo animale");
-
-        // visualizza parcelle non pagate: visualizza parcelle afferenti al prop con
-        // pagata a false
         Button parcelleButton = new ParcelleButton(email);
-
-        // crea un bottone per pagare una parcella
         Button payButton = new PayButton(email);
-
-        // crea un bottone per segnalere un utente
         Button reportButton = new ReportButton(email);
-
-        // aggiungi un bottone per chiudere l'applicazione
         Button showYourAnimalsButton = new ShowYourAnimalsButton(email);
-
-        // crea un botttone per registrare un nuovo animale
         Button registerYourNewPetButton = new RegisterYourNewPetButton(primaryStage, email, this);
-
-        // crea un bottone per visualizzare le statistiche delle specie
         Button viewSpeciesStatsButton = new ViewSpeciesStatsButton();
-
-        // crea un bottone per registrare una nuova alimentazione
-        RegisterAlimentation registerAlimentation = new RegisterAlimentation();
-        registerAlimentation.show(email, primaryStage, this);
-
-        // crea un bottone per visualizzare i veterinari
+        Button registerAlimentationButton = new RegisterAlimentationButton(email, primaryStage,
+                this);
         Button showVeterinaryButton = new ShowVeterinaryButton();
-
-        // crea un bottone per acctettare un intervento
         Button acceptOperationButton = new AcceptOperationButton(email);
-
-        // crea un bottone per sapere quali sono le razze più propense ad avere una
         Button theMostRaceButton = new TheMostRaceButton();
-
-        // crea un bottone per ordinare i veterinari per valutazione
         Button orderVetButton = new OrderVetButton(email);
-
-        // crea un bottone per mostrare le ultime terapie
         Button showLastTherapiesButton = new ShowLatestTherapiesButton(email, role);
-
-        // crea un bottone per leggere i menu giorbalieri
         Button readDailyMenuButton = new ReadDailyMenuButton(email);
-
-        // crea un bottone per leggere i workout giorbalieri
         Button readDailyWorkoutButton = new ReadDailyWorkoutButton(email);
-
-        // crea un bottone per leggere i farmaci prescritti in una terapia di un animale
-        // in un determinato giorno
         Button readPharmaDrugsButton = new ReadDailyMedicineButton(email);
-
-        // crea un bottone per prenotare una visita
         Button bookAVisitButton = new Button();
         bookAVisitButton.setText("Prenota una visita");
         bookAVisitButton.setOnAction(e -> {
             BookAVisitStage bookAVisit = new BookAVisitStage(primaryStage, email);
             bookAVisit.show();
         });
-
-        // aggiungi un bottone per chiudere l'applicazione
         Button quitButton = new QuitButton();
 
-        root.getChildren().addAll(userData, showYourAnimalsButton, registerYourNewPetButton,
-                showMedicalFoldersButton,
-                insertNewAddressButton,
-                insertNewZoneButton, showDietsButton,
-                insertResidenceButton, showYourResidencesButton, selectYourGroupsButton, sendMessageButton,
-                showMessagesButton, reportMessageButton, petRatingButton, viewSpeciesStatsButton,
-                selectFoodsButton, selectExercisesButton, readDailyMenuButton, readDailyWorkoutButton,
-                readPharmaDrugsButton,
-                selectDrugsButton, acceptOperationButton, showVeterinaryButton, registerAlimentation,
-                bookAVisitButton, parcelleButton,
-                payButton, reportButton, theMostRaceButton, orderVetButton, showLastTherapiesButton,
-                quitButton);
+        // aggiungi i bottoni al gridPane
+        gridPane.add(userData, 0, 0, 2, 1);
+        gridPane.add(insertNewAddressButton, 0, 1);
+        gridPane.add(insertNewZoneButton, 1, 1);
+        gridPane.add(insertResidenceButton, 0, 2);
+        gridPane.add(showYourResidencesButton, 1, 2);
+        gridPane.add(showDietsButton, 0, 3);
+        gridPane.add(reportMessageButton, 1, 3);
+        gridPane.add(parcelleButton, 0, 4);
+        gridPane.add(payButton, 1, 4);
+        gridPane.add(reportButton, 0, 5);
+        gridPane.add(petRatingButton, 1, 5);
+        gridPane.add(selectYourGroupsButton, 0, 6);
+        gridPane.add(sendMessageButton, 1, 6);
+        gridPane.add(showYourAnimalsButton, 0, 7);
+        gridPane.add(registerYourNewPetButton, 1, 7);
+        gridPane.add(viewSpeciesStatsButton, 0, 8);
+        gridPane.add(registerAlimentationButton, 1, 8);
+        gridPane.add(showMedicalFoldersButton, 0, 9);
+        gridPane.add(showVeterinaryButton, 1, 9);
+        gridPane.add(acceptOperationButton, 0, 10);
+        gridPane.add(theMostRaceButton, 1, 10);
+        gridPane.add(orderVetButton, 0, 11);
+        gridPane.add(readDailyMenuButton, 1, 11);
+        gridPane.add(showMessagesButton, 0, 12);
+        gridPane.add(selectFoodsButton, 1, 12);
+        gridPane.add(selectExercisesButton, 0, 13);
+        gridPane.add(selectDrugsButton, 1, 13);
+        gridPane.add(bookAVisitButton, 0, 14);
+        gridPane.add(readDailyWorkoutButton, 1, 14);
+        gridPane.add(showLastTherapiesButton, 0, 15);
+        gridPane.add(readPharmaDrugsButton, 1, 15);
+        gridPane.add(quitButton, 0, 16);
 
         // Create a scene and set it on the stage
-        Scene scene = new Scene(root, 400, 300);
-        primaryStage.setTitle("ANIMALETTI COCCOLOSI - PROPRIETARIO");
+        Scene scene = new Scene(gridPane, 800, 600);
+        primaryStage.setTitle("ANIMALETTI COCCOLOSI - VETERINARIO");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

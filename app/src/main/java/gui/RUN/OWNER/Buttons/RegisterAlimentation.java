@@ -17,7 +17,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class RegisterAlimentationButton {
+public class RegisterAlimentation {
 
     public void show(final String email, final Stage primaryStage, final Tab previousTab) {
         TextInputDialog dialog = new TextInputDialog();
