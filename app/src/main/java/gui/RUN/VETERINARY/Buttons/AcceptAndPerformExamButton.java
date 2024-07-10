@@ -9,16 +9,10 @@ import java.sql.SQLException;
 
 import database.MySQLConnect;
 import gui.Tab;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class AcceptAndPerformExamButton extends Button {
@@ -236,6 +230,11 @@ public class AcceptAndPerformExamButton extends Button {
                             preparedStatement9.setString(3, java.time.LocalDate.now().toString());
                             preparedStatement9.setString(4, codiceIdentificativo);
                             preparedStatement9.executeUpdate();
+                            Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                            alert1.setTitle("Referto inserito");
+                            alert1.setHeaderText("Referto inserito");
+                            alert1.setContentText("Referto inserito con successo");
+                            alert1.showAndWait();
                         } catch (Exception e) {
                             Alert alert1 = new Alert(Alert.AlertType.ERROR);
                             alert1.setTitle("Errore");
@@ -245,92 +244,11 @@ public class AcceptAndPerformExamButton extends Button {
                             e.printStackTrace();
                             return;
                         }
-                        // prendi id referto
-                        String query11 = "SELECT r.Codice_Referto FROM referto_clinico r ORDER BY r.Codice_Referto DESC LIMIT 1";
-                        int idReferto = 0;
                         try {
-                            Connection connection = MySQLConnect.getConnection();
-                            PreparedStatement preparedStatement11 = connection.prepareStatement(query11);
-                            ResultSet resultSet = preparedStatement11.executeQuery();
-                            resultSet.next();
-                            idReferto = resultSet.getInt(1);
-                        } catch (Exception e) {
-                            Alert alert1 = new Alert(Alert.AlertType.ERROR);
-                            alert1.setTitle("Errore");
-                            alert1.setHeaderText("Errore");
-                            alert1.setContentText("Errore durante l'ottenimento dell'id del referto");
-                            alert1.showAndWait();
+                            previousTab.show();
+                        } catch (SQLException e) {
                             e.printStackTrace();
-                            return;
                         }
-                        Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
-                        alert1.setTitle("Referto inserito");
-                        alert1.setHeaderText("Referto inserito");
-                        alert1.setContentText("Referto inserito con successo");
-                        alert1.showAndWait();
-                        TextInputDialog dialog2 = new TextInputDialog();
-                        dialog2.setTitle("Terapia");
-                        dialog2.setHeaderText("Terapia");
-                        dialog2.setContentText("Quante terapie determina questo refero?:");
-                        dialog2.showAndWait().ifPresent(numeroTerapie -> {
-                            if (numeroTerapie.length() == 0 || Integer.parseInt(numeroTerapie) < 0
-                                    || !numeroTerapie.matches("[0-9]+")) {
-                                Alert alert3 = new Alert(Alert.AlertType.ERROR);
-                                alert3.setTitle("Errore");
-                                alert3.setHeaderText("Errore");
-                                alert3.setContentText("Numero di terapie non valido");
-                                alert3.showAndWait();
-                                return;
-                            }
-                            for (int i = 0; i < Integer.parseInt(numeroTerapie); i++) {
-                                // Create a VBox layout
-                                VBox root = new VBox();
-                                root.setAlignment(Pos.CENTER);
-                                root.setSpacing(20);
-
-                                // Create a title
-                                Text title = new Text("Animaletti Coccolosi");
-                                title.setFont(Font.font(24));
-
-                                // Create email field
-                                TextField nomeField = new TextField();
-                                nomeField.setPromptText("Nome Terapia");
-
-                                // Create password field
-                                TextField descrizioneField = new TextField();
-                                descrizioneField.setPromptText("Descrizione");
-
-                                // Create login button
-                                Button inserisciButton = new Button("Login");
-                                inserisciButton.setOnAction(e -> {
-                                    if (nomeField.getText().length() == 0 || nomeField.getText().length() > 20
-                                            || descrizioneField.getText().length() == 0
-                                            || descrizioneField.getText().length() > 100) {
-                                        Alert alert3 = new Alert(Alert.AlertType.ERROR);
-                                        alert3.setTitle("Errore");
-                                        alert3.setHeaderText("Errore");
-                                        alert3.setContentText("Nome o descrizione della terapia non validi");
-                                        alert3.showAndWait();
-                                        return;
-                                    }
-
-                                });
-
-                                // Add components to the layout
-                                root.getChildren().addAll(title, nomeField, descrizioneField, inserisciButton);
-
-                                Scene scene = new Scene(root, 400, 300);
-                                primaryStage.setTitle("Animaletti Coccolosi");
-                                primaryStage.setScene(scene);
-                                primaryStage.showAndWait();
-
-                            }
-                            try {
-                                previousTab.show();
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
-                        });
                     });
                 }
             });

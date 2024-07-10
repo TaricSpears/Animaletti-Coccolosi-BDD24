@@ -62,9 +62,13 @@ public class VeterinaryTab implements Tab {
         Button selectExercisesButton = new SelectExercisesButton();
         Button selectDrugsButton = new SelectDrugsButton();
         Button showDietsButton = new ShowDietsButton(email, role);
-        Button showLast3Button = new ShowLast3Button(email);
+        Button showRefertiButton = new ShowRefertiButton(email, role);
         Button addParcelButton = new AddParcelButton(email);
-        Button showLastTherapiesButton = new ShowLatestTherapiesButton(email, role);
+        Button showTherapiesFromRefertoButton = new ShowTherapiesFromRefertoButton(email, role, primaryStage, this);
+        Button insertTherapyForRefertoButton = new InsertTherapyForRefertoButton(email, primaryStage, this);
+        Button populateTherapyWithDietButton = new PopulateTherapyWithDietButton(email, primaryStage, this);
+        Button populateTherapyWithRegimeButton = new PopulateTherapyWithRegimeButton(email, primaryStage, this);
+        Button populateTherapyWithWorkoutButton = new PopulateTherapyWithWorkoutButton(email, primaryStage, this);
         Button quitButton = new QuitButton();
 
         // aggiungi i bottoni al gridPane
@@ -96,9 +100,13 @@ public class VeterinaryTab implements Tab {
         gridPane.add(selectExercisesButton, 0, 13);
         gridPane.add(selectDrugsButton, 1, 13);
         gridPane.add(showDietsButton, 0, 14);
-        gridPane.add(showLast3Button, 1, 14);
-        gridPane.add(showLastTherapiesButton, 0, 15);
-        gridPane.add(quitButton, 1, 15);
+        gridPane.add(showRefertiButton, 1, 14);
+        gridPane.add(showTherapiesFromRefertoButton, 0, 15);
+        gridPane.add(insertTherapyForRefertoButton, 1, 15);
+        gridPane.add(populateTherapyWithDietButton, 0, 16);
+        gridPane.add(populateTherapyWithRegimeButton, 1, 16);
+        gridPane.add(populateTherapyWithWorkoutButton, 0, 17);
+        gridPane.add(quitButton, 1, 17);
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(gridPane, 800, 600);

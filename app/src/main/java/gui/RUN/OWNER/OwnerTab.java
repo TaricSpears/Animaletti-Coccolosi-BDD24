@@ -66,7 +66,7 @@ public class OwnerTab implements Tab {
         Button acceptOperationButton = new AcceptOperationButton(email);
         Button theMostRaceButton = new TheMostRaceButton();
         Button orderVetButton = new OrderVetButton(email);
-        Button showLastTherapiesButton = new ShowLatestTherapiesButton(email, role);
+        Button showTherapiesFromRefertoButton = new ShowTherapiesFromRefertoButton(email, role, primaryStage, this);
         Button readDailyMenuButton = new ReadDailyMenuButton(email);
         Button readDailyWorkoutButton = new ReadDailyWorkoutButton(email);
         Button readPharmaDrugsButton = new ReadDailyMedicineButton(email);
@@ -76,6 +76,7 @@ public class OwnerTab implements Tab {
             BookAVisitStage bookAVisit = new BookAVisitStage(primaryStage, email);
             bookAVisit.show();
         });
+        Button showRefertiButton = new ShowRefertiButton(email, role);
         Button quitButton = new QuitButton();
 
         // aggiungi i bottoni al gridPane
@@ -108,9 +109,10 @@ public class OwnerTab implements Tab {
         gridPane.add(selectDrugsButton, 1, 13);
         gridPane.add(bookAVisitButton, 0, 14);
         gridPane.add(readDailyWorkoutButton, 1, 14);
-        gridPane.add(showLastTherapiesButton, 0, 15);
+        gridPane.add(showTherapiesFromRefertoButton, 0, 15);
         gridPane.add(readPharmaDrugsButton, 1, 15);
-        gridPane.add(quitButton, 0, 16);
+        gridPane.add(showRefertiButton, 0, 16);
+        gridPane.add(quitButton, 1, 17);
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(gridPane, 800, 600);

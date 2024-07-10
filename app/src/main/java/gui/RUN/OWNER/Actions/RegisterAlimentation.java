@@ -1,4 +1,4 @@
-package gui.RUN.OWNER.Buttons;
+package gui.RUN.OWNER.Actions;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -3,6 +3,7 @@ package gui.START;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -42,6 +43,16 @@ public class InitialTab {
 
         // Add components to the layout
         root.getChildren().addAll(title, loginButton, registerButton);
+
+        // set this app icon to animaletticoccolosi image in resources folder in a try
+        // with resources
+        try (var is = ClassLoader
+                .getSystemResourceAsStream("images/ANIMALETTICOCCOLOSI8BIT.png")) {
+            primaryStage.getIcons().add(new Image(is));
+            System.out.println("Icon set");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(root, 400, 300);

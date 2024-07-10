@@ -1,6 +1,7 @@
 package gui.RUN.OWNER.Buttons;
 
 import gui.Tab;
+import gui.RUN.OWNER.Actions.RegisterAlimentation;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 

@@ -56,10 +56,10 @@ public class ShowDietsButton extends Button {
                     ex.printStackTrace();
                     return;
                 }
-                String query1 = "SELECT * FROM dieta IN (SELECT Codice_Identificativo FROM alimentazione WHERE Codice_Identificativo = ?)";
+                String query1 = "SELECT * FROM dieta WHERE Codice_Dieta IN (SELECT Codice_Dieta FROM alimentazione WHERE Codice_Identificativo = ?)";
                 String query2 = "SELECT * FROM dieta WHERE Codice_Dieta IN (" +
                         "SELECT t.Codice_Dieta FROM terapia t " +
-                        "JOIN referto r ON t.codice_referto = r.codice_referto " +
+                        "JOIN referto_clinico r ON t.Codice_Referto = r.Codice_Referto " +
                         "WHERE r.Codice_Identificativo = ?)";
                 try {
                     Connection connection = MySQLConnect.getConnection();
@@ -70,14 +70,14 @@ public class ShowDietsButton extends Button {
 
                     ResultSet resultSet = preparedStatement.executeQuery();
                     ResultSet resultSet2 = preparedStatement2.executeQuery();
-                    String result1 = "Codice Identificativo\tNome\tDescrizione\n";
+                    String result1 = "Codice Dieta\tNome\tDescrizione\n";
                     while (resultSet.next()) {
-                        result1 += resultSet.getString("Codice_Identificativo") + "\t";
+                        result1 += resultSet.getString("Codice_Dieta") + "\t";
                         result1 += resultSet.getString("Nome") + "\t";
                         result1 += resultSet.getString("Descrizione") + "\n";
                     }
                     while (resultSet2.next()) {
-                        result1 += resultSet2.getString("Codice_Identificativo") + "\t";
+                        result1 += resultSet2.getString("Codice_Dieta") + "\t";
                         result1 += resultSet2.getString("Nome") + "\t";
                         result1 += resultSet2.getString("Descrizione") + "\n";
                     }
