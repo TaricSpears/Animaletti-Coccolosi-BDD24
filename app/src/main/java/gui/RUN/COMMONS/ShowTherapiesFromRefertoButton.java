@@ -245,7 +245,7 @@ public class ShowTherapiesFromRefertoButton extends Button {
                 return false;
             }
             // controllo che l'animale inserito sia associato alla visita e al veterinario
-            String query3 = "SELECT * FROM visita WHERE ID_visita = ? AND Codice_Identificativo = ? AND Email = ?";
+            String query3 = "SELECT * FROM visita WHERE ID_visita = ? AND Codice_Identificativo = ? AND ACC_Email = ?";
             try {
                 Connection connection = MySQLConnect.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query3);

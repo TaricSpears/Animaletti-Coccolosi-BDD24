@@ -58,6 +58,9 @@ public class LoginRolePicker {
             loginTab.show();
         });
 
+        // set color
+        root.setStyle("-fx-background-color: #a8bfbf;");
+
         // Create login button
         Button loginButton = new Button("Login");
         loginButton.setOnAction(e -> {
@@ -100,6 +103,13 @@ public class LoginRolePicker {
 
         // Add components to the layout
         root.getChildren().addAll(title, roleComboBox, backToLoginButton, loginButton);
+
+        // set the style of all buttons
+        root.getChildren().stream().filter(node -> node instanceof Button).forEach(node -> {
+            Button button = (Button) node;
+            button.setStyle(
+                    "-fx-background-color: D1EAEA; -fx-text-fill: #374545; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 12px; -fx-border-radius: 12px; -fx-cursor: hand;");
+        });
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(root, 400, 300);

@@ -36,6 +36,16 @@ public class RegisterDiet {
         TextField descrizioneField = new TextField();
         descrizioneField.setPromptText("Descrizione");
 
+        // create indietro button
+        Button indietroButton = new Button("Indietro");
+        indietroButton.setOnAction(e -> {
+            try {
+                previousTab.show();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
+
         // Create inserisci button
         Button inserisciButton = new Button("Inserisci");
         inserisciButton.setOnAction(ev -> {
@@ -106,7 +116,7 @@ public class RegisterDiet {
         });
 
         // Add components to the layout
-        root.getChildren().addAll(title, inserisciButton, nomeField, descrizioneField);
+        root.getChildren().addAll(title, inserisciButton, nomeField, descrizioneField, indietroButton);
 
         Scene scene = new Scene(root, 400, 300);
         primaryStage.setTitle("Animaletti Coccolosi");

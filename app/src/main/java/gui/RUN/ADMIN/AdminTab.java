@@ -48,7 +48,12 @@ public class AdminTab implements Tab {
         Button selectFoodsButton = new SelectFoodsButton();
         Button selectExercisesButton = new SelectExercisesButton();
         Button selectDrugsButton = new SelectDrugsButton();
+        Button changeRoleButton = new ChangeRoleButton(primaryStage, this, email);
+        Button backButton = new BackToInitiablTabButton(primaryStage);
         Button quitButton = new QuitButton();
+
+        // set backrgound color of this tab to ligh yellow
+        gridPane.setStyle("-fx-background-color: #FFFFE0;");
 
         // Add the buttons to the grid
         gridPane.add(userData, 0, 0);
@@ -66,7 +71,16 @@ public class AdminTab implements Tab {
         gridPane.add(selectFoodsButton, 1, 6);
         gridPane.add(selectExercisesButton, 0, 7);
         gridPane.add(selectDrugsButton, 1, 7);
-        gridPane.add(quitButton, 0, 8);
+        gridPane.add(changeRoleButton, 0, 8);
+        gridPane.add(backButton, 1, 8);
+        gridPane.add(quitButton, 0, 9);
+
+        // set the style of all buttons
+        gridPane.getChildren().stream().filter(node -> node instanceof Button).forEach(node -> {
+            Button button = (Button) node;
+            button.setStyle(
+                    "-fx-background-color: D1EAEA; -fx-text-fill: #374545; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 12px; -fx-border-radius: 12px; -fx-cursor: hand;");
+        });
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(gridPane, 800, 600);

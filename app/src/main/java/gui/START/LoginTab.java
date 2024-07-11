@@ -61,8 +61,18 @@ public class LoginTab {
             initialTab.show();
         });
 
+        // set color
+        root.setStyle("-fx-background-color: #a8bfbf;");
+
         // Add components to the layout
         root.getChildren().addAll(title, loginButton, emailField, passwordField, backButton);
+
+        // set the style of all buttons
+        root.getChildren().stream().filter(node -> node instanceof Button).forEach(node -> {
+            Button button = (Button) node;
+            button.setStyle(
+                    "-fx-background-color: D1EAEA; -fx-text-fill: #374545; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 12px; -fx-border-radius: 12px; -fx-cursor: hand;");
+        });
 
         Scene scene = new Scene(root, 400, 300);
         primaryStage.setTitle("Animaletti Coccolosi");

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import database.MySQLConnect;
 import gui.Tab;
-import gui.RUN.VETERINARY.Actions.RegisterExercise;
+import gui.RUN.VETERINARY.Actions.RegisterRegime;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
@@ -25,8 +25,8 @@ public class PopulateTherapyWithRegimeButton extends Button {
             dialog.setContentText("Codice identificativo:");
             dialog.showAndWait().ifPresent(idTerapia -> {
                 if (isValid(idTerapia, email)) {
-                    RegisterExercise registerExercise = new RegisterExercise();
-                    registerExercise.show(idTerapia, primaryStage, previousTab);
+                    RegisterRegime registerRegime = new RegisterRegime();
+                    registerRegime.show(idTerapia, primaryStage, previousTab);
                 }
             });
         });

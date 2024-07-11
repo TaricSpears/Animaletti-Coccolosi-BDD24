@@ -73,6 +73,9 @@ public class RegistrationTab {
         TextField curriculumField = new TextField();
         curriculumField.setPromptText("Curriculum (opzionale, per i veterinari)");
 
+        // set color
+        root.setStyle("-fx-background-color: #a8bfbf;");
+
         // Create register button
         Button registerButton = new Button("Register");
         registerButton.setOnAction(register -> {
@@ -209,6 +212,13 @@ public class RegistrationTab {
         root.getChildren().addAll(title, nameField, surnameField, emailField, passwordField, dobField, proprietario,
                 veterinario, admin, curriculumField,
                 registerButton, backButton);
+
+        // set the style of all buttons
+        root.getChildren().stream().filter(node -> node instanceof Button).forEach(node -> {
+            Button button = (Button) node;
+            button.setStyle(
+                    "-fx-background-color: D1EAEA; -fx-text-fill: #374545; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 12px; -fx-border-radius: 12px; -fx-cursor: hand;");
+        });
 
         Scene scene = new Scene(root, 400, 300);
         primaryStage.setTitle("Animaletti Coccolosi");

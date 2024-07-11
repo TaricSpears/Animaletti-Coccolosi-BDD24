@@ -33,7 +33,7 @@ public class OwnerTab implements Tab {
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(10);
-        gridPane.setVgap(10);
+        gridPane.setVgap(6);
         gridPane.setPadding(new Insets(10, 10, 10, 10));
 
         // crea un textfield per mostrare i dati dello user loggato
@@ -77,7 +77,12 @@ public class OwnerTab implements Tab {
             bookAVisit.show();
         });
         Button showRefertiButton = new ShowRefertiButton(email, role);
+        Button backButton = new BackToInitiablTabButton(primaryStage);
+        Button changeRoleButton = new ChangeRoleButton(primaryStage, this, email);
         Button quitButton = new QuitButton();
+
+        // set background color of this tab to light green
+        gridPane.setStyle("-fx-background-color: #90EE90;");
 
         // aggiungi i bottoni al gridPane
         gridPane.add(userData, 0, 0, 2, 1);
@@ -112,7 +117,16 @@ public class OwnerTab implements Tab {
         gridPane.add(showTherapiesFromRefertoButton, 0, 15);
         gridPane.add(readPharmaDrugsButton, 1, 15);
         gridPane.add(showRefertiButton, 0, 16);
-        gridPane.add(quitButton, 1, 17);
+        gridPane.add(changeRoleButton, 0, 17);
+        gridPane.add(backButton, 1, 17);
+        gridPane.add(quitButton, 0, 18);
+
+        // set the style of all buttons
+        gridPane.getChildren().stream().filter(node -> node instanceof Button).forEach(node -> {
+            Button button = (Button) node;
+            button.setStyle(
+                    "-fx-background-color: D1EAEA; -fx-text-fill: #374545; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 12px; -fx-border-radius: 12px; -fx-cursor: hand;");
+        });
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(gridPane, 800, 600);

@@ -17,7 +17,9 @@ public class UserDataText extends Text {
             if (rs.next()) {
                 String name = rs.getString("nome");
                 String surname = rs.getString("cognome");
-                this.setText(name + "\t| " + surname + "\t| " + email);
+                this.setText("\t\t\t\t| " + name + " | " + surname + " | " + email + " |");
+                this.setStyle(
+                        "-fx-background-color: D1EAEA; -fx-text-fill: #374545; -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5px 12px;");
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(null);

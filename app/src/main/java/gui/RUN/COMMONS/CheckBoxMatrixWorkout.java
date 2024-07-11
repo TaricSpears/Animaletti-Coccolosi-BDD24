@@ -54,10 +54,10 @@ public class CheckBoxMatrixWorkout {
             grid.add(dayLabel, col + 1, 0);
         }
 
-        // Add menu labels and checkboxes
+        // Add workout labels and checkboxes
         for (int row = 0; row < SIZE; row++) {
-            Label menuLabel = new Label(WORKOUTS.get(row));
-            grid.add(menuLabel, 0, row + 1);
+            Label workoutLabel = new Label(WORKOUTS.get(row));
+            grid.add(workoutLabel, 0, row + 1);
 
             for (int col = 0; col < SIZE; col++) {
                 CheckBox checkBox = new CheckBox();
@@ -82,7 +82,16 @@ public class CheckBoxMatrixWorkout {
             }
         });
 
-        VBox vbox = new VBox(10, grid, insertButton);
+        Button backButton = new Button("Indietro");
+        backButton.setOnAction(event -> {
+            try {
+                previousTab.show();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        VBox vbox = new VBox(10, grid, insertButton, backButton);
         Scene scene = new Scene(vbox, 500, 500);
 
         primaryStage.setScene(scene);
@@ -96,7 +105,7 @@ public class CheckBoxMatrixWorkout {
         if (currentIndex >= nWorkout) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Workouts registrati correttamente!");
-            alert.setHeaderText("Menu registrati correttamente!");
+            alert.setHeaderText("Workouts registrati correttamente!");
             alert.showAndWait();
             try {
                 previousTab.show();
@@ -127,7 +136,7 @@ public class CheckBoxMatrixWorkout {
                 showAlert(AlertType.ERROR, "Errore", "Lunghezza descrizione non valida");
             } else {
                 String descrizione = descrizioneField.getText();
-                // Insert into menu
+                // Insert into workout
                 String query = "INSERT INTO workout (Descrizione) VALUES (?)";
                 try {
                     PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(query);
@@ -163,7 +172,7 @@ public class CheckBoxMatrixWorkout {
                     ex.printStackTrace();
                 }
 
-                // insert into occorrenza_m the menu of each day
+                // insert into occorrenza_m the workout of each day
                 for (Map.Entry<String, String> entry : workoutSchedule.entrySet()) {
                     if (entry.getValue().equals(WORKOUTS.get(currentIndex))) {
                         System.out.println(entry.getKey() + " " + entry.getValue());
@@ -191,7 +200,7 @@ public class CheckBoxMatrixWorkout {
                                 codiceGiorno = "7";
                                 break;
                         }
-                        String query4 = "INSERT INTO occorrenza_e (Codice_Giorno, Codice_Workout) VALUES (?, ?)";
+                        String query4 = "INSERT INTO occorrenza_w (Codice_Giorno, Codice_Workout) VALUES (?, ?)";
                         try {
                             PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(query4);
                             preparedStatement.setString(1, codiceGiorno);
@@ -252,7 +261,7 @@ public class CheckBoxMatrixWorkout {
             Button inserisciButton = new Button("Inserisci");
             inserisciButton.setOnAction(ev -> {
                 if (isValid(nomeField.getText()) && areValid(frequenzaField.getText(), quantitaField.getText())) {
-                    // Check if food already exists in this menu integration
+                    // Check if exercise already exists in this workout integration
                     String query7 = "SELECT * FROM composizione_w WHERE Codice_Workout = ? AND Nome = ?";
                     try {
                         PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(query7);
@@ -298,7 +307,7 @@ public class CheckBoxMatrixWorkout {
 
             Scene scene = new Scene(rootInt, 400, 300);
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Inserisci Integrazione" + nIntegrazioni[0] + " di Menu" + (workoutIndex + 1));
+            dialogStage.setTitle("Inserisci Integrazione" + nIntegrazioni[0] + " di Workout" + (workoutIndex + 1));
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             dialogStage.setScene(scene);
@@ -342,7 +351,7 @@ public class CheckBoxMatrixWorkout {
         return true;
     }
 
-    private boolean validateMatrix(CheckBox[][] checkBoxes, Map<String, String> menuSchedule) {
+    private boolean validateMatrix(CheckBox[][] checkBoxes, Map<String, String> workoutSchedule) {
         for (int col = 0; col < SIZE; col++) {
             int checkedCount = 0;
             String workoutForDay = null;
@@ -355,7 +364,7 @@ public class CheckBoxMatrixWorkout {
             if (checkedCount != 1) {
                 return false;
             }
-            menuSchedule.put(DAYS.get(col), workoutForDay);
+            workoutSchedule.put(DAYS.get(col), workoutForDay);
         }
         return true;
     }

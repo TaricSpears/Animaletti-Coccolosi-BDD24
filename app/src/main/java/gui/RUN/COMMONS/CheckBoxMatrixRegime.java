@@ -54,10 +54,10 @@ public class CheckBoxMatrixRegime {
             grid.add(dayLabel, col + 1, 0);
         }
 
-        // Add menu labels and checkboxes
+        // Add regime labels and checkboxes
         for (int row = 0; row < SIZE; row++) {
-            Label menuLabel = new Label(REGIMI.get(row));
-            grid.add(menuLabel, 0, row + 1);
+            Label regimeLabel = new Label(REGIMI.get(row));
+            grid.add(regimeLabel, 0, row + 1);
 
             for (int col = 0; col < SIZE; col++) {
                 CheckBox checkBox = new CheckBox();
@@ -82,7 +82,16 @@ public class CheckBoxMatrixRegime {
             }
         });
 
-        VBox vbox = new VBox(10, grid, insertButton);
+        Button backButton = new Button("Indietro");
+        backButton.setOnAction(event -> {
+            try {
+                previousTab.show();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        VBox vbox = new VBox(10, grid, insertButton, backButton);
         Scene scene = new Scene(vbox, 500, 500);
 
         primaryStage.setScene(scene);
@@ -127,7 +136,7 @@ public class CheckBoxMatrixRegime {
                 showAlert(AlertType.ERROR, "Errore", "Lunghezza descrizione non valida");
             } else {
                 String descrizione = descrizioneField.getText();
-                // Insert into menu
+                // Insert into regime
                 String query = "INSERT INTO regime_farmacologico (Descrizione) VALUES (?)";
                 try {
                     PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(query);
@@ -163,7 +172,7 @@ public class CheckBoxMatrixRegime {
                     ex.printStackTrace();
                 }
 
-                // insert into occorrenza_m the menu of each day
+                // insert into occorrenza_m the regime of each day
                 for (Map.Entry<String, String> entry : regimiSchedule.entrySet()) {
                     if (entry.getValue().equals(REGIMI.get(currentIndex))) {
                         System.out.println(entry.getKey() + " " + entry.getValue());
@@ -252,7 +261,7 @@ public class CheckBoxMatrixRegime {
             Button inserisciButton = new Button("Inserisci");
             inserisciButton.setOnAction(ev -> {
                 if (isValid(nomeField.getText()) && areValid(frequenzaField.getText(), quantitaField.getText())) {
-                    // Check if food already exists in this menu integration
+                    // Check if food already exists in this regime integration
                     String query7 = "SELECT * FROM assunzione WHERE Codice_Regime = ? AND Nome = ?";
                     try {
                         PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(query7);
@@ -298,7 +307,7 @@ public class CheckBoxMatrixRegime {
 
             Scene scene = new Scene(rootInt, 400, 300);
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Inserisci Integrazione" + nAssunzioni[0] + " di Menu" + (regimeIndex + 1));
+            dialogStage.setTitle("Inserisci Integrazione" + nAssunzioni[0] + " di Regime" + (regimeIndex + 1));
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             dialogStage.setScene(scene);
