@@ -84,7 +84,7 @@ public class AdminTab implements Tab {
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(gridPane, 800, 600);
-        primaryStage.setTitle("ANIMALETTI COCCOLOSI - VETERINARIO");
+        primaryStage.setTitle("ANIMALETTI COCCOLOSI - AMMINISTRATORE");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

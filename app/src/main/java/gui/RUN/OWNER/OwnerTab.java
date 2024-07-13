@@ -132,7 +132,7 @@ public class OwnerTab implements Tab {
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(gridPane, 800, 600);
-        primaryStage.setTitle("ANIMALETTI COCCOLOSI - VETERINARIO");
+        primaryStage.setTitle("ANIMALETTI COCCOLOSI - PROPRIETARIO");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
