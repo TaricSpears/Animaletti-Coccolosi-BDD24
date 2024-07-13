@@ -69,6 +69,7 @@ public class VeterinaryTab implements Tab {
         Button populateTherapyWithDietButton = new PopulateTherapyWithDietButton(email, primaryStage, this);
         Button populateTherapyWithRegimeButton = new PopulateTherapyWithRegimeButton(email, primaryStage, this);
         Button populateTherapyWithWorkoutButton = new PopulateTherapyWithWorkoutButton(email, primaryStage, this);
+        Button ShowTherapyButton = new ShowTherapyButton(role, email);
         Button changeRoleButton = new ChangeRoleButton(primaryStage, this, email);
         Button backButton = new BackToInitiablTabButton(primaryStage);
         Button quitButton = new QuitButton();
@@ -111,6 +112,7 @@ public class VeterinaryTab implements Tab {
         gridPane.add(populateTherapyWithDietButton, 2, 10);
         gridPane.add(populateTherapyWithRegimeButton, 0, 11);
         gridPane.add(populateTherapyWithWorkoutButton, 1, 11);
+        gridPane.add(ShowTherapyButton, 2, 11);
         gridPane.add(changeRoleButton, 0, 12);
         gridPane.add(backButton, 1, 12);
         gridPane.add(quitButton, 2, 12);

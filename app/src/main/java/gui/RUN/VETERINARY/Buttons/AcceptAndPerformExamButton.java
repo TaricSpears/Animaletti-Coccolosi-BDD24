@@ -144,8 +144,16 @@ public class AcceptAndPerformExamButton extends Button {
                             // crea gruppo
                             String query6 = "INSERT INTO gruppo (Nome, Data_apertura, Privato) VALUES (?, ?, 1)";
                             PreparedStatement preparedStatement6 = connection.prepareStatement(query6);
+                            String emailLOG = email;
+                            while (emailLOG.length() < 8) {
+                                emailLOG += " ";
+                            }
+                            String emailPropLOG = emailProprietario;
+                            while (emailPropLOG.length() < 8) {
+                                emailPropLOG += " ";
+                            }
                             preparedStatement6.setString(1,
-                                    "V: " + email.subSequence(0, 8) + " P: " + emailProprietario.subSequence(0, 8));
+                                    "V: " + emailLOG.subSequence(0, 8) + " P: " + emailPropLOG.subSequence(0, 8));
                             preparedStatement6.setString(2, java.time.LocalDate.now().toString());
                             preparedStatement6.executeUpdate();
                             // ottieni id gruppo

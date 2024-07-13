@@ -104,7 +104,7 @@ public class ShowRefertiButton extends Button {
             }
         }
         if (role == Roles.PROPRIETARIO) {
-            String query = "SELECT * FROM animale WHERE Codice_Identificativo = ? AND Proprietario = ?";
+            String query = "SELECT * FROM animale WHERE Codice_Identificativo = ? AND Email = ?";
             try {
                 Connection connection = MySQLConnect.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);

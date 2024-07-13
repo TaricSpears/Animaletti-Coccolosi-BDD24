@@ -107,7 +107,7 @@ public class RegistrationTab {
             }
             // create an arraylist of 4 booleans
             ArrayList<Boolean> steps = new ArrayList<Boolean>();
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 5; i++) {
                 steps.add(false);
             }
             try {
@@ -143,12 +143,27 @@ public class RegistrationTab {
                     preparedStatement.executeUpdate();
                     steps.set(3, true);
                 }
+                String query = "INSERT INTO partecipazione (Email, ID_gruppo) VALUES (?, 1)";
+                preparedStatement = MySQLConnect.getConnection().prepareStatement(query);
+                preparedStatement.setString(1, emailField.getText());
+                preparedStatement.executeUpdate();
+                steps.set(4, true);
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Errore");
                 alert.setHeaderText("Registrazione fallita");
                 alert.setContentText("Errore durante la registrazione");
                 alert.showAndWait();
+                if (steps.get(4)) {
+                    try {
+                        PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(
+                                "DELETE FROM partecipazione WHERE Email = ?");
+                        preparedStatement.setString(1, emailField.getText());
+                        preparedStatement.executeUpdate();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
                 if (steps.get(3)) {
                     try {
                         PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(

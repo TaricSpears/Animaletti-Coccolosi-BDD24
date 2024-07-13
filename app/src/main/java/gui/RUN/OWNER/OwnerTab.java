@@ -79,6 +79,7 @@ public class OwnerTab implements Tab {
         Button showRefertiButton = new ShowRefertiButton(email, role);
         Button backButton = new BackToInitiablTabButton(primaryStage);
         Button changeRoleButton = new ChangeRoleButton(primaryStage, this, email);
+        Button showTherapyButton = new ShowTherapyButton(role, email);
         Button quitButton = new QuitButton();
 
         // set background color of this tab to light green
@@ -117,6 +118,7 @@ public class OwnerTab implements Tab {
         gridPane.add(showTherapiesFromRefertoButton, 0, 15);
         gridPane.add(readPharmaDrugsButton, 1, 15);
         gridPane.add(showRefertiButton, 0, 16);
+        gridPane.add(showTherapyButton, 1, 16);
         gridPane.add(changeRoleButton, 0, 17);
         gridPane.add(backButton, 1, 17);
         gridPane.add(quitButton, 0, 18);
