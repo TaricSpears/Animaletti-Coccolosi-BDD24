@@ -294,10 +294,10 @@ public class CheckBoxMatrixRegime {
                         showAlert(AlertType.ERROR, "Errore", "Errore durante l'inserimento dell'Assunzione");
                         ex.printStackTrace();
                     }
-                }
-                if (ultimaIntegrazione.isSelected()) {
-                    continueLoop.set(false);
-                    onComplete.run();
+                    if (ultimaIntegrazione.isSelected()) {
+                        continueLoop.set(false);
+                        onComplete.run();
+                    }
                 }
             });
 

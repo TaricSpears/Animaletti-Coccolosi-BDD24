@@ -34,29 +34,29 @@ public class ReadDailyMenuButton extends Button {
                 String day = LocalDate.now().getDayOfWeek().name();
                 switch (day) {
                     case "MONDAY":
-                        day = "Lunedi";
+                        day = "1";
                         break;
                     case "TUESDAY":
-                        day = "Martedi";
+                        day = "2";
                         break;
                     case "WEDNESDAY":
-                        day = "Mercoledi";
+                        day = "3";
                         break;
                     case "THURSDAY":
-                        day = "Giovedi";
+                        day = "4";
                         break;
                     case "FRIDAY":
-                        day = "Venerdi";
+                        day = "5";
                         break;
                     case "SATURDAY":
-                        day = "Sabato";
+                        day = "6";
                         break;
                     case "SUNDAY":
-                        day = "Domenica";
+                        day = "7";
                         break;
                 }
                 TextInputDialog dietaDialog = new TextInputDialog();
-                dietaDialog.setTitle("Visualizza il menù giornaliero");
+                dietaDialog.setTitle("Visualizza il menu giornaliero");
                 dietaDialog.setHeaderText("Inserisci id dieta di cui visualizzare menu");
                 dietaDialog.setContentText("ID_Dieta:");
                 Optional<String> diIdetaResult = dietaDialog.showAndWait();
@@ -110,12 +110,12 @@ public class ReadDailyMenuButton extends Button {
                                     if (!foundMenu) {
                                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                         alert.setTitle("Informazione");
-                                        alert.setHeaderText("Nessun menù trovato");
-                                        alert.setContentText("Non esiste alcun menù per il giorno specificato.");
+                                        alert.setHeaderText("Nessun menu trovato");
+                                        alert.setContentText("Non esiste alcun menu per il giorno specificato.");
                                         alert.showAndWait();
                                     } else {
                                         Stage stage = new Stage();
-                                        stage.setTitle("Menù Giornaliero");
+                                        stage.setTitle("Menu Giornaliero");
                                         Scene scene = new Scene(vBox);
                                         stage.setScene(scene);
                                         stage.initModality(Modality.APPLICATION_MODAL);
