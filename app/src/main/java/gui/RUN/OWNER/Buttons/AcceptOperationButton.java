@@ -97,7 +97,7 @@ public class AcceptOperationButton extends Button {
                                     return;
                                 } else {
                                     try {
-                                        String query3 = "INSERT INTO valutazione_v VALUES(?,?,?)";
+                                        String query3 = "INSERT INTO valutazione_v(ID_intervento, Email, Voto) VALUES(?,?,?)";
                                         PreparedStatement preparedStatement3 = MySQLConnect.getConnection()
                                                 .prepareStatement(query3);
                                         preparedStatement3.setString(1, ID_Intervento);
@@ -109,6 +109,37 @@ public class AcceptOperationButton extends Button {
                                         alert3.setHeaderText("Valutazione inserita con successo");
                                         alert3.showAndWait();
                                     } catch (Exception e1) {
+                                        Alert alert3 = new Alert(Alert.AlertType.ERROR);
+                                        alert3.setTitle("Valutazione non inserita");
+                                        alert3.setHeaderText("Valutazione non inserita");
+                                        alert3.showAndWait();
+                                        e1.printStackTrace();
+                                    }
+                                    try {
+                                        int votoMedio = 0;
+                                        String query4 = "SELECT AVG(Voto) FROM valutazione_v WHERE Email = ?";
+                                        PreparedStatement preparedStatement4 = MySQLConnect.getConnection()
+                                                .prepareStatement(query4);
+                                        preparedStatement4.setString(1, Email_Vet);
+                                        ResultSet resultSet4 = preparedStatement4.executeQuery();
+                                        if (resultSet4.next()) {
+                                            votoMedio = resultSet4.getInt(1);
+                                        }
+                                        String query5 = "UPDATE veterinario SET Valutazione_Media = ? WHERE Email = ?";
+                                        PreparedStatement preparedStatement5 = MySQLConnect.getConnection()
+                                                .prepareStatement(query5);
+                                        preparedStatement5.setInt(1, votoMedio);
+                                        preparedStatement5.setString(2, Email_Vet);
+                                        preparedStatement5.executeUpdate();
+                                        Alert alert3 = new Alert(Alert.AlertType.INFORMATION);
+                                        alert3.setTitle("Valutazione media aggiornata");
+                                        alert3.setHeaderText("Valutazione media aggiornata");
+                                        alert3.showAndWait();
+                                    } catch (Exception e1) {
+                                        Alert alert3 = new Alert(Alert.AlertType.ERROR);
+                                        alert3.setTitle("Valutazione media non aggiornata inserita");
+                                        alert3.setHeaderText("Valutazione media non aggiornata");
+                                        alert3.showAndWait();
                                         e1.printStackTrace();
                                     }
                                 }

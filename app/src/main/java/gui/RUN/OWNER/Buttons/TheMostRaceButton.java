@@ -36,8 +36,8 @@ public class TheMostRaceButton extends Button {
                     PreparedStatement preparedStatement = MySQLConnect.getConnection().prepareStatement(query);
                     ResultSet resultSet = preparedStatement.executeQuery();
                     if (resultSet.next()) {
-                        Text text = new Text("La specie più propensa ad avere la condizione clinica con nome "
-                                + result.get() + " è: " + resultSet.getString("specie"));
+                        Text text = new Text("La specie piu propensa ad avere la condizione clinica "
+                                + result.get() + " e': " + resultSet.getString("specie"));
                         text.setFont(new Font(20));
                         VBox vBox = new VBox(text);
                         vBox.setAlignment(Pos.CENTER);

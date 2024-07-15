@@ -19,7 +19,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class AddParcelButton extends Button {
-    public AddParcelButton(final String Email) {
+    public AddParcelButton(final String email) {
         this.setText("Inserisci una nuova parcella");
         this.setOnAction(click -> {
             Stage dialogStage = new Stage();
@@ -39,49 +39,41 @@ public class AddParcelButton extends Button {
 
             Button submit = new Button("Invia");
             submit.setOnAction(e -> {
-                try {
-                    String query2 = "SELECT a.Email FROM animale a, visita v WHERE a.Codice_Identificativo = v.Codice_Identificativo AND v.ACC_Email = ? GROUP BY a.Codice_Identificativo";
+                if (isValid(email, importo, descrizione, emailProprietario)) {
+                    try {
+                        String insertQuery = "INSERT INTO parcella (Importo, Descrizione, Email) VALUES (?, ?, ?)";
+                        String selectCodParcella = "SELECT CodParcella FROM parcella ORDER BY CodParcella DESC LIMIT 1";
 
-                    Connection connection = MySQLConnect.getConnection();
+                        Connection connection = MySQLConnect.getConnection();
+                        PreparedStatement preparedStatement3 = connection.prepareStatement(insertQuery);
+                        preparedStatement3.setString(1, importo.getText());
+                        preparedStatement3.setString(2, descrizione.getText());
+                        preparedStatement3.setString(3, emailProprietario.getText());
+                        preparedStatement3.executeUpdate();
+                        ResultSet resultSet3 = preparedStatement3.executeQuery(selectCodParcella);
+                        resultSet3.next();
+                        String codParcella = resultSet3.getString("CodParcella");
 
-                    PreparedStatement preparedStatement2 = connection.prepareStatement(query2);
+                        String insertPagamento = "INSERT INTO pagamento (CodParcella, Pagata, Email) VALUES (?, 0, ?)";
+                        PreparedStatement preparedStatement4 = connection.prepareStatement(insertPagamento);
+                        preparedStatement4.setString(1, codParcella);
+                        preparedStatement4.setString(2, emailProprietario.getText());
+                        preparedStatement4.executeUpdate();
 
-                    preparedStatement2.setString(1, Email);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Successo");
+                        alert.setHeaderText("Successo");
+                        alert.setContentText("Parcella inserita con successo");
+                        alert.showAndWait();
 
-                    ResultSet resultSet2 = preparedStatement2.executeQuery();
-                    if (!resultSet2.next()) {
+                    } catch (Exception ex) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Errore");
                         alert.setHeaderText("Errore");
-                        alert.setContentText("Non ci sono proprietari per l'animale");
+                        alert.setContentText("Errore durante l'inserimento della parcella");
                         alert.showAndWait();
-                        return;
+                        ex.printStackTrace();
                     }
-                    String insertQuery = "INSERT INTO parcella (Importo, Descrizione, Email) VALUES (?, ?, ?)";
-                    String selectCodParcella = "SELECT CodParcella FROM parcella ORDER BY CodParcella DESC LIMIT 1";
-
-                    PreparedStatement preparedStatement3 = connection.prepareStatement(insertQuery);
-                    preparedStatement3.setString(1, importo.getText());
-                    preparedStatement3.setString(2, descrizione.getText());
-                    preparedStatement3.setString(3, emailProprietario.getText());
-                    preparedStatement3.executeUpdate();
-                    ResultSet resultSet3 = preparedStatement3.executeQuery(selectCodParcella);
-                    resultSet3.next();
-                    String codParcella = resultSet3.getString("CodParcella");
-
-                    String insertPagamento = "INSERT INTO pagamento (CodParcella, Pagata, Email) VALUES (?, 0, ?)";
-                    PreparedStatement preparedStatement4 = connection.prepareStatement(insertPagamento);
-                    preparedStatement4.setString(1, codParcella);
-                    preparedStatement4.setString(2, emailProprietario.getText());
-                    preparedStatement4.executeUpdate();
-
-                } catch (Exception ex) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Errore");
-                    alert.setHeaderText("Errore");
-                    alert.setContentText("Errore durante l'inserimento della parcella");
-                    alert.showAndWait();
-                    ex.printStackTrace();
                 }
             });
             Button quitButton = new Button("Chiudi");
@@ -96,5 +88,66 @@ public class AddParcelButton extends Button {
             dialogStage.initModality(Modality.APPLICATION_MODAL);
             dialogStage.show();
         });
+    }
+
+    private boolean isValid(String email, TextField importoField, TextField descrizioneField,
+            TextField emailProprietarioField) {
+        if (importoField.getText().isEmpty() || descrizioneField.getText().isEmpty()
+                || emailProprietarioField.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Errore");
+            alert.setHeaderText("Errore");
+            alert.setContentText("Inserisci tutti i campi");
+            alert.showAndWait();
+            return false;
+        }
+        String importo = importoField.getText();
+        String emailProprietario = emailProprietarioField.getText();
+        String descrizione = descrizioneField.getText();
+        if (importo.length() > 7 || !importo.matches("[0-9]+")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Errore");
+            alert.setHeaderText("Errore");
+            alert.setContentText("L'importo deve essere un numero intero di massimo 7 cifre");
+            alert.showAndWait();
+            return false;
+        }
+        if (emailProprietario.length() > 25) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Errore");
+            alert.setHeaderText("Errore");
+            alert.setContentText("L'email del proprietario deve essere di massimo 25 caratteri");
+            alert.showAndWait();
+            return false;
+        }
+        if (descrizione.length() > 500) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Errore");
+            alert.setHeaderText("Errore");
+            alert.setContentText("La descrizione deve essere di massimo 500 caratteri");
+            alert.showAndWait();
+            return false;
+        }
+        // verifica che il medico abbia visitato almeno una volta un animale di
+        // proprieta di email proprietario
+        String query = "SELECT a.Email FROM animale a, visita v WHERE a.Codice_Identificativo = v.Codice_Identificativo AND v.ACC_Email = ? AND a.Email = ?";
+        try (Connection connection = MySQLConnect.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, emailProprietario);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (!resultSet.next()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Errore");
+                alert.setHeaderText("Errore");
+                alert.setContentText("Il veterinario non ha visitato o operato un animale di proprieta dell'utente");
+                alert.setResizable(true);
+                alert.showAndWait();
+                return false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return true;
     }
 }
