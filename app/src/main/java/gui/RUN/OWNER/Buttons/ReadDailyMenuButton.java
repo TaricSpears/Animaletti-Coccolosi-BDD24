@@ -59,6 +59,7 @@ public class ReadDailyMenuButton extends Button {
                             "where om.Codice_Giorno = ? and c.Codice_Dieta = ?";
                     try (Connection connection = MySQLConnect.getConnection();
                             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                        System.out.println(getDay());
                         preparedStatement.setString(1, getDay());
                         preparedStatement.setString(2, Codice_Dieta);
                         ResultSet resultSet = preparedStatement.executeQuery();
@@ -73,6 +74,7 @@ public class ReadDailyMenuButton extends Button {
                             Codice_Menu = resultSet.getString("Codice_Menu");
                             foundMenu = true;
                         }
+                        System.out.println("Codice_Menu = " + Codice_Menu);
 
                         if (!foundMenu) {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -94,6 +96,7 @@ public class ReadDailyMenuButton extends Button {
                                     .prepareStatement(query1);
                             preparedStatement1.setString(1, Codice_Menu);
                             ResultSet resultSet1 = preparedStatement1.executeQuery();
+
                             if (resultSet1.next()) {
                                 Text text1 = new Text("Codice_Menu: "
                                         + resultSet1.getString("Codice_Menu") + " "
