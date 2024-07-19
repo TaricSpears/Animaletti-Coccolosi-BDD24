@@ -5,7 +5,6 @@
 import gui.JavaFXApp;
 
 public class App {
-
     public static void main(String[] args) {
         JavaFXApp.run(args);
     }
